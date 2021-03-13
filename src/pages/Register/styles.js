@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-const StyledLogin = styled.div.attrs(() => ({ className: 'login-page' }))`
+const StyledRegister = styled.div.attrs(() => ({
+  className: 'register-page',
+}))`
 	width: 100%;
 	height: 100%;
 
@@ -49,4 +51,4 @@ const StyledLogin = styled.div.attrs(() => ({ className: 'login-page' }))`
 	}
 `;
 
-export default StyledLogin;
+export default StyledRegister;
