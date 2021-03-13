@@ -31,7 +31,7 @@ const buttonThemes = {
   },
   link: {
     background: 'none',
-    color: secondaryColor,
+    color: primaryColor,
     border: 'none',
     hoverColor: 'none',
     boxShadow: 'none',
@@ -106,7 +106,6 @@ const StyledLink = styled(Link)`
   cursor: pointer;
   outline: none;
   box-shadow: ${({ theme }) => buttonThemes[theme].boxShadow};
-  padding: 8px 12px;
   border-radius: 20px;
   font-size: 16px;
   font-weight: bold;

@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
 import {
-  maxScreenWidth,
   tertiaryColor,
-  baseColor,
   primaryColor,
 } from 'variables';
 
@@ -101,10 +99,16 @@ const styledFooter = styled.footer.attrs(() => ({
   }
 
   @media (max-width: 768px) {
+    position: relative;
     padding: 32px;
+    margin-top: 64px;
 
     .left-side {
       margin-bottom: 56px;
+    }
+
+    p {
+      text-align: end;
     }
   }
 `;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { baseColor, primaryColor, maxScreenWidth } from 'variables';
+import { primaryColor, maxScreenWidth } from 'variables';
 
 const styledBanner = styled.div.attrs(() => ({
   className: 'banner',

@@ -126,6 +126,7 @@ ul {
 input[type=text],
 input[type=password], 
 input[type=number],
+input[type=email],
 textarea,
 select {
   outline: none;
@@ -137,9 +138,32 @@ select {
   background: var(--white-color);
 }
 
+
+input[type=text]::-webkit-input-placeholder,
+input[type=password]::-webkit-input-placeholder, 
+input[type=number]::-webkit-input-placeholder,
+input[type=email]::-webkit-input-placeholder {
+  color: #A7ADB6;
+}
+
+input[type=text]:-ms-input-placeholder,
+input[type=password]:-ms-input-placeholder, 
+input[type=number]:-ms-input-placeholder,
+input[type=email]:-ms-input-placeholder {
+  color: #A7ADB6;
+}
+
+input[type=text]::placeholder,
+input[type=password]::placeholder, 
+input[type=number]::placeholder,
+input[type=email]::placeholder {
+  color: #A7ADB6;
+}
+
 input[type=text]:focus,
 input[type=password]:focus, 
 input[type=number]:focus,
+input[type=email]:focus,
 textarea:focus {
   border: 2px solid var(--primary-color);
   transition: all 0.5s;
@@ -168,6 +192,15 @@ textarea {
   border: none;
   margin: 20px 0;
   border-bottom: 1px solid #f6f7fb;
+}
+
+.form-group label {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label p {
+  margin-bottom: 8px;
 }
 
 /* Color classes */
