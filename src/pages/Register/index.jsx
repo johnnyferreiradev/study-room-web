@@ -13,13 +13,7 @@ function Register() {
       <Container>
         <Row>
           <Column desktop="6" tablet="6" mobile="12" className="flex j-c-center a-i-center banner-column">
-            <Banner>
-              <div className="banner-text">
-                <p className="txt-secondary">Bem-vindo ao</p>
-                <h1 className="title">Study Room</h1>
-                <h3 className="subtitle txt-dark">Plataforma de gerenciamento de conteúdo para escolas</h3>
-              </div>
-            </Banner>
+            <Banner />
           </Column>
           <Column desktop="6" tablet="6" mobile="12" className="flex f-column j-c-center a-i-center form-area">
             <Card width="344px" className="mb-3">

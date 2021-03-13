@@ -4,6 +4,7 @@ import { Container, Row, Column } from 'components/Grid';
 import Banner from 'components/Banner';
 import Card from 'components/Card';
 import { Button, LinkButton } from 'components/Buttons';
+import Snackbar from 'components/Snackbar';
 
 import StyledLogin from './styles';
 
@@ -13,13 +14,7 @@ function Login() {
       <Container>
         <Row>
           <Column desktop="6" tablet="6" mobile="12" className="flex j-c-center a-i-center">
-            <Banner>
-              <div className="banner-text">
-                <p className="txt-secondary">Bem-vindo ao</p>
-                <h1 className="title">Study Room</h1>
-                <h3 className="subtitle txt-dark">Plataforma de gerenciamento de conteúdo para escolas</h3>
-              </div>
-            </Banner>
+            <Banner />
           </Column>
           <Column desktop="6" tablet="6" mobile="12" className="flex f-column j-c-center a-i-center form-area">
             <Card width="344px" className="mb-3">
@@ -55,6 +50,8 @@ function Login() {
               <p className="txt-secondary mr-1">Não possui uma conta?</p>
               <LinkButton to="/register">Cadastre-se</LinkButton>
             </div>
+
+            <Snackbar theme="success" message="error" />
           </Column>
         </Row>
       </Container>
