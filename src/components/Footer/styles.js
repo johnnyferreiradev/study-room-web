@@ -10,12 +10,11 @@ import {
 const styledFooter = styled.footer.attrs(() => ({
   className: 'footer',
 }))`
-  position: relative;
+  position: absolute;
   bottom: 0px;
   width: 100%;
-  max-width: ${maxScreenWidth};
-  padding: 56px;
-  background: ${baseColor};
+  padding: 16px;
+  background: ${primaryColor};
   display: flex;
   justify-content: center;
   border-top: 2px solid ${tertiaryColor};

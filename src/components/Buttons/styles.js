@@ -36,6 +36,13 @@ const buttonThemes = {
     hoverColor: 'none',
     boxShadow: 'none',
   },
+  inverseLink: {
+    background: 'none',
+    color: whiteColor,
+    border: 'none',
+    hoverColor: 'none',
+    boxShadow: 'none',
+  },
   danger: {
     background: dangerColor,
     color: whiteColor,

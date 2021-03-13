@@ -4,11 +4,11 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Card from 'components/Card';
 
-import StyledPublicLayout from './styles';
+import StyledMainLayout from './styles';
 
-function PublicLayout({ children, className = '' }) {
+function MainLayout({ children, className = '' }) {
   return (
-    <StyledPublicLayout className={className}>
+    <StyledMainLayout className={className}>
       <Header>Header content</Header>
       {children}
       <Footer />
@@ -27,8 +27,8 @@ function PublicLayout({ children, className = '' }) {
           <option value="">op2</option>
         </select>
       </Card>
-    </StyledPublicLayout>
+    </StyledMainLayout>
   );
 }
 
-export default PublicLayout;
+export default MainLayout;
