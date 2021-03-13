@@ -25,6 +25,8 @@ module.exports = {
     'react/prop-types': 0,
     'jsx-a11y/label-has-for': 0,
     'no-use-before-define': ['error', { functions: false, classes: true }],
+    "indent": 2,
+    "no-tabs": ["error", {"allowIndentationTabs": true}],
   },
   settings: {
     'import/resolver': {
