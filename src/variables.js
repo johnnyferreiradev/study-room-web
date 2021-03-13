@@ -3,9 +3,9 @@ export const primaryColor = '#8CC8F3';
 
 export const secondaryColor = '#249AEE';
 
-export const tertiaryColor = '#EDEDED';
+export const tertiaryColor = '#FBFBFB';
 
-export const quaternaryColor = '#FFFFFF';
+export const quaternaryColor = '#878B90';
 
 export const darkColor = '#484A4E';
 

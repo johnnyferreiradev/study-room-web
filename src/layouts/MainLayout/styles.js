@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-import { baseColor } from 'variables';
+import { tertiaryColor } from 'variables';
 
 const StyledPublicLayout = styled.div.attrs(() => ({
   className: 'public-layout',
 }))`
-  background-color: ${baseColor};
+  background-color: ${tertiaryColor};
 
   display: flex;
   flex-direction: column;
