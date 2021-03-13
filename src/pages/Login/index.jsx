@@ -46,7 +46,7 @@ function Login() {
                 </div>
 
                 <div className="form-group mb-2">
-                  <LinkButton>Esqueci minha senha</LinkButton>
+                  <LinkButton to="recovery-password">Esqueci minha senha</LinkButton>
                 </div>
               </div>
             </Card>
