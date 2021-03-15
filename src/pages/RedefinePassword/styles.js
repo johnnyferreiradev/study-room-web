@@ -40,13 +40,11 @@ const StyledRedefinePassword = styled.div.attrs(() => ({
 		}
 	}
 
-	@media (max-height: 784px) {
-		.form-area {
-			height: 400px;
-			overflow-y: scroll;
+	@media (max-height: 700px) {
+    height: auto;
 
-			align-items: flex-start;
-			justify-content: flex-start !important;
+    .grid-row {
+			padding-top: 64px;
 		}
 	}
 `;

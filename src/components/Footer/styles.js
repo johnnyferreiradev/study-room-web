@@ -83,7 +83,7 @@ const styledFooter = styled.footer.attrs(() => ({
       width: 200px;
       display: flex;
       justify-content: space-between;
-      aliign-items: center;
+      align-items: center;
     }
 
     p {
@@ -111,6 +111,12 @@ const styledFooter = styled.footer.attrs(() => ({
       text-align: end;
     }
   }
+
+  @media (max-height: 784px) {
+    position: relative;
+    padding: 32px;
+    margin-top: 64px;
+	}
 `;
 
 export default styledFooter;
