@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { FaTimes } from 'react-icons/fa';
 
 import {
   ModalContainer,
@@ -12,6 +13,7 @@ const Modal = ({
   className,
   id,
   onClose,
+  large,
 }) => {
   const modalContent = useRef(null);
 
@@ -27,9 +29,11 @@ const Modal = ({
 
   return (
     <ModalContainer onClick={(e) => clickAwayListener(e)} className={`modal-on-blur ${className}`} id={id}>
-      <ModalContent className="modal-content" ref={modalContent}>
+      <ModalContent className="modal-content" ref={modalContent} large={large}>
         <ModalHeader className="modal-header">
-          <button type="button" onClick={() => onClose()}>X</button>
+          <button type="button" onClick={() => onClose()}>
+            <FaTimes />
+          </button>
         </ModalHeader>
         <ModalBody className="modal-body">
           {children}

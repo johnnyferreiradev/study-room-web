@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
+import showGlobalModal from 'store/actions/modal/showGlobalModal';
 
 import { Container, Row, Column } from 'components/Grid';
 import Banner from 'components/Banner';
@@ -39,7 +40,9 @@ function Login() {
       return;
     }
 
-    console.log('Login succesfully');
+    dispatch(showGlobalModal(
+      <h1>Login succesfully</h1>,
+    ));
   };
 
   return (

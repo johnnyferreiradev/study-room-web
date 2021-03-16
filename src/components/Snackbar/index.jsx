@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Snackbar } from '@material/react-snackbar';
 import { FaTimes } from 'react-icons/fa';
-import '@material/react-snackbar/dist/snackbar.css';
 
 import hideSnackbar from 'store/actions/snackbar/hideSnackbar';
 
