@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
-import showGlobalModal from 'store/actions/modal/showGlobalModal';
 
 import { Container, Row, Column } from 'components/Grid';
 import Banner from 'components/Banner';
@@ -13,6 +13,7 @@ import StyledLogin from './styles';
 
 function Login() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [loginState, setLoginState] = useState({
     email: '',
@@ -40,9 +41,7 @@ function Login() {
       return;
     }
 
-    dispatch(showGlobalModal(
-      <h1>Login succesfully</h1>,
-    ));
+    history.push('/dashboard');
   };
 
   return (
