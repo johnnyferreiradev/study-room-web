@@ -27,6 +27,7 @@ const Button = ({
 
 const LinkButton = ({
   children,
+  className,
   fluid,
   disabled,
   theme = 'link',
@@ -36,6 +37,7 @@ const LinkButton = ({
 }) => (
   <StyledLink
     to={to}
+    className={className}
     fluid={fluid}
     disabled={disabled}
     theme={theme}
@@ -48,6 +50,7 @@ const LinkButton = ({
 
 const AnchorButton = ({
   children,
+  className,
   fluid,
   disabled,
   theme = 'link',
@@ -57,6 +60,7 @@ const AnchorButton = ({
 }) => (
   <StyledAnchor
     href={href}
+    className={className}
     fluid={fluid}
     disabled={disabled}
     theme={theme}

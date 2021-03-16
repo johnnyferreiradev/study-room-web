@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 import { tertiaryColor } from 'variables';
 
-const StyledMainLayout = styled.div.attrs(() => ({
-  className: 'main-layout',
+const StyledPublicLayout = styled.div.attrs(() => ({
+  className: 'public-layout',
 }))`
   background-color: ${tertiaryColor};
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -13,4 +14,4 @@ const StyledMainLayout = styled.div.attrs(() => ({
   align-items: center;
 `;
 
-export default StyledMainLayout;
+export default StyledPublicLayout;

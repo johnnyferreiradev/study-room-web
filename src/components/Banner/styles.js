@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { baseColor, primaryColor, maxScreenWidth } from 'variables';
+import { primaryColor, maxScreenWidth } from 'variables';
 
 const styledBanner = styled.div.attrs(() => ({
   className: 'banner',
@@ -11,29 +11,25 @@ const styledBanner = styled.div.attrs(() => ({
   height: 400px;
   background-image: url(${({ backgroundImage }) => backgroundImage});
   background-size: cover;
-  background-color: ${baseColor};
   color: ${primaryColor};
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
-
-  .grid-container, .grid-row, .grid-column {
-    height: 100px;
-  }
+  align-items: center;
 
   .banner-text {
     padding: 96px;
-    padding-top: 16px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
 
-    .banner-title, .banner-description {
+    .title, .subtitle {
       margin-bottom: 24px;
     }
 
-    .banner-title {
+    .title {
       font-size: 56px;
       font-weight: 300;
       font-stretch: normal;
@@ -42,7 +38,7 @@ const styledBanner = styled.div.attrs(() => ({
       letter-spacing: normal;
     }
 
-    .banner-description {
+    .subtitle {
       font-size: 16px;
       font-weight: normal;
       font-stretch: normal;

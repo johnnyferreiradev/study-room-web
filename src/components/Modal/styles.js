@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
+import {
+  primaryColor,
+} from 'variables';
+
 const ModalContainer = styled.div`
   position: fixed;
   z-index: 1000;
   width: 100%;
   height: 100%;
-  background-color: #0005;
+  background-color: #0003;
   padding-top: 80px;
   top: 0px;
   left: 0px;
@@ -19,7 +23,7 @@ const ModalContainer = styled.div`
 const ModalContent = styled.div`
   opacity: 0;
   width: 100%;
-  max-width: 700px;
+  max-width: ${({ large }) => (large ? '778px' : '480px')};
   transition: all .5s;
 `;
 
@@ -31,20 +35,22 @@ const ModalHeader = styled.div`
   align-items: center;
 
   button {
-    background: #5C73F2;
+    background: ${primaryColor};
     border: none;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    width: 34px;
-    heigth: 32px;
+    box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+    width: 32px;
+    height: 32px;
     padding: 8px;
     border-radius: 50%;
     text-align: center;
     font-weight: bold;
     font-size: 16px;
     color: #ffffff;
+    position: relative;
+    top: 28px;
+    left: 16px;
 
     :hover {
-      background: #5C73F2CC;
       cursor: pointer;
     }
   }
@@ -54,8 +60,8 @@ const ModalBody = styled.div`
   width: 100%;
   background: #ffffff;
   padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
 `;
 
 export {

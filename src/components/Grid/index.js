@@ -18,7 +18,7 @@ export const Row = styled.div.attrs(() => ({
   className: 'grid-row',
 }))`
   width: 100%;
-  heigth: auto;
+  height: auto;
   box-sizing: border-box;
   display: flex;
   justify-content: ${({ justifyContent }) => justifyContent || 'flex-start'};

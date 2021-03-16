@@ -1,16 +1,15 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 
-// import PublicLayout from 'layouts/PublicLayout';
-import MainLayout from 'layouts/MainLayout';
+import PublicLayout from 'layouts/PublicLayout';
 
 const Public = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(matchProps) => (
-      <MainLayout>
+      <PublicLayout>
         <Component {...matchProps} />
-      </MainLayout>
+      </PublicLayout>
     )}
   />
 );
