@@ -6,4 +6,4 @@ export const APP_LOGO = logo;
 
 export const AUTH_TOKEN_KEY = '@study-room/auth-token';
 
-export const BASE_URL = 'http://localhost:8000';
+export const BASE_URL = 'https://api-study-room.herokuapp.com';
