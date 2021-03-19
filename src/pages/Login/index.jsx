@@ -2,12 +2,19 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { login } from 'api/auth';
+
+import { validadeEmail } from 'utils/validate';
+
+import { getToken, authenticate } from 'services/auth';
+
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Container, Row, Column } from 'components/Grid';
 import Banner from 'components/Banner';
 import Card from 'components/Card';
 import { Button, LinkButton } from 'components/Buttons';
+import Loading from 'components/Loading';
 
 import StyledLogin from './styles';
 
@@ -15,10 +22,17 @@ function Login() {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const userIsAuth = !!getToken();
+
+  if (userIsAuth) {
+    history.push('/dashboard');
+  }
+
   const [loginState, setLoginState] = useState({
     email: '',
     password: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleLoginField = ({ target }) => {
     switch (target.name) {
@@ -41,7 +55,24 @@ function Login() {
       return;
     }
 
-    history.push('/dashboard');
+    if (!validadeEmail(email)) {
+      dispatch(showSnackbar('Email inválido', 'danger'));
+      return;
+    }
+
+    setLoading(true);
+
+    login(email, password)
+      .then(({ data }) => {
+        authenticate(data);
+        history.push('/dashboard');
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Email ou senha incorretos', 'danger'));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -85,7 +116,11 @@ function Login() {
                 </div>
 
                 <div className="form-group mb-2">
-                  <Button theme="primary" fluid onClick={handleLogin}>Login</Button>
+                  <Button theme="primary" fluid onClick={handleLogin}>
+                    {!loading ? 'Login' : (
+                      <Loading type="bubbles" height={32} width={32} fluid />
+                    )}
+                  </Button>
                 </div>
 
                 <div className="form-group mb-2">

@@ -16,6 +16,17 @@ const StyledLogin = styled.div.attrs(() => ({ className: 'login-page' }))`
 		}
 	}
 
+  button {
+    padding: 0px;
+    height: 42px;
+    position: relative;
+
+    .loading {
+      position: absolute;
+      top: 5px;
+    }
+  }
+
 	@media (max-width: 768px) {
 		height: auto;
 
