@@ -139,7 +139,7 @@ function Register() {
                     <p>Senha</p>
                     <input
                       type="password"
-                      placeholder=""
+                      placeholder="Digite sua senha"
                       id="register-password"
                       name="password"
                       value={registerState.password}
@@ -153,7 +153,7 @@ function Register() {
                     <p>Repita a senha</p>
                     <input
                       type="password"
-                      placeholder=""
+                      placeholder="Digite sua senha novamente"
                       id="register-confirm-password"
                       name="confirmPassword"
                       value={registerState.confirmPassword}

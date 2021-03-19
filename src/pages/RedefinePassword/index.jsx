@@ -94,7 +94,7 @@ function RedefinePassword({ location }) {
                       type="password"
                       name="password"
                       value={redefineState.password}
-                      placeholder=""
+                      placeholder="Digite sua nova senha"
                       id="redefine-password"
                       onChange={handleRedefineField}
                     />
@@ -108,7 +108,7 @@ function RedefinePassword({ location }) {
                       type="password"
                       name="confirmPassword"
                       value={redefineState.confirmPassword}
-                      placeholder=""
+                      placeholder="Digite novamente sua nova senha"
                       id="redefine-confirm-password"
                       onChange={handleRedefineField}
                     />
