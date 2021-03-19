@@ -109,6 +109,7 @@ function Login() {
                       type="password"
                       name="password"
                       value={loginState.password}
+                      placeholder="Digite sua senha"
                       id="login-password"
                       onChange={handleLoginField}
                     />
