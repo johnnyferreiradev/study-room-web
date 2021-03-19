@@ -17,8 +17,7 @@ const Routes = () => (
       <Public path="/" exact component={Login} />
       <Public path="/register" exact component={Register} />
       <Public path="/recovery-password" exact component={RecoveryPassword} />
-      <Public path="/redefine-password" exact component={RedefinePassword} />
-
+      <Public path="/forgot-password" exact component={RedefinePassword} />
       <Private path="/dashboard" exact component={Dashboard} />
     </Switch>
   </BrowserRouter>

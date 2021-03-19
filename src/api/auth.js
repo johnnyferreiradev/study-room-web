@@ -12,11 +12,12 @@ export const register = (name, email, password) => api.post('/user', {
   password_confirmation: password,
 });
 
-export const recoveryPassword = (email) => api.post('/recovery-password', {
+export const recoveryPassword = (email) => api.post('/forgotPassword', {
   email,
 });
 
-export const redefinePassword = (id, password) => api.post('/redefine-password', {
-  id,
+export const redefinePassword = (token, password) => api.put('/resetPassword', {
+  token,
   password,
+  password_confirmation: password,
 });
