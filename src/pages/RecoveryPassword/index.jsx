@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import { validadeEmail } from 'utils/validate';
 
+import { recoveryPassword } from 'api/auth';
+
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Container, Row, Column } from 'components/Grid';
@@ -39,8 +41,21 @@ function RecoveryPassword() {
       return;
     }
 
-    // send
-    console.log('enviar');
+    setLoading(true);
+
+    recoveryPassword(email)
+      .then(() => {
+        dispatch(showSnackbar('Foi enviado um e-mail de recuperação para seu e-mail', 'success'));
+      }).catch(({ response }) => {
+        const [error] = response.data;
+
+        if (error.field === 'email' && error.validation === 'email') {
+          dispatch(showSnackbar('Não existe usuário com este e-mail', 'danger'));
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

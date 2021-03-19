@@ -4,6 +4,8 @@ import { useHistory } from 'react-router-dom';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
+import { redefinePassword } from 'api/auth';
+
 import { Container, Row, Column } from 'components/Grid';
 import Banner from 'components/Banner';
 import Card from 'components/Card';
@@ -12,9 +14,11 @@ import Loading from 'components/Loading';
 
 import StyledRedefinePassword from './styles';
 
-function RedefinePassword() {
+function RedefinePassword({ location }) {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const resetToken = location.search.substring(7);
 
   const [redefineState, setRedefineState] = useState({
     password: '',
@@ -48,8 +52,26 @@ function RedefinePassword() {
       return;
     }
 
-    dispatch(showSnackbar('Senhas redefinidas com sucesso!', 'success'));
-    history.push('/');
+    setLoading(true);
+
+    redefinePassword(resetToken, password)
+      .then(() => {
+        dispatch(showSnackbar('Senha alterada com sucesso!', 'success'));
+        history.push('/');
+      }).catch(({ response }) => {
+        const [error] = response.data;
+
+        if (error.field === 'token' && error.validation === 'exists') {
+          dispatch(showSnackbar('Token de recuperação inválido', 'danger'));
+        }
+
+        if (error.field === 'token' && error.validation === 'token') {
+          dispatch(showSnackbar('Token já foi usado ou está expirado', 'danger'));
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
