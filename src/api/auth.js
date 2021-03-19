@@ -5,10 +5,11 @@ export const login = (email, password) => api.post('/auth/', {
   password,
 });
 
-export const register = (name, email, password) => api.post('/register', {
+export const register = (name, email, password) => api.post('/user', {
   name,
   email,
   password,
+  password_confirmation: password,
 });
 
 export const recoveryPassword = (email) => api.post('/recovery-password', {
