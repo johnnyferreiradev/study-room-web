@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -21,6 +21,12 @@ import StyledLogin from './styles';
 function Login() {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const userIsAuth = !!getToken();
+
+  if (userIsAuth) {
+    history.push('/dashboard');
+  }
 
   const [loginState, setLoginState] = useState({
     email: '',
@@ -68,14 +74,6 @@ function Login() {
         setLoading(false);
       });
   };
-
-  useEffect(() => {
-    const userIsAuth = getToken();
-
-    if (userIsAuth) {
-      history.push('/dashboard');
-    }
-  }, [history]);
 
   return (
     <StyledLogin>

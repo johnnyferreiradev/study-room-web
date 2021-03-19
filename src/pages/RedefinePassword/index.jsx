@@ -8,6 +8,7 @@ import { Container, Row, Column } from 'components/Grid';
 import Banner from 'components/Banner';
 import Card from 'components/Card';
 import { Button, LinkButton } from 'components/Buttons';
+import Loading from 'components/Loading';
 
 import StyledRedefinePassword from './styles';
 
@@ -19,6 +20,7 @@ function RedefinePassword() {
     password: '',
     confirmPassword: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const handleRedefineField = ({ target }) => {
     switch (target.name) {
@@ -92,7 +94,11 @@ function RedefinePassword() {
                 </div>
 
                 <div className="form-group mb-3">
-                  <Button theme="primary" fluid onClick={handleRedefine}>Salvar</Button>
+                  <Button theme="primary" fluid onClick={handleRedefine}>
+                    {!loading ? 'Salvar' : (
+                      <Loading type="bubbles" height={32} width={32} fluid />
+                    )}
+                  </Button>
                 </div>
               </div>
             </Card>
