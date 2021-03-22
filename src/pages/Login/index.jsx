@@ -64,6 +64,11 @@ function Login() {
 
     login(email, password)
       .then(({ data }) => {
+        if (!data.user.is_verify) {
+          history.push('/verify-email');
+          return;
+        }
+
         authenticate(data);
         history.push('/dashboard');
       })

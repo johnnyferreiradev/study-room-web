@@ -6,6 +6,8 @@ import Login from 'pages/Login';
 import Register from 'pages/Register';
 import RecoveryPassword from 'pages/RecoveryPassword';
 import RedefinePassword from 'pages/RedefinePassword';
+import VerifyEmail from 'pages/VerifyEmail';
+import VerifyEmailConfirm from 'pages/VerifyEmailConfirm';
 import Dashboard from 'pages/Dashboard';
 
 import Public from './public';
@@ -18,6 +20,8 @@ const Routes = () => (
       <Public path="/register" exact component={Register} />
       <Public path="/recovery-password" exact component={RecoveryPassword} />
       <Public path="/forgot-password" exact component={RedefinePassword} />
+      <Public path="/verify-email" exact component={VerifyEmail} />
+      <Public path="/check-email" exact component={VerifyEmailConfirm} />
       <Private path="/dashboard" exact component={Dashboard} />
     </Switch>
   </BrowserRouter>

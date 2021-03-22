@@ -74,8 +74,8 @@ function Register() {
 
     register(name, email, password)
       .then(() => {
-        dispatch(showSnackbar('Cadastro efetuado com sucesso. Faça login para acessar.', 'success'));
-        history.push('/');
+        dispatch(showSnackbar('Cadastro efetuado com sucesso. Confirme seu e-mail para acessar.', 'success'));
+        history.push('/verify-email');
       })
       .catch(({ response }) => {
         const [error] = response.data;
