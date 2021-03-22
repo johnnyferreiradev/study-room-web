@@ -21,3 +21,7 @@ export const redefinePassword = (token, password) => api.put('/resetPassword', {
   password,
   password_confirmation: password,
 });
+
+export const checkEmail = (token) => api.put('/checkEmail', {
+  token,
+});

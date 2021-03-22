@@ -21,7 +21,7 @@ const Routes = () => (
       <Public path="/recovery-password" exact component={RecoveryPassword} />
       <Public path="/forgot-password" exact component={RedefinePassword} />
       <Public path="/verify-email" exact component={VerifyEmail} />
-      <Public path="/verify-email-confirm" exact component={VerifyEmailConfirm} />
+      <Public path="/check-email" exact component={VerifyEmailConfirm} />
       <Private path="/dashboard" exact component={Dashboard} />
     </Switch>
   </BrowserRouter>
