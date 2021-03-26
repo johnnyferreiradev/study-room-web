@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getStudentClasses } from 'api/studentClasses';
 
+import { logoff } from 'services/auth';
+
 import showGlobalModal from 'store/actions/modal/showGlobalModal';
 import setClasses from 'store/actions/classes/setClasses';
-import showSnackbar from 'store/actions/snackbar/showSnackbar';
+// import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Container, Row } from 'components/Grid';
 import StudentClassCard from 'components/StudentClassCard';
@@ -19,6 +22,7 @@ import StyledDashboard from './styles';
 
 function Dashboard() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { classes, loaded } = useSelector((state) => state.classes);
 
   const [loading, setLoading] = useState(false);
@@ -31,7 +35,9 @@ function Dashboard() {
 
   useEffect(() => {
     if (!loaded) {
+      dispatch(setClasses([]));
       setLoading(true);
+
       getStudentClasses()
         .then((response) => {
           const { classrooms } = response.data;
@@ -39,13 +45,13 @@ function Dashboard() {
           dispatch(setClasses(classrooms));
         })
         .catch(() => {
-          dispatch(showSnackbar('Ocorreu um erro inesperado ao carregar as turmas', 'danger'));
-          dispatch(setClasses([]));
+          logoff();
+          history.push('/');
         }).finally(() => {
           setLoading(false);
         });
     }
-  }, [dispatch, loaded]);
+  }, [dispatch, loaded, history]);
 
   return (
     <StyledDashboard>
