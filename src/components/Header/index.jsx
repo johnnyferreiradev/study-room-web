@@ -1,23 +1,14 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
-
-import { logoff } from 'services/auth';
 
 import { Container, Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
-import ProfileIcon from 'components/ProfileIcon';
+import ProfileMenu from 'components/ProfileMenu';
 
 import StyledHeader from './styles';
 
 function Header() {
-  const history = useHistory();
-
-  const logout = () => {
-    logoff();
-    history.push('/');
-  };
-
   return (
     <StyledHeader className="header">
       <Container className="main-content">
@@ -30,17 +21,11 @@ function Header() {
           <Column desktop="9" tablet="9" mobile="6">
             <Row alignItems="center" justifyContent="flex-end">
               <Column desktop="2" tablet="2" mobile="12" className="flex j-c-end">
-                <Button theme="link" onClick={() => logout()}>
-                  <p className="txt-secondary">Sair</p>
-                </Button>
-
                 <Button theme="link" onClick={() => {}}>
                   <FaPlus />
                 </Button>
 
-                <Button theme="link" onClick={() => {}}>
-                  <ProfileIcon />
-                </Button>
+                <ProfileMenu />
               </Column>
             </Row>
           </Column>

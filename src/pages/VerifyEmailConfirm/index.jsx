@@ -43,7 +43,15 @@ function VerifyEmailConfirm({ location }) {
   }, [verifyEmailToken]);
 
   useEffect(() => {
-    verifyEmail();
+    let isMounted = true;
+
+    if (isMounted) {
+      verifyEmail();
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [verifyEmail]);
 
   return (

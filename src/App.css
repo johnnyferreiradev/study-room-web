@@ -8,7 +8,7 @@
   /* colors */
   --primary-color: #8CC8F3;
   --secondary-color: #249AEE;
-  --tertiary-color: #FBFBFB;
+  --tertiary-color: #F2F6F8;
   --quaternary-color: #878B90;
   --dark-color: #484A4E;
   --white-color: #FFFFFF;
@@ -124,7 +124,7 @@ ul {
 }
 
 input[type=text],
-input[type=password], 
+input[type=password],
 input[type=number],
 input[type=email],
 textarea,
@@ -140,28 +140,28 @@ select {
 
 
 input[type=text]::-webkit-input-placeholder,
-input[type=password]::-webkit-input-placeholder, 
+input[type=password]::-webkit-input-placeholder,
 input[type=number]::-webkit-input-placeholder,
 input[type=email]::-webkit-input-placeholder {
   color: #A7ADB6;
 }
 
 input[type=text]:-ms-input-placeholder,
-input[type=password]:-ms-input-placeholder, 
+input[type=password]:-ms-input-placeholder,
 input[type=number]:-ms-input-placeholder,
 input[type=email]:-ms-input-placeholder {
   color: #A7ADB6;
 }
 
 input[type=text]::placeholder,
-input[type=password]::placeholder, 
+input[type=password]::placeholder,
 input[type=number]::placeholder,
 input[type=email]::placeholder {
   color: #A7ADB6;
 }
 
 input[type=text]:focus,
-input[type=password]:focus, 
+input[type=password]:focus,
 input[type=number]:focus,
 input[type=email]:focus,
 textarea:focus {
