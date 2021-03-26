@@ -9,6 +9,7 @@ import RedefinePassword from 'pages/RedefinePassword';
 import VerifyEmail from 'pages/VerifyEmail';
 import VerifyEmailConfirm from 'pages/VerifyEmailConfirm';
 import Dashboard from 'pages/Dashboard';
+import StudentClassPage from 'pages/StudentClassPage';
 
 import Public from './public';
 import Private from './private';
@@ -22,7 +23,9 @@ const Routes = () => (
       <Public path="/forgot-password" exact component={RedefinePassword} />
       <Public path="/verify-email" exact component={VerifyEmail} />
       <Public path="/check-email" exact component={VerifyEmailConfirm} />
+
       <Private path="/dashboard" exact component={Dashboard} />
+      <Private path="/class/:id" exact component={StudentClassPage} />
     </Switch>
   </BrowserRouter>
 );

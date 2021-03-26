@@ -57,6 +57,7 @@ function Dashboard() {
           {classes.map((classItem) => (
             <StudentClassCard
               key={classItem.id}
+              id={classItem.id}
               title={classItem.title}
               description={classItem.description}
               // notification={0}

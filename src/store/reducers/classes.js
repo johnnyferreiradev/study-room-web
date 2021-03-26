@@ -1,11 +1,13 @@
 const INITIAL_STATE = {
-  classes: [{
-    id: 1,
-    title: 'Turma teste 1',
-    description: 'Descrição da turma teste 1',
-  }],
+  classes: [],
   loaded: false,
 };
+
+// {
+//   id: 1,
+//   title: 'Turma teste 1',
+//   description: 'Descrição da turma teste 1',
+// }
 
 export default function classes(state = INITIAL_STATE, action) {
   switch (action.type) {
