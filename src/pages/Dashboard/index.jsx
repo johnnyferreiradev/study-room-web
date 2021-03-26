@@ -1,21 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { getStudentClasses } from 'api/studentClasses';
+
 import showGlobalModal from 'store/actions/modal/showGlobalModal';
-// import setClasses from 'store/actions/classes/setClasses';
+import setClasses from 'store/actions/classes/setClasses';
+import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Container, Row } from 'components/Grid';
 import StudentClassCard from 'components/StudentClassCard';
 import EmptyMessage from 'components/EmptyMessage';
 import { Button } from 'components/Buttons';
 import JoinAClass from 'components/JoinAClass';
+import Loading from 'components/Loading';
 
 import StyledDashboard from './styles';
 
 function Dashboard() {
   const dispatch = useDispatch();
   const { classes, loaded } = useSelector((state) => state.classes);
+
+  const [loading, setLoading] = useState(false);
 
   const handleJoinAClassModal = () => {
     dispatch(showGlobalModal(
@@ -25,15 +31,19 @@ function Dashboard() {
 
   useEffect(() => {
     if (!loaded) {
-      // const mockClasses = [
-      //   {
-      //     id: 1,
-      //     title: 'Turma 1',
-      //     description: 'Descrição da turma 1',
-      //   },
-      // ];
+      setLoading(true);
+      getStudentClasses()
+        .then((response) => {
+          const { classrooms } = response.data;
 
-      // dispatch(setClasses(mockClasses));
+          dispatch(setClasses(classrooms));
+        })
+        .catch(() => {
+          dispatch(showSnackbar('Ocorreu um erro inesperado ao carregar as turmas', 'danger'));
+          dispatch(setClasses([]));
+        }).finally(() => {
+          setLoading(false);
+        });
     }
   }, [dispatch, loaded]);
 
@@ -41,7 +51,11 @@ function Dashboard() {
     <StyledDashboard>
       <Container>
         <Row>
-          {classes.length === 0 && (
+          {loading && (
+            <Loading type="bubbles" height={96} width={96} fluid color="#8CC8F3" />
+          )}
+
+          {classes.length === 0 && !loading && (
             <EmptyMessage
               title="Não há turmas"
               description="Adicione uma nova turma inserindo o seu código"
@@ -60,36 +74,9 @@ function Dashboard() {
               id={classItem.id}
               title={classItem.title}
               description={classItem.description}
-              // notification={0}
+              // notification={2}
             />
           ))}
-
-          {/*
-          <StudentClassCard
-            title="Turma 2"
-            description="Descrição 2"
-          />
-          <StudentClassCard
-            title="Turma 3"
-            description="Descrição 3"
-          />
-          <StudentClassCard
-            title="Turma 4"
-            description="Descrição 4"
-          />
-          <StudentClassCard
-            title="Turma 5"
-            description="Descrição 5"
-          />
-          <StudentClassCard
-            title="Turma 6"
-            description="Descrição 6"
-          />
-          <StudentClassCard
-            title="Turma 7"
-            description="Descrição 7"
-            notification={3}
-          /> */}
         </Row>
       </Container>
     </StyledDashboard>

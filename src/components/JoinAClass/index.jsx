@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { subscribe } from 'api/studentClasses';
+
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 import setClasses from 'store/actions/classes/setClasses';
 import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
@@ -28,23 +30,35 @@ function JoinAClass() {
       return;
     }
 
-    dispatch(setClasses([{
-      id: 2,
-      title: 'Turma teste 2',
-      description: 'Descrição da turma teste 2',
-    }, ...classes]));
+    setLoading(true);
 
-    dispatch(showSnackbar('Turma adicionada com sucesso', 'success'));
-    dispatch(hideGlobalModal());
+    subscribe(classCode)
+      .then((response) => {
+        dispatch(setClasses([response.data, ...classes]));
 
-    setLoading(false);
+        dispatch(showSnackbar('Turma adicionada com sucesso', 'success'));
+        dispatch(hideGlobalModal());
+      })
+      .catch(({ response }) => {
+        const [error] = response.data;
+
+        if (error.field === 'classroom' && error.validation === 'participate') {
+          dispatch(showSnackbar('Você já faz parte dessa turma', 'danger'));
+        } else if (error.field === 'code' && error.validation === 'exists') {
+          dispatch(showSnackbar('Turma não encontrada', 'danger'));
+        } else {
+          dispatch(showSnackbar('Ocorreu um erro inesperado ao participar da turma', 'danger'));
+        }
+      }).finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
     <StyledJoinAClass>
       <h3>Nova turma</h3>
       <p className="txt-secondary">
-        Interdum et malesuada fames ac ante ipsum primis in faucibus.
+        Insira o código da turma para matricular-se
       </p>
 
       <div className="form">

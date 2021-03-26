@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
+import { unsubscribe } from 'api/studentClasses';
+
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 import setClasses from 'store/actions/classes/setClasses';
 import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
@@ -22,14 +24,23 @@ function ConfirmUnsubscribe() {
   const [loading, setLoading] = useState(false);
 
   const confirmUnsubscribe = () => {
-    dispatch(setClasses(classes.filter((classItem) => classItem.id !== classId)));
+    setLoading(true);
 
-    dispatch(showSnackbar('Inscrição cancelada com sucesso', 'success'));
-    dispatch(hideGlobalModal());
+    unsubscribe(classId)
+      .then(() => {
+        dispatch(setClasses(classes.filter((classItem) => classItem.id !== classId)));
 
-    setLoading(false);
+        dispatch(showSnackbar('Inscrição cancelada com sucesso', 'success'));
+        dispatch(hideGlobalModal());
 
-    history.push('/dashboard');
+        history.push('/dashboard');
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao tentar sair da turma. Tente novamente mais tarde', 'danger'));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
