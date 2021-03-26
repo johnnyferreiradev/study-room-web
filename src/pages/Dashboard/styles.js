@@ -7,6 +7,28 @@ const StyledDashboard = styled.div.attrs(() => ({ className: 'dashboard-page' })
   display: flex;
   justify-content: center;
 
+  .empty-class-list {
+    width: 100%;
+    margin-top: 80px;
+  }
+
+  .new-class {
+    display: flex;
+    padding: 14px 16px;
+    margin-top: 16px;
+
+    p {
+      font-size: 14px;
+    }
+
+    svg {
+      font-size: 14px;
+      color: #ffffff;
+      margin: 0px;
+      margin-left: 8px;
+    }
+  }
+
   @media (max-width: 768px) {
     .grid-row {
       justify-content: center;

@@ -5,6 +5,11 @@ const StyledLoading = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.button-loading {
+    position: absolute;
+    top: 5px;
+  }
 `;
 
 export default StyledLoading;
