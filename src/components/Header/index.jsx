@@ -1,21 +1,24 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { FaPlus } from 'react-icons/fa';
 
-import { logoff } from 'services/auth';
+import showGlobalModal from 'store/actions/modal/showGlobalModal';
 
 import { Container, Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
-import ProfileIcon from 'components/ProfileIcon';
+import ProfileMenu from 'components/ProfileMenu';
+import JoinAClass from 'components/JoinAClass';
 
 import StyledHeader from './styles';
 
 function Header() {
-  const history = useHistory();
+  const dispatch = useDispatch();
 
-  const logout = () => {
-    logoff();
-    history.push('/');
+  const handleJoinAClassModal = () => {
+    dispatch(showGlobalModal(
+      <JoinAClass />,
+    ));
   };
 
   return (
@@ -30,17 +33,11 @@ function Header() {
           <Column desktop="9" tablet="9" mobile="6">
             <Row alignItems="center" justifyContent="flex-end">
               <Column desktop="2" tablet="2" mobile="12" className="flex j-c-end">
-                <Button theme="link" onClick={() => logout()}>
-                  <p className="txt-secondary">Sair</p>
-                </Button>
-
-                <Button theme="link" onClick={() => {}}>
+                <Button theme="link" onClick={handleJoinAClassModal}>
                   <FaPlus />
                 </Button>
 
-                <Button theme="link" onClick={() => {}}>
-                  <ProfileIcon />
-                </Button>
+                <ProfileMenu />
               </Column>
             </Row>
           </Column>

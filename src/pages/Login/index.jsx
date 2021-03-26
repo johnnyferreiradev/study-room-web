@@ -69,7 +69,9 @@ function Login() {
           return;
         }
 
-        authenticate(data);
+        data.user.token = data.token.token;
+
+        authenticate(data.user);
         history.push('/dashboard');
       })
       .catch(() => {

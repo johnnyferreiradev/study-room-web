@@ -37,6 +37,7 @@ const StyledStudentClassCard = styled.div.attrs(() => ({
 
     .student-class-content {
       padding: 16px;
+      min-height: 120px;
 
       h3{
         font-weight: bold;

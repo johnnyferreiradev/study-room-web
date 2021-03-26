@@ -31,6 +31,8 @@ const themes = {
 };
 
 const StyledSnackbar = styled.div.attrs(() => ({ className: 'custom-snackbar' }))`
+    z-index: 1001;
+
     .mdc-snackbar {
         top: 0px;
         height: 100px;
@@ -39,7 +41,7 @@ const StyledSnackbar = styled.div.attrs(() => ({ className: 'custom-snackbar' })
             background: ${({ theme }) => themes[theme].background};
             border-radius: 4px;
             box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
-            
+
             .mdc-snackbar__label {
                 font-weight: bold;
                 color: #FFFFFF;
