@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
+import setClasses from 'store/actions/classes/setClasses';
+import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 
 import { Button } from 'components/Buttons';
 import Loading from 'components/Loading';
@@ -10,6 +12,8 @@ import StyledJoinAClass from './styles';
 
 function JoinAClass() {
   const dispatch = useDispatch();
+
+  const { classes } = useSelector((state) => state.classes);
 
   const [classCode, setClassCode] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,7 +28,16 @@ function JoinAClass() {
       return;
     }
 
-    setLoading(true);
+    dispatch(setClasses([{
+      id: 2,
+      title: 'Turma teste 2',
+      description: 'Descrição da turma teste 2',
+    }, ...classes]));
+
+    dispatch(showSnackbar('Turma adicionada com sucesso', 'success'));
+    dispatch(hideGlobalModal());
+
+    setLoading(false);
   };
 
   return (

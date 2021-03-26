@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import showGlobalModal from 'store/actions/modal/showGlobalModal';
+// import setClasses from 'store/actions/classes/setClasses';
 
 import { Container, Row } from 'components/Grid';
-// import StudentClassCard from 'components/StudentClassCard';
+import StudentClassCard from 'components/StudentClassCard';
 import EmptyMessage from 'components/EmptyMessage';
 import { Button } from 'components/Buttons';
 import JoinAClass from 'components/JoinAClass';
@@ -14,6 +15,7 @@ import StyledDashboard from './styles';
 
 function Dashboard() {
   const dispatch = useDispatch();
+  const { classes, loaded } = useSelector((state) => state.classes);
 
   const handleJoinAClassModal = () => {
     dispatch(showGlobalModal(
@@ -21,26 +23,47 @@ function Dashboard() {
     ));
   };
 
+  useEffect(() => {
+    if (!loaded) {
+      // const mockClasses = [
+      //   {
+      //     id: 1,
+      //     title: 'Turma 1',
+      //     description: 'Descrição da turma 1',
+      //   },
+      // ];
+
+      // dispatch(setClasses(mockClasses));
+    }
+  }, [dispatch, loaded]);
+
   return (
     <StyledDashboard>
       <Container>
         <Row>
-          <EmptyMessage
-            title="Não há turmas"
-            description="Adicione uma nova turma inserindo o seu código"
-            className="empty-class-list"
-          >
-            <Button theme="primary" className="new-class" onClick={handleJoinAClassModal}>
-              <p>Nova Turma</p>
-              <FaPlus />
-            </Button>
-          </EmptyMessage>
+          {classes.length === 0 && (
+            <EmptyMessage
+              title="Não há turmas"
+              description="Adicione uma nova turma inserindo o seu código"
+              className="empty-class-list"
+            >
+              <Button theme="primary" className="new-class" onClick={handleJoinAClassModal}>
+                <p>Nova Turma</p>
+                <FaPlus />
+              </Button>
+            </EmptyMessage>
+          )}
 
-          {/* <StudentClassCard
-            title="Turma 1"
-            description="Descrição 1"
-            notification={2}
-          />
+          {classes.map((classItem) => (
+            <StudentClassCard
+              key={classItem.id}
+              title={classItem.title}
+              description={classItem.description}
+              // notification={0}
+            />
+          ))}
+
+          {/*
           <StudentClassCard
             title="Turma 2"
             description="Descrição 2"
