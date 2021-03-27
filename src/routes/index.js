@@ -13,6 +13,7 @@ import StudentClassPage from 'pages/StudentClassPage';
 
 import Public from './public';
 import Private from './private';
+import PrivateStudentClass from './privateStudentClass';
 
 const Routes = () => (
   <BrowserRouter>
@@ -25,7 +26,8 @@ const Routes = () => (
       <Public path="/check-email" exact component={VerifyEmailConfirm} />
 
       <Private path="/dashboard" exact component={Dashboard} />
-      <Private path="/class/:id" exact component={StudentClassPage} />
+
+      <PrivateStudentClass path="/class/:id" exact component={StudentClassPage} />
     </Switch>
   </BrowserRouter>
 );
