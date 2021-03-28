@@ -9,13 +9,13 @@ const DefaultProfileIcon = () => (
   </div>
 );
 
-function ProfileIcon({ profileImage }) {
+function ProfileIcon({ profileImage, icon }) {
   return (
     <StyledProfileIcon>
       {profileImage ? (
         <img src={profileImage} alt="Perfil" />
       ) : (
-        <DefaultProfileIcon />
+        icon || (<DefaultProfileIcon />)
       )}
     </StyledProfileIcon>
   );

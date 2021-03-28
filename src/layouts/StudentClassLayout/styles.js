@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
 const StyledStudentClassPage = styled.div.attrs(() => ({
-  classNames: 'student-class-layout',
+  className: 'student-class-layout',
 }))`
   width: 100%;
+  max-width: 1000px;
   display: flex;
   justify-content: center;
 `;

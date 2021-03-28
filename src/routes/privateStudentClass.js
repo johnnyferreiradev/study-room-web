@@ -16,7 +16,7 @@ const PrivateStudentClass = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(matchProps) => (
-        <StudentClassLayout>
+        <StudentClassLayout params={rest.computedMatch.params}>
           <Component {...matchProps} />
         </StudentClassLayout>
       )}

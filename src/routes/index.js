@@ -10,6 +10,8 @@ import VerifyEmail from 'pages/VerifyEmail';
 import VerifyEmailConfirm from 'pages/VerifyEmailConfirm';
 import Dashboard from 'pages/Dashboard';
 import StudentClassPage from 'pages/StudentClassPage';
+import Homeworks from 'pages/Homeworks';
+import PeoplePage from 'pages/PeoplePage';
 
 import Public from './public';
 import Private from './private';
@@ -28,6 +30,8 @@ const Routes = () => (
       <Private path="/dashboard" exact component={Dashboard} />
 
       <PrivateStudentClass path="/class/:id" exact component={StudentClassPage} />
+      <PrivateStudentClass path="/class/:id/homeworks" exact component={Homeworks} />
+      <PrivateStudentClass path="/class/:id/people" exact component={PeoplePage} />
     </Switch>
   </BrowserRouter>
 );

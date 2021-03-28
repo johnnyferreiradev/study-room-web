@@ -7,14 +7,16 @@ import StudentClassHeader from 'components/StudentClassHeader';
 
 import StyledStudentClassLayout from './styles';
 
-function StudentClassLayout({ children, className = '' }) {
+function StudentClassLayout({ children, params }) {
+  const { id: studentClassId } = params;
+
   return (
-    <MainLayout className={className}>
+    <MainLayout>
       <StyledStudentClassLayout>
         <Container>
           <Row>
             <Column desktop="12" tablet="12" mobile="12" className="flex j-c-center a-i-center mt-3">
-              <StudentClassHeader />
+              <StudentClassHeader classId={studentClassId} />
             </Column>
           </Row>
           <Row>
