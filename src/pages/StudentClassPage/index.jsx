@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import EmptyMessage from 'components/EmptyMessage';
+import NewCommunicated from 'components/NewCommunicated';
 import Communicated from 'components/Communicated';
 import HomeworkCard from 'components/HomeworkCard';
 
 import StyledStudentClassPage from './styles';
 
 function StudentClassPage() {
+  const [communicatedList, setCommunicatedList] = useState([{
+    id: '123',
+    owner: 'Fulano de tal',
+    deadline: '30 de fev.',
+    content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  }]);
+
   return (
     <StyledStudentClassPage>
-      <Communicated
-        owner="Fulano de tal"
-        deadline="30 de fev."
+      <NewCommunicated
+        list={communicatedList}
+        onSend={setCommunicatedList}
       />
+
+      {communicatedList.map((communicated) => (
+        <Communicated
+          key={communicated.id}
+          owner={communicated.owner}
+          deadline={communicated.deadline}
+          content={communicated.content}
+        />
+      ))}
 
       <HomeworkCard
         title="Atividade tal"

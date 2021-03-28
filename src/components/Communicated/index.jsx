@@ -1,5 +1,4 @@
-import React from 'react';
-// import { useHistory } from 'react-router-dom';
+import React, { useState } from 'react';
 
 import { Row, Column } from 'components/Grid';
 // import { Button } from 'components/Buttons';
@@ -9,11 +8,10 @@ import Comments from 'components/Comments';
 import StyledCommunicated from './styles';
 
 function Communicated({
-  // title,
   owner,
-  // deadline,
+  content,
 }) {
-  // const history = useHistory();
+  const [comments, setComments] = useState([]);
 
   return (
     <StyledCommunicated className="card">
@@ -29,22 +27,17 @@ function Communicated({
       <Row>
         <Column desktop="12" tablet="12" mobile="12" className="flex">
           <p className="content txt-secondary">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-            justo lectus, ullamcorper in dui eget, dapibus elementum leo.
-            Integer posuere finibus est, eget bibendum turpis.
+            {content}
           </p>
         </Column>
       </Row>
 
       <Row>
         <Column desktop="12" tablet="12" mobile="12" className="flex j-c-between a-i-center mt-2 footer">
-          {/* <p className="txt-primary">
-            <span className="txt-secondary">Publicado em: </span>
-            {deadline}
-          </p>
-          <Button theme="link">Ver atividade</Button> */}
-
-          <Comments />
+          <Comments
+            comments={comments}
+            onSend={setComments}
+          />
         </Column>
       </Row>
     </StyledCommunicated>

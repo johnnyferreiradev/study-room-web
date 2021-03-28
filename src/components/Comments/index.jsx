@@ -10,25 +10,17 @@ import Comment from 'components/Comment';
 
 import StyledComments from './styles';
 
-function Comments() {
+function Comments({ comments, onSend }) {
   const { userName } = getAuthData();
 
   const [newComment, setNewComment] = useState('');
-  const [comments, setComments] = useState([{
-    comment: 'Texto do comentário',
-    createdAt: 'Há 5 min.',
-    owner: {
-      avatar: '',
-      name: userName,
-    },
-  }]);
 
   const sendComment = () => {
     if (newComment === '') {
       return;
     }
 
-    setComments([...comments, {
+    onSend([...comments, {
       comment: newComment,
       createdAt: 'Agora mesmo',
       owner: {
