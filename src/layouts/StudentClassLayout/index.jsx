@@ -20,7 +20,7 @@ function StudentClassLayout({ children, params }) {
             </Column>
           </Row>
           <Row>
-            <Column desktop="12" tablet="12" mobile="12" className="flex j-c-center a-i-center mt-3">
+            <Column desktop="12" tablet="12" mobile="12" className="flex j-c-center a-i-center mt-2">
               {children}
             </Column>
           </Row>
