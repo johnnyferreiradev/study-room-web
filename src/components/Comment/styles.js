@@ -15,10 +15,16 @@ const StyledComment = styled.div.attrs(() => ({
       font-size: 16px;
       line-height: 1;
     }
+
+    p {
+      font-weight: normal !important;
+      font-size: 12px !important;
+    }
   }
 
   .content {
     margin-left: 56px !important;
+    padding-top: 8px !important;
   }
 `;
 

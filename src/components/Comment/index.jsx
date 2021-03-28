@@ -12,7 +12,8 @@ function Comment({ comment }) {
         <Column desktop="12" tablet="12" mobile="12" className="flex a-i-center">
           <ProfileIcon />
           <div className="profile">
-            <h3>Fulano</h3>
+            <h3>{comment.owner.name}</h3>
+            <p className="txt-primary">{comment.createdAt}</p>
           </div>
         </Column>
       </Row>
@@ -20,7 +21,7 @@ function Comment({ comment }) {
       <Row>
         <Column desktop="12" tablet="12" mobile="12" className="flex">
           <p className="content txt-secondary">
-            {comment}
+            {comment.comment}
           </p>
         </Column>
       </Row>

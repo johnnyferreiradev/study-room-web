@@ -136,6 +136,7 @@ select {
   color: var(--dark-color);
   border-radius: 4px;
   background: var(--white-color);
+  font-family: RobotoRegular;
 }
 
 

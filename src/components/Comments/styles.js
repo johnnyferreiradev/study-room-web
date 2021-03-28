@@ -21,10 +21,12 @@ const StyledComments = styled.div.attrs(() => ({
       font-size: 14px;
       letter-spacing: normal;
       color: ${darkColor};
+      line-height: 1.8;
 
       &::-webkit-input-placeholder  { color: ${quaternaryColor}; }
       &:-moz-placeholder { color: ${quaternaryColor}; }
       &:-moz-placeholder { color: ${quaternaryColor}; }
+      &::-webkit-scrollbar { width: 0px; }
     }
 
     button {
