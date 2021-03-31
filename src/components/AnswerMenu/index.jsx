@@ -47,7 +47,7 @@ function AnswerMenu() {
       <Card className="suspended-content">
         <Button theme="link" onClick={newUpload}>Arquivo</Button>
         <Button theme="link" onClick={newLink}>Link</Button>
-        <Button theme="link" onClick={() => {}}>Texto</Button>
+        {/* <Button theme="link" onClick={() => {}}>Texto</Button> */}
       </Card>
     </StyledAnswerMenu>
   );
