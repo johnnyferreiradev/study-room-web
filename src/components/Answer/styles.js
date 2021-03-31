@@ -21,6 +21,20 @@ const StyledAnswer = styled.div.attrs(() => ({
     width: 100%;
     margin-right: 0px;
   }
+
+  .add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+
+    svg {
+      font-size: 16px;
+      margin-right: 4px;
+      position: relative;
+      top: -2px;
+    }
+  }
 `;
 
 export default StyledAnswer;

@@ -25,9 +25,9 @@ const buttonThemes = {
   secondary: {
     background: whiteColor,
     color: primaryColor,
-    border: 'none',
+    border: `2px solid ${primaryColor}`,
     hoverColor: `${tertiaryColor}20`,
-    boxShadow: `0 2px 4px 0 ${primaryColor}55`,
+    boxShadow: 'none',
   },
   link: {
     background: 'none',

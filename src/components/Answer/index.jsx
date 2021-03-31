@@ -28,7 +28,7 @@ function Answer() {
         </Row>
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
-            <Button theme="secondary" fluid>
+            <Button theme="secondary" className="add-button" fluid>
               <FaPlus />
               Adicionar
             </Button>
