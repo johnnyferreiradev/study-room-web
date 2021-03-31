@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { subscribe } from 'api/studentClasses';
 
@@ -14,6 +15,7 @@ import StyledJoinAClass from './styles';
 
 function JoinAClass() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { classes } = useSelector((state) => state.classes);
 
@@ -38,6 +40,7 @@ function JoinAClass() {
 
         dispatch(showSnackbar('Turma adicionada com sucesso', 'success'));
         dispatch(hideGlobalModal());
+        history.push('/dashboard');
       })
       .catch(({ response }) => {
         const [error] = response.data;

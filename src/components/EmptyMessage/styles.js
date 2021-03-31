@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { quaternaryColor } from 'variables';
 
 const StyledEmptyMessage = styled.div.attrs(() => ({
-  classNames: 'empty-message',
+  className: 'empty-message',
 }))`
   display: flex;
   flex-direction: column;
@@ -19,6 +19,12 @@ const StyledEmptyMessage = styled.div.attrs(() => ({
   h3 {
     font-weight: normal;
     font-size: 18px;
+  }
+
+  p {
+    max-width: 400px;
+    text-align: center;
+    margin-top: 4px;
   }
 `;
 

@@ -16,7 +16,7 @@ const StyledStudentClassMenu = styled.div.attrs(() => ({
     display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
     position: absolute;
     right: 0px;
-    width: 260px;
+    width: 180px;
     z-index: 1000;
     border: 1px solid ${primaryColor}55;
     transition: all .1s;

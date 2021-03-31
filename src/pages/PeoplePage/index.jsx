@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PeopleSection from 'components/PeopleSection';
+import EmptyMessage from 'components/EmptyMessage';
 
 import StyledPeoplePage from './styles';
 
@@ -26,8 +27,6 @@ function PeoplePage() {
         <PeopleSection
           title="Professores"
           peopleList={peopleList}
-          quantity={peopleList.length}
-          quantityLabel="professores"
         />
       )}
 
@@ -37,6 +36,12 @@ function PeoplePage() {
           peopleList={peopleList}
           quantity={peopleList.length}
           quantityLabel="alunos"
+        />
+      )}
+
+      {peopleList.length === 0 && (
+        <EmptyMessage
+          title="Não há pessoas nesta turma"
         />
       )}
     </StyledPeoplePage>

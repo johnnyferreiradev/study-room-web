@@ -12,6 +12,7 @@ import Dashboard from 'pages/Dashboard';
 import StudentClassPage from 'pages/StudentClassPage';
 import Homeworks from 'pages/Homeworks';
 import PeoplePage from 'pages/PeoplePage';
+import Homework from 'pages/Homework';
 
 import Public from './public';
 import Private from './private';
@@ -32,6 +33,7 @@ const Routes = () => (
       <PrivateStudentClass path="/class/:id" exact component={StudentClassPage} />
       <PrivateStudentClass path="/class/:id/homeworks" exact component={Homeworks} />
       <PrivateStudentClass path="/class/:id/people" exact component={PeoplePage} />
+      <PrivateStudentClass path="/class/:id/homework/:homeworkId" exact component={Homework} />
     </Switch>
   </BrowserRouter>
 );
