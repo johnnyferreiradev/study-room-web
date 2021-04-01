@@ -1,11 +1,11 @@
 import React from 'react';
-import { FaPlus } from 'react-icons/fa';
 
 import { Row, Column } from 'components/Grid';
 import Card from 'components/Card';
 import { Button } from 'components/Buttons';
 import MaterialList from 'components/MaterialList';
 import Comments from 'components/Comments';
+import AnswerMenu from 'components/AnswerMenu';
 
 import StyledAnswer from './styles';
 
@@ -28,10 +28,7 @@ function Answer() {
         </Row>
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
-            <Button theme="secondary" className="add-button" fluid>
-              <FaPlus />
-              Adicionar
-            </Button>
+            <AnswerMenu />
           </Column>
         </Row>
         <Row>

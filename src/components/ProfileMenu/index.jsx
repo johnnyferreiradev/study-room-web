@@ -1,19 +1,24 @@
 import React, { useState, useRef } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import useOutsideEvent from 'hooks/useOutsideEvent';
+
+import showGlobalModal from 'store/actions/modal/showGlobalModal';
 
 import { logoff, getAuthData } from 'services/auth';
 
 import { Button } from 'components/Buttons';
 import ProfileIcon from 'components/ProfileIcon';
 import Card from 'components/Card';
+import ChangeProfileAvatar from 'components/ChangeProfileAvatar';
 
 import StyledProfileMenu from './styles';
 
 function ProfileMenu() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { userName, userEmail } = getAuthData();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -28,6 +33,12 @@ function ProfileMenu() {
     history.push('/');
   };
 
+  const changeProfileAvatar = () => {
+    dispatch(showGlobalModal(
+      <ChangeProfileAvatar />,
+    ));
+  };
+
   return (
     <StyledProfileMenu isOpen={isOpen} ref={wrapperRef}>
       <Button theme="link" onClick={() => setIsOpen(!isOpen)}>
@@ -37,7 +48,7 @@ function ProfileMenu() {
       <Card className="suspended-content">
         <div className="profile-action">
           <ProfileIcon />
-          <Button theme="link" className="change-profile-image">
+          <Button theme="link" className="change-profile-image" onClick={changeProfileAvatar}>
             <FaCamera />
           </Button>
         </div>
