@@ -12,8 +12,8 @@ function Comment({ comment }) {
         <Column desktop="12" tablet="12" mobile="12" className="flex a-i-center">
           <ProfileIcon />
           <div className="profile">
-            <h3>{comment.owner.name}</h3>
-            <p className="txt-primary">{comment.createdAt}</p>
+            <h3>{comment.user.name}</h3>
+            <p className="txt-primary">{comment.created_at}</p>
           </div>
         </Column>
       </Row>

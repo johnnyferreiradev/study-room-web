@@ -25,7 +25,7 @@ function PeopleSection({
       </div>
       <Card className="card">
         {peopleList.map((people) => (
-          <People key={people.id} name={people.name} />
+          <People key={people.id} name={people.name} avatar={people.avatar_url} />
         ))}
       </Card>
     </StyledPeopleSection>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 // import Welcome from '../pages/Welcome';
+import PageNotFound from 'pages/PageNotFound';
 import Login from 'pages/Login';
 import Register from 'pages/Register';
 import RecoveryPassword from 'pages/RecoveryPassword';
@@ -34,6 +35,8 @@ const Routes = () => (
       <PrivateStudentClass path="/class/:id/homeworks" exact component={Homeworks} />
       <PrivateStudentClass path="/class/:id/people" exact component={PeoplePage} />
       <PrivateStudentClass path="/class/:id/homework/:homeworkId" exact component={Homework} />
+
+      <Route component={PageNotFound} />
     </Switch>
   </BrowserRouter>
 );

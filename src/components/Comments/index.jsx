@@ -21,10 +21,11 @@ function Comments({ comments, onSend }) {
     }
 
     onSend([...comments, {
+      id: uniqueId(),
       comment: newComment,
-      createdAt: 'Agora mesmo',
-      owner: {
-        avatar: '',
+      created_at: 'Agora mesmo',
+      user: {
+        avatar_url: '',
         name: userName,
       },
     }]);
@@ -38,7 +39,7 @@ function Comments({ comments, onSend }) {
   return (
     <StyledComments>
       {comments.map((comment) => (
-        <Comment key={uniqueId()} comment={comment} />
+        <Comment key={comment.id} comment={comment} />
       ))}
 
       <form>

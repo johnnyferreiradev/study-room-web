@@ -1,13 +1,8 @@
 const INITIAL_STATE = {
   classes: [],
+  currentClass: {},
   loaded: false,
 };
-
-// {
-//   id: 1,
-//   title: 'Turma teste 1',
-//   description: 'Descrição da turma teste 1',
-// }
 
 export default function classes(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -16,6 +11,11 @@ export default function classes(state = INITIAL_STATE, action) {
         ...state,
         classes: action.classes,
         loaded: state.loaded,
+      };
+    case 'SET_CURRENT_CLASS':
+      return {
+        ...state,
+        currentClass: action.currentClass,
       };
     case 'CLEAR_CLASSES':
       return INITIAL_STATE;

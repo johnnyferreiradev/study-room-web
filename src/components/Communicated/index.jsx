@@ -10,15 +10,18 @@ import StyledCommunicated from './styles';
 function Communicated({
   owner,
   content,
+  ownerAvatar,
+  communicatedComments,
+  // deadline,
 }) {
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(communicatedComments || []);
 
   return (
     <StyledCommunicated className="card">
       <Row>
         <Column desktop="12" tablet="12" mobile="12" className="flex">
-          <ProfileIcon />
-          <div className="homework-info">
+          <ProfileIcon profileImage={ownerAvatar} />
+          <div className="homework-info flex">
             <h3>{owner}</h3>
           </div>
         </Column>

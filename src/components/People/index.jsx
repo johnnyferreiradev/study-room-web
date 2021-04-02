@@ -4,10 +4,10 @@ import ProfileIcon from 'components/ProfileIcon';
 
 import StyledPeople from './styles';
 
-function People({ name }) {
+function People({ name, avatar }) {
   return (
     <StyledPeople>
-      <ProfileIcon />
+      <ProfileIcon profileImage={avatar} />
       <p className="txt-secondary">{name}</p>
     </StyledPeople>
   );

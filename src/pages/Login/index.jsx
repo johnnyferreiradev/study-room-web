@@ -34,7 +34,9 @@ function Login() {
   });
   const [loading, setLoading] = useState(false);
 
-  const handleLoginField = ({ target }) => {
+  const handleLoginField = (event) => {
+    const { target } = event;
+
     switch (target.name) {
       case 'email':
         setLoginState((prevState) => ({ ...prevState, email: target.value }));
