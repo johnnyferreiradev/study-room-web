@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
+import setProfileImage from 'store/actions/profile/setProfileImage';
+
+import { getAuthData } from 'services/auth';
 
 import Header from 'components/Header';
 import Snackbar from 'components/Snackbar';
@@ -18,6 +21,11 @@ function MainLayout({ children, className = '' }) {
   const handleModalClose = () => {
     dispatch(hideGlobalModal());
   };
+
+  useEffect(() => {
+    const profileData = getAuthData();
+    dispatch(setProfileImage(profileData.userAvatar));
+  }, [dispatch]);
 
   return (
     <StyledMainLayout className={className}>

@@ -8,6 +8,12 @@ const StyledComments = styled.div.attrs(() => ({
   width: 100%;
   margin-bottom: 4px;
 
+  .comments-title {
+    font-weight: normal;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
   form {
     display: flex;
     border: 2px solid ${tertiaryColor};

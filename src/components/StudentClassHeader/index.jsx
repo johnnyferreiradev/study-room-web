@@ -22,6 +22,7 @@ function StudentClassHeader({ classId, title }) {
         <Column desktop="4" tablet="4" mobile="4" className="flex j-c-end a-i-center class-actions">
           <Button theme="link" onClick={() => history.push(`/class/${classId}`)}>Mural</Button>
           <Button theme="link" onClick={() => history.push(`/class/${classId}/homeworks`)}>Atividades</Button>
+          <Button theme="link" onClick={() => history.push(`/class/${classId}/materials`)}>Materiais</Button>
           <Button theme="link" onClick={() => history.push(`/class/${classId}/people`)}>Pessoas</Button>
           <StudentClassMenu />
         </Column>

@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getHomeworks } from 'api/homeworks';
+import { getMaterials } from 'api/materials';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
-import HomeworkCard from 'components/HomeworkCard';
 import EmptyMessage from 'components/EmptyMessage';
+import MaterialCard from 'components/MaterialCard';
 import Loading from 'components/Loading';
 
-import StyledHomeworks from './styles';
+import StyledMaterials from './styles';
 
-function Homeworks({ match }) {
+function Materials({ match }) {
   const dispatch = useDispatch();
 
-  const [homeworkList, setHomeworkList] = useState([]);
+  const [materialList, setMaterialList] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
-    getHomeworks(match.params.id)
+    getMaterials(match.params.id)
       .then((response) => {
-        setHomeworkList(response.data);
+        setMaterialList(response.data);
       })
       .catch(() => {
         // const [error] = response.data;
@@ -31,41 +31,40 @@ function Homeworks({ match }) {
         // }
 
         dispatch(showSnackbar('Ocorreu um erro ao carregar a lista de materiais. Tente novamente mais tarde', 'danger'));
-        setHomeworkList([]);
+        setMaterialList([]);
       }).finally(() => {
         setLoading(false);
       });
   }, [match.params.id, dispatch]);
 
   return (
-    <StyledHomeworks>
+    <StyledMaterials>
       {loading && (
         <Loading type="bubbles" height={96} width={96} fluid color="#8CC8F3" />
       )}
 
       {!loading && (
         <>
-          {homeworkList.map((homework) => (
-            <HomeworkCard
-              key={homework.id}
-              id={homework.id}
-              title={homework.title}
-              owner={homework.user.name}
-              deadline={homework.homework.dateLimit}
-              classId={match.params.id}
+          {materialList.map((material) => (
+            <MaterialCard
+              key={material.id}
+              owner={material.user.name}
+              title={material.title}
+              description={material.description}
+              materialList={material.contentAttachments}
             />
           ))}
         </>
       )}
 
-      {!loading && homeworkList.length === 0 && (
+      {!loading && materialList.length === 0 && (
         <EmptyMessage
-          title="Não há novas atividades"
-          description="Aguarde até a publicação de uma nova atividade"
+          title="Nenhum material publicado"
+          description="Aguarde até a publicação de um novo material"
         />
       )}
-    </StyledHomeworks>
+    </StyledMaterials>
   );
 }
 
-export default Homeworks;
+export default Materials;

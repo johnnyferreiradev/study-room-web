@@ -14,7 +14,7 @@ function NewCommunicated({
   list,
   onSend,
 }) {
-  const { userName } = getAuthData();
+  const { userName, userAvatar } = getAuthData();
 
   const [newCommunicated, setNewCommunicated] = useState('');
   const [inFocus, setInFocus] = useState(false);
@@ -28,9 +28,12 @@ function NewCommunicated({
 
     onSend([{
       id: uniqueId(),
-      owner: userName,
+      user: {
+        name: userName,
+        avatar_url: userAvatar,
+      },
       deadline: '30 de fev.',
-      content: newCommunicated,
+      description: newCommunicated,
     }, ...list]);
 
     setInFocus(false);
@@ -45,7 +48,7 @@ function NewCommunicated({
   return (
     <StyledNewCommunicated className="card" inFocus={inFocus}>
       <div className="flex a-i-center mb-2">
-        <ProfileIcon />
+        <ProfileIcon profileImage={userAvatar} />
         <div className="profile">
           <h3>{userName}</h3>
         </div>

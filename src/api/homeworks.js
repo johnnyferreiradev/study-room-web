@@ -1,5 +1,5 @@
 import api from './api';
 
-export const getPeople = (classId) => api.get(`/listStudent/${classId}`);
+export const getHomeworks = (classId) => api.get(`/listActivities/${classId}`);
 
-export const aaa = () => {};
+export const getHomework = (classId, homeworkId) => api.get(`/showActivity/${classId}/${homeworkId}`);

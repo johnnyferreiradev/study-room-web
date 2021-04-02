@@ -14,11 +14,14 @@ const StyledDashboard = styled.div.attrs(() => ({ className: 'dashboard-page' })
 
   .new-class {
     display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 14px 16px;
     margin-top: 16px;
 
     p {
       font-size: 14px;
+      margin: 0px;
     }
 
     svg {

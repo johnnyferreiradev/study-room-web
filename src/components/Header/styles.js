@@ -15,6 +15,21 @@ const Header = styled.header`
   color: ${primaryColor};
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 
+  .student-classes-link {
+    margin-top: 4px;
+    padding-left: 4px;
+  }
+
+  .student-classes {
+    margin-left: 4px;
+    font-size: 14px;
+    text-transform: uppercase;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   .main-content {
     padding: 16px;
     display: flex;

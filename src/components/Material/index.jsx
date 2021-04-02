@@ -3,7 +3,7 @@ import { FaFile, FaGlobe } from 'react-icons/fa';
 
 import StyledMaterial from './styles';
 
-function Material({ type }) {
+function Material({ type, title }) {
   return (
     <StyledMaterial>
       <div className="preview">
@@ -16,8 +16,8 @@ function Material({ type }) {
         )}
       </div>
       <div className="material-info">
-        <h3>Name</h3>
-        <p className="txt-secondary">Tipo ou link</p>
+        <h3>{title}</h3>
+        <p className="txt-secondary">{type}</p>
       </div>
     </StyledMaterial>
   );

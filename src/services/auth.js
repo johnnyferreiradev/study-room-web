@@ -9,17 +9,20 @@ export const authenticate = (data) => {
   localStorage.setItem(`${KEY_PREFIX}user-id`, data.id);
   localStorage.setItem(`${KEY_PREFIX}user-name`, data.name);
   localStorage.setItem(`${KEY_PREFIX}user-email`, data.email);
+  localStorage.setItem(`${KEY_PREFIX}user-avatar`, data.avatar_url);
 };
 
 export const getAuthData = () => {
   const userId = localStorage.getItem(`${KEY_PREFIX}user-id`);
   const userName = localStorage.getItem(`${KEY_PREFIX}user-name`);
   const userEmail = localStorage.getItem(`${KEY_PREFIX}user-email`);
+  const userAvatar = localStorage.getItem(`${KEY_PREFIX}user-avatar`);
 
   return {
     userId,
     userName,
     userEmail,
+    userAvatar,
   };
 };
 

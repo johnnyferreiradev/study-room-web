@@ -26,6 +26,18 @@ const StyledComment = styled.div.attrs(() => ({
     margin-left: 56px !important;
     padding-top: 8px !important;
   }
+
+  .suspended-content {
+    .remove-comment {
+      display: flex;
+      align-items: center;
+      padding: 0px !important;
+
+      svg {
+        margin-right: 4px;
+      }
+    }
+  }
 `;
 
 export default StyledComment;

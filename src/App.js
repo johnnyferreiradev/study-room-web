@@ -2,6 +2,7 @@ import React from 'react';
 import Routes from 'routes';
 import { Provider } from 'react-redux';
 import '@material/react-snackbar/dist/snackbar.css';
+import 'moment/locale/pt-br';
 
 import store from 'store';
 

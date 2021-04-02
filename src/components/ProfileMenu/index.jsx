@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import useOutsideEvent from 'hooks/useOutsideEvent';
 
@@ -20,6 +20,7 @@ function ProfileMenu() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { userName, userEmail } = getAuthData();
+  const profileImage = useSelector(({ profile }) => profile.profileImage);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,12 +43,12 @@ function ProfileMenu() {
   return (
     <StyledProfileMenu isOpen={isOpen} ref={wrapperRef}>
       <Button theme="link" onClick={() => setIsOpen(!isOpen)}>
-        <ProfileIcon />
+        <ProfileIcon profileImage={profileImage} />
       </Button>
 
       <Card className="suspended-content">
         <div className="profile-action">
-          <ProfileIcon />
+          <ProfileIcon profileImage={profileImage} />
           <Button theme="link" className="change-profile-image" onClick={changeProfileAvatar}>
             <FaCamera />
           </Button>

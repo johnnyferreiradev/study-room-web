@@ -9,6 +9,7 @@ import { validadeEmail } from 'utils/validate';
 import { getToken, authenticate } from 'services/auth';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
+import setProfileImage from 'store/actions/profile/setProfileImage';
 
 import { Container, Row, Column } from 'components/Grid';
 import Banner from 'components/Banner';
@@ -74,6 +75,7 @@ function Login() {
         data.user.token = data.token.token;
 
         authenticate(data.user);
+        dispatch(setProfileImage(data.user.avatar_url));
         history.push('/dashboard');
       })
       .catch(() => {

@@ -11,6 +11,8 @@ function PeopleSection({
   quantity,
   quantityLabel,
 }) {
+  console.log(peopleList);
+
   return (
     <StyledPeopleSection>
       <div className="people-section-header">
