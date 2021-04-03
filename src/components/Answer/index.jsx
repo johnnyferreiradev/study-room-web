@@ -1,4 +1,7 @@
 import React from 'react';
+import moment from 'moment';
+
+import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 
 import { Row, Column } from 'components/Grid';
 import Card from 'components/Card';
@@ -9,7 +12,10 @@ import AnswerMenu from 'components/AnswerMenu';
 
 import StyledAnswer from './styles';
 
-function Answer() {
+function Answer({ deadline }) {
+  const currentTime = getCurrentDateAndHourInApiFormat();
+  const isArrear = checkArrear(currentTime, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
+
   return (
     <StyledAnswer>
       <Card>
@@ -18,7 +24,9 @@ function Answer() {
             <h3>Responder</h3>
           </Column>
           <Column desktop="6" tablet="6" mobile="6" className="flex j-c-end">
-            Status
+            <p className={isArrear ? 'txt-danger' : 'txt-primary'}>
+              Pendente
+            </p>
           </Column>
         </Row>
         <Row>
@@ -34,13 +42,17 @@ function Answer() {
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
             <Button theme="primary" fluid>
-              Enviar
+              {isArrear ? 'Enviar com atraso' : 'Enviar'}
             </Button>
           </Column>
         </Row>
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
-            <Comments comments={[]} onSend={() => {}} />
+            <Comments
+              comments={[]}
+              onSend={() => {}}
+              placeholder="Novo comentário para o professor"
+            />
           </Column>
         </Row>
       </Card>

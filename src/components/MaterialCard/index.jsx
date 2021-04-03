@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaPencilRuler } from 'react-icons/fa';
+import moment from 'moment';
 
 import { Row, Column } from 'components/Grid';
 // import { Button } from 'components/Buttons';
@@ -13,6 +14,7 @@ function MaterialCard({
   owner,
   description,
   materialList,
+  createdAt,
 }) {
   return (
     <StyledMaterialCard className="card">
@@ -29,6 +31,7 @@ function MaterialCard({
               <span>Por: </span>
               {owner}
             </p>
+            <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY')}</p>
           </div>
         </Column>
       </Row>

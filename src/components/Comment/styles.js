@@ -8,6 +8,10 @@ const StyledComment = styled.div.attrs(() => ({
   padding: 16px 0px;
   border-top: 1px solid ${tertiaryColor};
 
+  & > .grid-row {
+    padding-left: 24px;
+  }
+
   .profile {
     height: max-content;
 

@@ -8,6 +8,7 @@ import { getHomework } from 'api/homeworks';
 import { storeComment } from 'api/comments';
 
 import { getAuthData } from 'services/auth';
+import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
@@ -25,6 +26,8 @@ function Homework({ match }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { userAvatar, userName } = getAuthData();
+
+  const currentTime = getCurrentDateAndHourInApiFormat();
 
   const [homeworkData, setHomeworkData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -104,9 +107,17 @@ function Homework({ match }) {
                 </Row>
                 <Row className="info-row">
                   <Column desktop="8" tablet="8" mobile="8" className="flex">
-                    <p className="txt-primary">
+                    <p
+                      className={
+                        checkArrear(
+                          currentTime,
+                          moment(homeworkData.homework.dateLimit)
+                            .format('YYYY-MM-DD HH:mm:ss'),
+                        ) ? 'txt-danger' : 'txt-primary'
+                      }
+                    >
                       <span className="txt-secondary">Data de entrega: </span>
-                      {moment(homeworkData.homework.dateLimit).format('MM/DD/YYYY HH:mm')}
+                      {moment(homeworkData.homework.dateLimit).format('DD/MM/YYYY HH:mm')}
                     </p>
                   </Column>
                   <Column desktop="4" tablet="4" mobile="4" className="flex j-c-end">
@@ -139,7 +150,7 @@ function Homework({ match }) {
               </Card>
             </Column>
             <Column desktop="4" tablet="4" mobile="4">
-              <Answer />
+              <Answer deadline={homeworkData.homework.dateLimit} />
             </Column>
           </>
         )}

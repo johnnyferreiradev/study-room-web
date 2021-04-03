@@ -52,6 +52,7 @@ function Materials({ match }) {
               title={material.title}
               description={material.description}
               materialList={material.contentAttachments}
+              createdAt={material.created_at}
             />
           ))}
         </>

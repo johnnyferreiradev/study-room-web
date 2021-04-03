@@ -6,4 +6,19 @@ export const getCurrentDateAndHourInApiFormat = () => {
   return `${date} ${time}`;
 };
 
-export const test = () => {};
+export const checkArrear = (currentDate, deadline) => {
+  const [deadlineDate, deadlineHour] = deadline.split(' ');
+  const [currentTimeDate, currentTimeHour] = currentDate.split(' ');
+
+  if (currentTimeDate > deadlineDate) {
+    return true;
+  }
+
+  if (currentTimeDate === deadlineDate) {
+    if (currentTimeHour > deadlineHour) {
+      return true;
+    }
+  }
+
+  return false;
+};
