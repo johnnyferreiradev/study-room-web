@@ -14,7 +14,7 @@ const StyledCommunicated = styled.div.attrs(() => ({
 
   .homework-info {
     display: flex;
-    align-items: center;
+    flex-direction: column;
 
     h3 {
       font-size: 16px;

@@ -9,7 +9,7 @@ const StyledComment = styled.div.attrs(() => ({
   border-top: 1px solid ${tertiaryColor};
 
   & > .grid-row {
-    margin-left: 16px;
+    padding-left: 24px;
   }
 
   .profile {

@@ -106,7 +106,7 @@ function Homework({ match }) {
                   <Column desktop="8" tablet="8" mobile="8" className="flex">
                     <p className="txt-primary">
                       <span className="txt-secondary">Data de entrega: </span>
-                      {moment(homeworkData.homework.dateLimit).format('MM/DD/YYYY HH:mm')}
+                      {moment(homeworkData.homework.dateLimit).format('DD/MM/YYYY HH:mm')}
                     </p>
                   </Column>
                   <Column desktop="4" tablet="4" mobile="4" className="flex j-c-end">
@@ -139,7 +139,7 @@ function Homework({ match }) {
               </Card>
             </Column>
             <Column desktop="4" tablet="4" mobile="4">
-              <Answer />
+              <Answer deadline={homeworkData.homework.dateLimit} />
             </Column>
           </>
         )}

@@ -13,11 +13,18 @@ import { Row } from 'components/Grid';
 
 import StyledComments from './styles';
 
-function Comments({ comments, onSend, loading }) {
+function Comments({
+  comments,
+  onSend,
+  loading,
+  placeholder,
+}) {
   const { userName, userAvatar } = getAuthData();
 
   const [newComment, setNewComment] = useState('');
-  const [commentListView, setCommentListView] = useState([comments[comments.length - 1]]);
+  const [commentListView, setCommentListView] = useState(
+    comments.length > 0 ? [comments[comments.length - 1]] : [],
+  );
   const [showAll, setShowAll] = useState(false);
 
   const toggleCommentsView = () => {
@@ -57,7 +64,9 @@ function Comments({ comments, onSend, loading }) {
     if (showAll) {
       setCommentListView(comments);
     } else {
-      setCommentListView([comments[comments.length - 1]]);
+      setCommentListView(
+        comments.length > 0 ? [comments[comments.length - 1]] : [],
+      );
     }
   }, [comments, showAll]);
 
@@ -78,9 +87,11 @@ function Comments({ comments, onSend, loading }) {
           </h3>
         )}
 
-        <Button theme="link" onClick={toggleCommentsView}>
-          {showAll ? 'ver menos' : 'ver todos'}
-        </Button>
+        {comments.length > 1 && (
+          <Button theme="link" onClick={toggleCommentsView}>
+            {showAll ? 'ver menos' : 'ver todos'}
+          </Button>
+        )}
       </Row>
 
       {commentListView.map((comment) => (
@@ -95,7 +106,7 @@ function Comments({ comments, onSend, loading }) {
         <form>
           <TextareaAutosize
             maxLength="255"
-            placeholder="Adicione um comentário"
+            placeholder={placeholder || 'Adicione um comentário'}
             value={newComment}
             onChange={(e) => handleNewComment(e)}
           />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
 import { storeComment } from 'api/comments';
 
@@ -20,6 +21,7 @@ function Communicated({
   ownerAvatar,
   communicatedComments,
   classId,
+  createdAt,
   // deadline,
 }) {
   const dispatch = useDispatch();
@@ -58,6 +60,7 @@ function Communicated({
           <ProfileIcon profileImage={ownerAvatar} />
           <div className="homework-info flex">
             <h3>{owner}</h3>
+            <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY')}</p>
           </div>
         </Column>
       </Row>

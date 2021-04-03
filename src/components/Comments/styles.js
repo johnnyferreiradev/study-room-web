@@ -10,6 +10,7 @@ const StyledComments = styled.div.attrs(() => ({
 
   & > .grid-row {
     button {
+      padding: 0px;
       &:hover {
         text-decoration: underline;
       }
