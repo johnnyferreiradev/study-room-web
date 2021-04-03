@@ -42,7 +42,7 @@ function Answer({ deadline }) {
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
             <Button theme="primary" fluid>
-              Enviar
+              {isArrear ? 'Enviar com atraso' : 'Enviar'}
             </Button>
           </Column>
         </Row>
