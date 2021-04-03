@@ -8,6 +8,14 @@ const StyledComments = styled.div.attrs(() => ({
   width: 100%;
   margin-bottom: 4px;
 
+  & > .grid-row {
+    button {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
   .comments-title {
     font-weight: normal;
     font-size: 16px;
