@@ -54,11 +54,13 @@ function StudentClassPage({ match }) {
           {communications.map((communicated) => (
             <Communicated
               key={communicated.id}
+              communicatedId={communicated.id}
               owner={communicated.user.name}
               ownerAvatar={communicated.user.avatar_url}
               deadline={communicated.created_at}
               content={communicated.description}
               communicatedComments={communicated.commentsContents}
+              classId={match.params.id}
             />
           ))}
         </>

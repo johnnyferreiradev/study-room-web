@@ -8,10 +8,11 @@ import { getCurrentDateAndHourInApiFormat } from 'services/time';
 
 import { Button } from 'components/Buttons';
 import Comment from 'components/Comment';
+import Loading from 'components/Loading';
 
 import StyledComments from './styles';
 
-function Comments({ comments, onSend }) {
+function Comments({ comments, onSend, loading }) {
   const { userName, userAvatar } = getAuthData();
 
   const [newComment, setNewComment] = useState('');
@@ -21,7 +22,7 @@ function Comments({ comments, onSend }) {
       return;
     }
 
-    onSend([...comments, {
+    onSend({
       id: uniqueId(),
       comment: newComment,
       created_at: getCurrentDateAndHourInApiFormat(),
@@ -29,7 +30,7 @@ function Comments({ comments, onSend }) {
         avatar_url: userAvatar,
         name: userName,
       },
-    }]);
+    });
     setNewComment('');
   };
 
@@ -47,17 +48,23 @@ function Comments({ comments, onSend }) {
         <Comment key={comment.id} comment={comment} />
       ))}
 
-      <form>
-        <TextareaAutosize
-          maxLength="255"
-          placeholder="Adicione um comentário"
-          value={newComment}
-          onChange={(e) => handleNewComment(e)}
-        />
-        <Button theme="link" onClick={sendComment}>
-          <FaPaperPlane />
-        </Button>
-      </form>
+      {loading && (
+        <Loading type="bubbles" height={42} width={42} fluid color="#8CC8F3" />
+      )}
+
+      {!loading && (
+        <form>
+          <TextareaAutosize
+            maxLength="255"
+            placeholder="Adicione um comentário"
+            value={newComment}
+            onChange={(e) => handleNewComment(e)}
+          />
+          <Button theme="link" onClick={sendComment}>
+            <FaPaperPlane />
+          </Button>
+        </form>
+      )}
     </StyledComments>
   );
 }
