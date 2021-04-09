@@ -27,8 +27,8 @@ const StyledCommunicated = styled.div.attrs(() => ({
   }
 
   .content {
+    width: 100%;
     padding: 16px 0px;
-    font-size: 14px;
   }
 
   .footer {

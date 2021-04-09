@@ -19,15 +19,11 @@ function NewCommunicated({
   const [newCommunicated, setNewCommunicated] = useState('');
   const [inFocus, setInFocus] = useState(false);
 
-  // const handleNewCommunicated = (event) => {
-  //   setNewCommunicated(event.target.value);
-  // };
-
   const sendCommunicated = () => {
     setNewCommunicated('');
 
     onSend([{
-      id: uniqueId(),
+      id: `${uniqueId()}${Date.now()}`,
       user: {
         name: userName,
         avatar_url: userAvatar,
@@ -53,14 +49,6 @@ function NewCommunicated({
         </div>
       </div>
       <form>
-        {/* <TextareaAutosize
-          maxLength="255"
-          placeholder="Adicione um novo comunicado para a turma"
-          value={newCommunicated}
-          onChange={(e) => handleNewCommunicated(e)}
-          onFocus={() => setInFocus(true)}
-          // onBlur={() => handleOnBlur()}
-        /> */}
         {!inFocus && (
           <Button
             theme="link"
@@ -71,7 +59,10 @@ function NewCommunicated({
         )}
       </form>
 
-      <TextEditor onChange={setNewCommunicated} />
+      {inFocus && (
+        <TextEditor onChange={setNewCommunicated} value={newCommunicated} />
+      )}
+
       <div className="actions flex j-c-end a-i-center">
         <Button theme="secondary" className="mr-2" onClick={handleCancel}>
           Cancelar

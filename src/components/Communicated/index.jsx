@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -60,16 +61,18 @@ function Communicated({
           <ProfileIcon profileImage={ownerAvatar} />
           <div className="homework-info flex">
             <h3>{owner}</h3>
-            <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY')}</p>
+            <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY HH:mm')}</p>
           </div>
         </Column>
       </Row>
 
       <Row>
         <Column desktop="12" tablet="12" mobile="12" className="flex">
-          <p className="content txt-secondary">
-            {content}
-          </p>
+          <div className="content txt-secondary">
+            <div
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          </div>
         </Column>
       </Row>
 

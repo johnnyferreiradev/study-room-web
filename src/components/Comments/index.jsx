@@ -50,7 +50,7 @@ function Comments({
     }
 
     onSend({
-      id: uniqueId(),
+      id: `${uniqueId()}${Date.now()}`,
       comment: newComment,
       created_at: getCurrentDateAndHourInApiFormat(),
       user: {

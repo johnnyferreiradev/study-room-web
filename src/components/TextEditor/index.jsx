@@ -7,7 +7,7 @@ import StyledTextEditor from './styles';
 
 const lang = `${window.location.origin}/public/lang/pt_BR`;
 
-function TextEditor({ onChange }) {
+function TextEditor({ onChange, value }) {
   const handleEditorChange = (content) => {
     onChange(content);
   };
@@ -16,6 +16,7 @@ function TextEditor({ onChange }) {
     <StyledTextEditor>
       <Editor
         initialValue=""
+        value={value}
         apiKey={TINY_MCE_API_KEY}
         language="pt"
         init={{
@@ -29,7 +30,7 @@ function TextEditor({ onChange }) {
           ],
           language: 'pt_BR',
           language_url: { lang },
-          toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent lineheight | removeformat | help',
+          toolbar: 'undo redo | formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent lineheight | removeformat | help',
         }}
         onEditorChange={handleEditorChange}
       />
