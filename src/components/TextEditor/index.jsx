@@ -30,7 +30,7 @@ function TextEditor({ onChange, value }) {
           ],
           language: 'pt_BR',
           language_url: { lang },
-          toolbar: 'undo redo | formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent lineheight | removeformat | help',
+          toolbar: 'undo redo | formatselect | bold italic fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent lineheight | removeformat',
         }}
         onEditorChange={handleEditorChange}
       />
