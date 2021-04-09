@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-import { darkColor, tertiaryColor, quaternaryColor } from 'variables';
+import {
+  darkColor,
+  tertiaryColor,
+  quaternaryColor,
+  secondaryFontColor,
+} from 'variables';
 
 const StyledNewCommunicated = styled.div.attrs(() => ({
   className: 'new-communicated',
@@ -15,7 +20,7 @@ const StyledNewCommunicated = styled.div.attrs(() => ({
   }
 
   form {
-    display: flex;
+    display: ${({ inFocus }) => (!inFocus ? 'block' : 'none')} !important;
     border: 2px solid ${tertiaryColor};
     padding: 2px 0px;
 
@@ -35,12 +40,19 @@ const StyledNewCommunicated = styled.div.attrs(() => ({
     }
 
     button {
-      width: 30px;
-      padding: 4px;
-      font-size: 18px;
-      margin-right: 8px;
-      display: ${({ inFocus }) => (inFocus ? 'block' : 'none')} !important;
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      font-size: 14px;
+      color: ${secondaryFontColor};
+      text-transform: initial;
+      text-align: start;
+      font-weight: normal;
     }
+  }
+
+  .text-editor {
+    margin-bottom: 16px;
   }
 
   .profile-icon {

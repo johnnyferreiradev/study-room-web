@@ -6,7 +6,7 @@ import { getCommunications } from 'api/communicated';
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import EmptyMessage from 'components/EmptyMessage';
-// import NewCommunicated from 'components/NewCommunicated';
+import NewCommunicated from 'components/NewCommunicated';
 import Communicated from 'components/Communicated';
 import Loading from 'components/Loading';
 
@@ -46,10 +46,10 @@ function StudentClassPage({ match }) {
 
       {!loading && (
         <>
-          {/* <NewCommunicated
+          <NewCommunicated
             list={communications}
             onSend={setCommunications}
-          /> */}
+          />
 
           {communications.map((communicated) => (
             <Communicated

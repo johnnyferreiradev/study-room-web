@@ -18,7 +18,7 @@ const buttonThemes = {
   primary: {
     background: primaryColor,
     color: whiteColor,
-    border: 'none',
+    border: `2px solid ${primaryColor}`,
     hoverColor: secondaryColor,
     boxShadow: `0 2px 4px 0 ${primaryColor}55`,
   },
@@ -90,6 +90,7 @@ const StyledButton = styled.button`
   :hover {
     color: ${({ theme }) => (theme === 'link' ? buttonThemes[theme].hoverColor : buttonThemes[theme].color)};
     background: ${({ theme }) => (theme !== 'link' ? buttonThemes[theme].hoverColor : 'none')};
+    border-color: ${({ theme }) => (theme !== 'link' && theme !== 'secondary' ? buttonThemes[theme].hoverColor : 'none')};
     transition: all .2s;
   }
   :active {

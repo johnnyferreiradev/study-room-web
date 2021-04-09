@@ -2,6 +2,8 @@ import React from 'react';
 import { FaTrash } from 'react-icons/fa';
 import moment from 'moment';
 
+import { getAuthData } from 'services/auth';
+
 import ProfileIcon from 'components/ProfileIcon';
 import { Row, Column } from 'components/Grid';
 import SuspendedMenu from 'components/SuspendedMenu';
@@ -9,7 +11,9 @@ import { Button } from 'components/Buttons';
 
 import StyledComment from './styles';
 
-function Comment({ comment }) {
+function Comment({ comment, onDelete }) {
+  const { userId } = getAuthData();
+
   return (
     <StyledComment>
       <Row className="a-i-center">
@@ -26,12 +30,14 @@ function Comment({ comment }) {
         </Column>
 
         <Column desktop="1" tablet="1" mobile="1" className="flex a-i-center j-c-end">
-          <SuspendedMenu>
-            <Button theme="link" className="remove-comment">
-              <FaTrash />
-              Excluir
-            </Button>
-          </SuspendedMenu>
+          {userId === `${comment.user.id}` && (
+            <SuspendedMenu>
+              <Button theme="link" className="remove-comment" onClick={() => onDelete(comment.id)}>
+                <FaTrash />
+                Excluir
+              </Button>
+            </SuspendedMenu>
+          )}
         </Column>
       </Row>
 

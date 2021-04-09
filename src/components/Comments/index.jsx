@@ -19,13 +19,18 @@ function Comments({
   loading,
   placeholder,
 }) {
-  const { userName, userAvatar } = getAuthData();
+  const { userId, userName, userAvatar } = getAuthData();
 
   const [newComment, setNewComment] = useState('');
   const [commentListView, setCommentListView] = useState(
     comments.length > 0 ? [comments[comments.length - 1]] : [],
   );
   const [showAll, setShowAll] = useState(false);
+
+  const deleteComment = (commentId) => {
+    setCommentListView((lastCommentList) => lastCommentList
+      .filter((comment) => comment.id !== commentId));
+  };
 
   const toggleCommentsView = () => {
     setShowAll((lastStatus) => {
@@ -49,6 +54,7 @@ function Comments({
       comment: newComment,
       created_at: getCurrentDateAndHourInApiFormat(),
       user: {
+        id: userId,
         avatar_url: userAvatar,
         name: userName,
       },
@@ -95,7 +101,11 @@ function Comments({
       </Row>
 
       {commentListView.map((comment) => (
-        <Comment key={comment.id} comment={comment} />
+        <Comment
+          key={comment.id}
+          comment={comment}
+          onDelete={deleteComment}
+        />
       ))}
 
       {loading && (
