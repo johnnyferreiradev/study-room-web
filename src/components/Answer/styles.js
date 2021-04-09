@@ -35,6 +35,18 @@ const StyledAnswer = styled.div.attrs(() => ({
       top: -2px;
     }
   }
+
+  .comment {
+    .grid-row {
+      margin: 0px;
+      margin-bottom: 4px;
+      padding: 0px;
+
+      .content {
+        /* margin-left: 0px !important; */
+      }
+    }
+  }
 `;
 
 export default StyledAnswer;

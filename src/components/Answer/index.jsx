@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+
+import { storePrivateComment } from 'api/comments';
 
 import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
+import { getAuthData } from 'services/auth';
+
+import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Row, Column } from 'components/Grid';
 import Card from 'components/Card';
@@ -12,9 +18,43 @@ import AnswerMenu from 'components/AnswerMenu';
 
 import StyledAnswer from './styles';
 
-function Answer({ deadline }) {
+function Answer({
+  deadline,
+  privateComments,
+  classId,
+  homeworkId,
+}) {
+  const dispatch = useDispatch();
   const currentTime = getCurrentDateAndHourInApiFormat();
   const isArrear = checkArrear(currentTime, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
+  const { userId, userAvatar, userName } = getAuthData();
+
+  const [comments, setComments] = useState(privateComments || []);
+  const [loading, setLoading] = useState(false);
+
+  const addNewComment = (newComment) => {
+    setLoading(true);
+    storePrivateComment(classId, homeworkId, newComment.comment)
+      .then((response) => {
+        const comment = response.data;
+
+        setComments(() => [...comments, {
+          id: comment.id,
+          comment: comment.comment,
+          created_at: comment.created_at,
+          user: {
+            id: userId,
+            avatar_url: userAvatar,
+            name: userName,
+          },
+        }]);
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao adicionar um comentário. Tente novamente.', 'danger'));
+      }).finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <StyledAnswer>
@@ -49,9 +89,11 @@ function Answer({ deadline }) {
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
             <Comments
-              comments={[]}
-              onSend={() => {}}
+              comments={comments}
+              onSend={addNewComment}
               placeholder="Novo comentário para o professor"
+              loading={loading}
+              isPrivate
             />
           </Column>
         </Row>

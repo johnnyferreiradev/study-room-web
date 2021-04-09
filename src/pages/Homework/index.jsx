@@ -25,11 +25,12 @@ import StyledHomework from './styles';
 function Homework({ match }) {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { userAvatar, userName } = getAuthData();
+  const { userId, userAvatar, userName } = getAuthData();
 
   const currentTime = getCurrentDateAndHourInApiFormat();
 
   const [homeworkData, setHomeworkData] = useState(null);
+  const [commentsPrivate, setCommentsPrivate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [comments, setComments] = useState([]);
   const [loadingNewComment, setLoadingNewComment] = useState(false);
@@ -45,6 +46,7 @@ function Homework({ match }) {
           comment: comment.comment,
           created_at: comment.created_at,
           user: {
+            id: userId,
             avatar_url: userAvatar,
             name: userName,
           },
@@ -61,8 +63,9 @@ function Homework({ match }) {
     setLoading(true);
     getHomework(match.params.id, match.params.homeworkId)
       .then((response) => {
-        setHomeworkData(response.data);
-        setComments(response.data.commentsContents);
+        setHomeworkData(response.data.activity);
+        setCommentsPrivate(response.data.commentsPrivate);
+        setComments(response.data.activity.commentsContents);
       })
       .catch(({ response }) => {
         const [error] = response.data;
@@ -100,7 +103,7 @@ function Homework({ match }) {
                       <h3>{homeworkData.title}</h3>
                       <p className="txt-secondary">
                         <span>Por: </span>
-                        {homeworkData.user.name}
+                        {homeworkData.user && homeworkData.user.name}
                       </p>
                     </div>
                   </Column>
@@ -144,13 +147,19 @@ function Homework({ match }) {
                       comments={comments}
                       onSend={addNewCommunicated}
                       loading={loadingNewComment}
+                      setData={setHomeworkData}
                     />
                   </Column>
                 </Row>
               </Card>
             </Column>
             <Column desktop="4" tablet="4" mobile="4">
-              <Answer deadline={homeworkData.homework.dateLimit} />
+              <Answer
+                deadline={homeworkData.homework.dateLimit}
+                classId={match.params.id}
+                homeworkId={match.params.homeworkId}
+                privateComments={commentsPrivate}
+              />
             </Column>
           </>
         )}

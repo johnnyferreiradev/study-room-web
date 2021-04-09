@@ -19,6 +19,8 @@ const SuspendedMenu = styled.div.attrs(() => ({
     position: absolute;
     right: 0px;
     width: max-content;
+    min-width: 114px;
+    min-height: 50px;
     z-index: 1000;
     border: 1px solid ${primaryColor}55;
     transition: all .1s;
@@ -35,6 +37,10 @@ const SuspendedMenu = styled.div.attrs(() => ({
 
       &:hover {
         text-decoration: underline;
+      }
+
+      .loading {
+        left: calc(50% - 14px);
       }
     }
   }

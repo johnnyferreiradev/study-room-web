@@ -26,12 +26,12 @@ function Communicated({
   // deadline,
 }) {
   const dispatch = useDispatch();
-  const { userAvatar, userName } = getAuthData();
+  const { userId, userAvatar, userName } = getAuthData();
 
   const [comments, setComments] = useState(communicatedComments || []);
   const [loading, setLoading] = useState(false);
 
-  const addNewCommunicated = (newComment) => {
+  const addNewComment = (newComment) => {
     setLoading(true);
     storeComment(classId, communicatedId, newComment.comment)
       .then((response) => {
@@ -42,6 +42,7 @@ function Communicated({
           comment: comment.comment,
           created_at: comment.created_at,
           user: {
+            id: userId,
             avatar_url: userAvatar,
             name: userName,
           },
@@ -80,7 +81,7 @@ function Communicated({
         <Column desktop="12" tablet="12" mobile="12" className="flex j-c-between a-i-center mt-2 footer">
           <Comments
             comments={comments}
-            onSend={addNewCommunicated}
+            onSend={addNewComment}
             loading={loading}
           />
         </Column>
