@@ -89,7 +89,17 @@ function Answer({
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
             <Comments
-              comments={comments}
+              comments={comments.sort((a, b) => {
+                if (a.created_at > b.created_at) {
+                  return 1;
+                }
+
+                if (a.created_at < b.created_at) {
+                  return -1;
+                }
+
+                return 0;
+              })}
               onSend={addNewComment}
               placeholder="Novo comentário para o professor"
               loading={loading}
