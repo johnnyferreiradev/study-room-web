@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { primaryColor } from 'variables';
 
 const SuspendedMenu = styled.div.attrs(() => ({
-  classNames: 'suspended-menu',
+  className: 'suspended-menu',
 }))`
   position: relative;
   width: max-content;
@@ -12,6 +12,14 @@ const SuspendedMenu = styled.div.attrs(() => ({
     padding: 0px;
     font-size: 16px;
     width: 32px;
+  }
+
+  & > a {
+    padding: 0px;
+    font-size: 16px;
+    width: max-content;
+    height: max-content;
+    text-decoration: none;
   }
 
   .suspended-content {

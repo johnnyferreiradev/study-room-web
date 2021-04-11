@@ -57,6 +57,7 @@ const AnchorButton = ({
   style,
   href,
   underline = true,
+  onClick,
 }) => (
   <StyledAnchor
     href={href}
@@ -66,6 +67,7 @@ const AnchorButton = ({
     theme={theme}
     style={style}
     underline={underline}
+    onClick={onClick}
   >
     {children}
   </StyledAnchor>
