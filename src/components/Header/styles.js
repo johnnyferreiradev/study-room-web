@@ -14,6 +14,7 @@ const Header = styled.header`
   background-color: ${baseColor};
   color: ${primaryColor};
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+  max-height: 72px;
 
   .student-classes-link {
     margin-top: 4px;
