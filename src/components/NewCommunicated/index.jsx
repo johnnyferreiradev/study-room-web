@@ -60,7 +60,10 @@ function NewCommunicated({
       </form>
 
       {inFocus && (
-        <TextEditor onChange={setNewCommunicated} value={newCommunicated} />
+        <TextEditor
+          onChange={setNewCommunicated}
+          value={newCommunicated}
+        />
       )}
 
       <div className="actions flex j-c-end a-i-center">

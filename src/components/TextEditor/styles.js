@@ -4,6 +4,8 @@ const StyledTextEditor = styled.div.attrs(() => ({
   className: 'text-editor',
 }))`
   width: 100%;
+  display: flex;
+  flex-direction: column;
 
   & > div {
     border-radius: 4px;
@@ -25,6 +27,11 @@ const StyledTextEditor = styled.div.attrs(() => ({
 
   .tox-statusbar__branding {
     display: none;
+  }
+
+  .loading {
+    border: 0px;
+    margin-bottom: 100px;
   }
 `;
 

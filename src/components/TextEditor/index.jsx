@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
 import { TINY_MCE_API_KEY } from 'settings';
+
+import Loading from 'components/Loading';
 
 import StyledTextEditor from './styles';
 
 const lang = `${window.location.origin}/public/lang/pt_BR`;
 
 function TextEditor({ onChange, value }) {
+  const [loadingEditor, setLoadingEditor] = useState(true);
+
   const handleEditorChange = (content) => {
     onChange(content);
   };
@@ -33,7 +37,12 @@ function TextEditor({ onChange, value }) {
           toolbar: 'undo redo | formatselect | bold italic fontsizeselect forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent lineheight | removeformat',
         }}
         onEditorChange={handleEditorChange}
+        onLoadContent={() => setLoadingEditor(false)}
       />
+
+      {loadingEditor && (
+        <Loading type="bubbles" height={42} width={42} fluid color="#8CC8F3" />
+      )}
     </StyledTextEditor>
   );
 }
