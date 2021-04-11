@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
+import { FaPlus } from 'react-icons/fa';
 
 import { storePrivateComment, deletePrivateComment } from 'api/comments';
 
@@ -8,13 +9,16 @@ import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 import { getAuthData } from 'services/auth';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
+import showGlobalModal from 'store/actions/modal/showGlobalModal';
 
 import { Row, Column } from 'components/Grid';
 import Card from 'components/Card';
 import { Button } from 'components/Buttons';
 import MaterialList from 'components/MaterialList';
 import Comments from 'components/Comments';
-import AnswerMenu from 'components/AnswerMenu';
+import SuspendedMenu from 'components/SuspendedMenu';
+import Upload from 'components/Upload';
+import NewLink from 'components/NewLink';
 
 import StyledAnswer from './styles';
 
@@ -29,6 +33,7 @@ function Answer({
   const isArrear = checkArrear(currentTime, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
   const { userId, userAvatar, userName } = getAuthData();
 
+  // comments logic
   const [comments, setComments] = useState(privateComments || []);
   const [sendLoading, setSendLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -72,6 +77,21 @@ function Answer({
       });
   };
 
+  // upload logic
+  const newUpload = () => {
+    dispatch(showGlobalModal(
+      <Upload />,
+      true,
+    ));
+  };
+
+  const newLink = () => {
+    dispatch(showGlobalModal(
+      <NewLink />,
+      false,
+    ));
+  };
+
   return (
     <StyledAnswer>
       <Card>
@@ -92,7 +112,17 @@ function Answer({
         </Row>
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
-            <AnswerMenu />
+            <SuspendedMenu
+              openButton={(
+                <Button theme="secondary" className="add-button" fluid>
+                  <FaPlus />
+                  Adicionar
+                </Button>
+              )}
+            >
+              <Button theme="link" onClick={newUpload}>Arquivo</Button>
+              <Button theme="link" onClick={newLink}>Link</Button>
+            </SuspendedMenu>
           </Column>
         </Row>
         <Row>

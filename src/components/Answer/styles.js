@@ -22,17 +22,26 @@ const StyledAnswer = styled.div.attrs(() => ({
     margin-right: 0px;
   }
 
-  .add-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 42px;
+  .suspended-menu {
+    width: 100%;
 
-    svg {
-      font-size: 16px;
-      margin-right: 4px;
-      position: relative;
-      top: -2px;
+    .suspended-content {
+      width: 100%;
+    }
+
+    .add-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 42px;
+
+      svg {
+        font-size: 16px;
+        margin-right: 4px;
+        position: relative;
+        top: -2px;
+      }
     }
   }
 
