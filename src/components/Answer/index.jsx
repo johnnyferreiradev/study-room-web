@@ -4,6 +4,10 @@ import { useDispatch } from 'react-redux';
 import { FaPlus } from 'react-icons/fa';
 
 import { storePrivateComment, deletePrivateComment } from 'api/comments';
+import { uploadFile } from 'api/uploads';
+
+import store from 'store';
+import setFileList from 'store/actions/files/setFileList';
 
 import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 import { getAuthData } from 'services/auth';
@@ -33,7 +37,7 @@ function Answer({
   const isArrear = checkArrear(currentTime, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
   const { userId, userAvatar, userName } = getAuthData();
 
-  // comments logic
+  // Comments logic
   const [comments, setComments] = useState(privateComments || []);
   const [sendLoading, setSendLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -77,10 +81,57 @@ function Answer({
       });
   };
 
-  // upload logic
+  // Upload logic
+  const [uploadedFiles, setUploadedFiles] = useState([]);
+  // const [fileList, setFileList] = useState([]);
+
+  const updateFile = (fileId, data) => {
+    dispatch(setFileList(
+      store
+        .getState()
+        .files
+        .fileList
+        .map((file) => (fileId === file.id ? { ...file, ...data } : file)),
+    ));
+  };
+
+  const processUpload = (file) => {
+    const data = new FormData();
+    data.append('avatar', file);
+
+    uploadFile(data, file.id, updateFile)
+      .then(() => {
+        setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
+        updateFile(file.id, {
+          done: true,
+        });
+      })
+      .catch((error) => {
+        console.log('Erro na requisição: ', error);
+      }).finally(() => {
+        console.log('Fim da requisição');
+      });
+  };
+
+  const removeUploadedFile = (fileId) => {
+    dispatch(setFileList(
+      store
+        .getState()
+        .files
+        .fileList
+        .filter((file) => fileId !== file.id),
+    ));
+
+    setUploadedFiles((lastUploadedFiles) => lastUploadedFiles
+      .filter((file) => file.id !== fileId));
+  };
+
   const newUpload = () => {
     dispatch(showGlobalModal(
-      <Upload />,
+      <Upload
+        onProcess={processUpload}
+        onRemove={removeUploadedFile}
+      />,
       true,
     ));
   };
@@ -91,6 +142,8 @@ function Answer({
       false,
     ));
   };
+
+  // Link logic
 
   return (
     <StyledAnswer>
@@ -107,7 +160,10 @@ function Answer({
         </Row>
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
-            <MaterialList />
+            <MaterialList
+              materials={uploadedFiles}
+              onRemove={removeUploadedFile}
+            />
           </Column>
         </Row>
         <Row>

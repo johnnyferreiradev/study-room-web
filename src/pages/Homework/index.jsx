@@ -155,7 +155,7 @@ function Homework({ match }) {
                 </Row>
                 <Row>
                   <Column desktop="12" tablet="12" mobile="12" className="flex">
-                    <MaterialList />
+                    <MaterialList materials={[]} />
                   </Column>
                 </Row>
                 <Row>

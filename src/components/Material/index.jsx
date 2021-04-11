@@ -1,9 +1,16 @@
 import React from 'react';
-import { FaFile, FaGlobe } from 'react-icons/fa';
+import { FaFile, FaGlobe, FaTimes } from 'react-icons/fa';
+
+import { Button } from 'components/Buttons';
 
 import StyledMaterial from './styles';
 
-function Material({ type, title }) {
+function Material({
+  id,
+  type,
+  title,
+  onRemove,
+}) {
   return (
     <StyledMaterial>
       <div className="preview">
@@ -19,6 +26,9 @@ function Material({ type, title }) {
         <h3>{title}</h3>
         <p className="txt-secondary">{type}</p>
       </div>
+      <Button theme="link" onClick={() => onRemove(id)}>
+        <FaTimes />
+      </Button>
     </StyledMaterial>
   );
 }

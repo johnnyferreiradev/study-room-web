@@ -17,10 +17,10 @@ import { Button } from 'components/Buttons';
 import StyledUploadedFile from './styles';
 
 function UploadedFile({
-  fileName,
+  file,
   type,
   typeLabel,
-  done,
+  onRemove,
 }) {
   return (
     <StyledUploadedFile>
@@ -52,32 +52,32 @@ function UploadedFile({
             )}
           </div>
           <div className="uploaded-file-info">
-            <h3>{fileName}</h3>
+            <h3>{file.name}</h3>
             <p className="txt-secondary">{typeLabel}</p>
           </div>
         </Column>
         <Column desktop="5" tablet="5" mobile="5">
-          {!done && (
+          {!file.done && (
             <div className="progressbar-area p-2">
-              <Progress completed={50} className="progressbar" />
+              <Progress completed={file.progress} className="progressbar" />
             </div>
           )}
         </Column>
         <Column desktop="3" tablet="3" mobile="3" className="flex a-i-center j-c-center p-2">
-          {done && (
+          {file.done && (
             <>
               <p className="txt-success success">
                 <FaCheck />
                 Pronto
               </p>
-              <Button theme="link" className="danger">
+              <Button theme="link" className="danger" onClick={() => onRemove(file.id)}>
                 <FaTrashAlt />
                 Remover
               </Button>
             </>
           )}
 
-          {!done && (
+          {!file.done && (
             <Button theme="link" className="danger">
               <FaTimes />
               Cancelar

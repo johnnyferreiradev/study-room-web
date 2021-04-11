@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
+import { uniqueId } from 'lodash';
+import { useSelector, useDispatch } from 'react-redux';
+
+import store from 'store';
+import setFileList from 'store/actions/files/setFileList';
 
 import { Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
@@ -7,18 +12,25 @@ import UploadedFileList from 'components/UploadedFileList';
 
 import StyledUpload from './styles';
 
-function Upload() {
-  const [fileList, setFileList] = useState([]);
+function Upload({
+  onProcess,
+  onRemove,
+}) {
+  const dispatch = useDispatch();
+  const { fileList } = useSelector((state) => state.files);
 
   const handleUploadedFiles = (acceptedFiles) => {
     acceptedFiles.forEach((file) => {
+      file.id = `${uniqueId()}${Date.now()}`;
       file.progress = 0;
       file.done = false;
       file.canceled = false;
       file.error = false;
 
-      setFileList([file, ...fileList]);
-      // processUpload(file);
+      const lastFileList = store.getState().files.fileList;
+
+      dispatch(setFileList([file, ...lastFileList]));
+      onProcess(file);
     });
   };
 
@@ -49,7 +61,7 @@ function Upload() {
       </Row>
       <Row>
         <Column desktop="12" tablet="12" mobile="12">
-          <UploadedFileList fileList={fileList} />
+          <UploadedFileList fileList={fileList} onRemove={onRemove} />
         </Column>
       </Row>
       <Row className="j-c-end">
