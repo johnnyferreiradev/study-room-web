@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   tertiaryColor,
   primaryColor,
-  dangerColor,
+  // dangerColor,
 } from 'variables';
 
 const StyledUploadedFile = styled.div.attrs(() => ({
@@ -34,6 +34,10 @@ const StyledUploadedFile = styled.div.attrs(() => ({
 
     h3 {
       font-size: 16px;
+      max-width: 17ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
@@ -55,7 +59,7 @@ const StyledUploadedFile = styled.div.attrs(() => ({
     display: flex;
     align-items: center;
     margin-right: 16px;
-    font-size: 14px;
+    font-size: 12px;
     svg {
       margin-right: 4px;
       position: relative;
@@ -68,7 +72,7 @@ const StyledUploadedFile = styled.div.attrs(() => ({
     display: flex;
     align-items: center;
     text-transform: capitalize;
-    color: ${dangerColor};
+    color: ${primaryColor};
 
     &:hover {
       text-decoration: underline;

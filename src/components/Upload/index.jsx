@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 
 import { Row, Column } from 'components/Grid';
@@ -8,8 +8,18 @@ import UploadedFileList from 'components/UploadedFileList';
 import StyledUpload from './styles';
 
 function Upload() {
-  const handleUploadedFiles = () => {
+  const [fileList, setFileList] = useState([]);
 
+  const handleUploadedFiles = (acceptedFiles) => {
+    acceptedFiles.forEach((file) => {
+      file.progress = 0;
+      file.done = false;
+      file.canceled = false;
+      file.error = false;
+
+      setFileList([file, ...fileList]);
+      // processUpload(file);
+    });
   };
 
   return (
@@ -39,7 +49,7 @@ function Upload() {
       </Row>
       <Row>
         <Column desktop="12" tablet="12" mobile="12">
-          <UploadedFileList />
+          <UploadedFileList fileList={fileList} />
         </Column>
       </Row>
       <Row className="j-c-end">

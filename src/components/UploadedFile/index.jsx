@@ -1,10 +1,13 @@
 import React from 'react';
 import {
   FaFile,
-  FaGlobe,
   FaCheck,
   FaTrashAlt,
   FaTimes,
+  FaFileAlt,
+  FaFileVideo,
+  FaFileImage,
+  FaFileAudio,
 } from 'react-icons/fa';
 import Progress from 'react-progressbar';
 
@@ -13,23 +16,44 @@ import { Button } from 'components/Buttons';
 
 import StyledUploadedFile from './styles';
 
-function UploadedFile({ type, done }) {
+function UploadedFile({
+  fileName,
+  type,
+  typeLabel,
+  done,
+}) {
   return (
     <StyledUploadedFile>
       <Row className="a-i-center">
         <Column desktop="4" tablet="4" mobile="4" className="flex a-i-center">
           <div className="preview">
-            {type === 'file' && (
+            {type === 'application' && (
               <FaFile />
             )}
 
-            {type === 'link' && (
-              <FaGlobe />
+            {type === 'video' && (
+              <FaFileVideo />
+            )}
+
+            {type === 'text' && (
+              <FaFileAlt />
+            )}
+
+            {type === 'image' && (
+              <FaFileImage />
+            )}
+
+            {type === 'audio' && (
+              <FaFileAudio />
+            )}
+
+            {type === 'file' && (
+              <FaFile />
             )}
           </div>
           <div className="uploaded-file-info">
-            <h3>Name</h3>
-            <p className="txt-secondary">Tipo ou link</p>
+            <h3>{fileName}</h3>
+            <p className="txt-secondary">{typeLabel}</p>
           </div>
         </Column>
         <Column desktop="5" tablet="5" mobile="5">

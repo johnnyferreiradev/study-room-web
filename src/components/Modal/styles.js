@@ -13,6 +13,7 @@ const ModalContainer = styled.div`
   padding-top: 80px;
   top: 0px;
   left: 0px;
+  overflow-y: scroll;
 
   display: flex;
   flex-direction: column;
@@ -25,6 +26,7 @@ const ModalContent = styled.div`
   width: 100%;
   max-width: ${({ large }) => (large ? '778px' : '480px')};
   transition: all .5s;
+  margin-bottom: 32px;
 `;
 
 const ModalHeader = styled.div`
