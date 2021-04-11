@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 
-import { storePrivateComment } from 'api/comments';
+import { storePrivateComment, deletePrivateComment } from 'api/comments';
 
 import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 import { getAuthData } from 'services/auth';
@@ -30,10 +30,11 @@ function Answer({
   const { userId, userAvatar, userName } = getAuthData();
 
   const [comments, setComments] = useState(privateComments || []);
-  const [loading, setLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const addNewComment = (newComment) => {
-    setLoading(true);
+    setSendLoading(true);
     storePrivateComment(classId, homeworkId, newComment.comment)
       .then((response) => {
         const comment = response.data;
@@ -52,7 +53,22 @@ function Answer({
       .catch(() => {
         dispatch(showSnackbar('Ocorreu um erro ao adicionar um comentário. Tente novamente.', 'danger'));
       }).finally(() => {
-        setLoading(false);
+        setSendLoading(false);
+      });
+  };
+
+  const removePrivateComment = (commentId) => {
+    setDeleteLoading(true);
+    deletePrivateComment(commentId)
+      .then(() => {
+        setComments((lastComments) => lastComments
+          .filter((comment) => comment.id !== commentId));
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao remover o comentário. Tente novamente', 'danger'));
+      })
+      .finally(() => {
+        setDeleteLoading(false);
       });
   };
 
@@ -100,10 +116,11 @@ function Answer({
 
                 return 0;
               })}
-              onSend={addNewComment}
               placeholder="Novo comentário para o professor"
-              loading={loading}
-              isPrivate
+              onSend={addNewComment}
+              onDelete={removePrivateComment}
+              sendLoading={sendLoading}
+              deleteLoading={deleteLoading}
             />
           </Column>
         </Row>

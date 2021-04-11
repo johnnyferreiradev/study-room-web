@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 
-import { storeComment } from 'api/comments';
+import { storeComment, deleteComment } from 'api/comments';
 
 import { getAuthData } from 'services/auth';
 
@@ -29,10 +29,11 @@ function Communicated({
   const { userId, userAvatar, userName } = getAuthData();
 
   const [comments, setComments] = useState(communicatedComments || []);
-  const [loading, setLoading] = useState(false);
+  const [sendLoading, setSendLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const addNewComment = (newComment) => {
-    setLoading(true);
+    setSendLoading(true);
     storeComment(classId, communicatedId, newComment.comment)
       .then((response) => {
         const comment = response.data;
@@ -51,7 +52,22 @@ function Communicated({
       .catch(() => {
         dispatch(showSnackbar('Ocorreu um erro ao adicionar um comentário. Tente novamente.', 'danger'));
       }).finally(() => {
-        setLoading(false);
+        setSendLoading(false);
+      });
+  };
+
+  const removeComment = (commentId) => {
+    setDeleteLoading(true);
+    deleteComment(commentId)
+      .then(() => {
+        setComments((lastComments) => lastComments
+          .filter((comment) => comment.id !== commentId));
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao remover o comentário. Tente novamente', 'danger'));
+      })
+      .finally(() => {
+        setDeleteLoading(false);
       });
   };
 
@@ -82,7 +98,9 @@ function Communicated({
           <Comments
             comments={comments}
             onSend={addNewComment}
-            loading={loading}
+            onDelete={removeComment}
+            sendLoading={sendLoading}
+            deleteLoading={deleteLoading}
           />
         </Column>
       </Row>

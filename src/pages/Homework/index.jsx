@@ -5,7 +5,7 @@ import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 
 import { getHomework } from 'api/homeworks';
-import { storeComment } from 'api/comments';
+import { storeComment, deleteComment } from 'api/comments';
 
 import { getAuthData } from 'services/auth';
 import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
@@ -32,8 +32,10 @@ function Homework({ match }) {
   const [homeworkData, setHomeworkData] = useState(null);
   const [commentsPrivate, setCommentsPrivate] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [comments, setComments] = useState([]);
   const [loadingNewComment, setLoadingNewComment] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const addNewCommunicated = (newComment) => {
     setLoadingNewComment(true);
@@ -56,6 +58,21 @@ function Homework({ match }) {
         dispatch(showSnackbar('Ocorreu um erro ao adicionar um comentário. Tente novamente.', 'danger'));
       }).finally(() => {
         setLoadingNewComment(false);
+      });
+  };
+
+  const removeComment = (commentId) => {
+    setDeleteLoading(true);
+    deleteComment(commentId)
+      .then(() => {
+        setComments((lastComments) => lastComments
+          .filter((comment) => comment.id !== commentId));
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao remover o comentário. Tente novamente', 'danger'));
+      })
+      .finally(() => {
+        setDeleteLoading(false);
       });
   };
 
@@ -146,8 +163,9 @@ function Homework({ match }) {
                     <Comments
                       comments={comments}
                       onSend={addNewCommunicated}
-                      loading={loadingNewComment}
-                      setData={setHomeworkData}
+                      onDelete={removeComment}
+                      sendLoading={loadingNewComment}
+                      deleteLoading={deleteLoading}
                     />
                   </Column>
                 </Row>
