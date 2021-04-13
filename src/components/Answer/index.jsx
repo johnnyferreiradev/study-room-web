@@ -97,7 +97,12 @@ function Answer({
         .getState()
         .upload
         .fileList
-        .map((file) => (fileId === file.id ? { ...file, ...data } : file)),
+        .map((file) => (fileId === file.id ? {
+          ...file,
+          name: file.name,
+          type: file.type,
+          ...data,
+        } : file)),
     ));
   };
 
@@ -139,8 +144,6 @@ function Answer({
         updateFile(file.id, {
           error: true,
         });
-      }).finally(() => {
-        console.log('Fim da requisição');
       });
   };
 
@@ -152,10 +155,10 @@ function Answer({
       .filter((item) => item.fileId === fileId);
 
     cancellationItem.cancel();
-    // removeUploadedFile(fileId);
   };
 
   const newUpload = () => {
+    dispatch(setFileList([]));
     dispatch(showGlobalModal(
       <Upload
         onProcess={processUpload}

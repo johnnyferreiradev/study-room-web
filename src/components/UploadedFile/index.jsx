@@ -24,7 +24,7 @@ function UploadedFile({
   onCancel,
 }) {
   return (
-    <StyledUploadedFile>
+    <StyledUploadedFile error={file.error}>
       <Row className="a-i-center">
         <Column desktop="4" tablet="4" mobile="4" className="flex a-i-center">
           <div className="preview">
@@ -58,7 +58,7 @@ function UploadedFile({
           </div>
         </Column>
         <Column desktop="5" tablet="5" mobile="5">
-          {!file.done && (
+          {!file.done && !file.error && (
             <div className="progressbar-area p-2">
               <Progress completed={file.progress} className="progressbar" />
             </div>
@@ -78,11 +78,15 @@ function UploadedFile({
             </>
           )}
 
-          {!file.done && (
+          {!file.done && !file.error && (
             <Button theme="link" className="danger" onClick={() => onCancel(file.id)}>
               <FaTimes />
               Cancelar
             </Button>
+          )}
+
+          {file.error && (
+            <p className="txt-danger">Falha no envio</p>
           )}
         </Column>
       </Row>

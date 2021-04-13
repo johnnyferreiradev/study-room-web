@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import store from 'store';
 import setFileList from 'store/actions/upload/setFileList';
+import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 
 import { Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
@@ -71,7 +72,7 @@ function Upload({
         </Column>
       </Row>
       <Row className="j-c-end">
-        <Button theme="primary">
+        <Button theme="primary" onClick={() => dispatch(hideGlobalModal())}>
           Concluir
         </Button>
       </Row>

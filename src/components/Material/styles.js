@@ -32,10 +32,22 @@ const StyledMaterial = styled.div.attrs(() => ({
 
   .material-info {
     padding-left: 16px;
+    margin-right: 8px;
+    width: 100%;
+    max-width: 180px;
 
     h3 {
       font-size: 16px;
+      max-width: 17ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+  }
+
+  & > button {
+    padding: 8px;
+    font-size: 20px;
   }
 `;
 

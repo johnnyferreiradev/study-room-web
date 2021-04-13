@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {
   tertiaryColor,
   primaryColor,
-  // dangerColor,
+  dangerColor,
 } from 'variables';
 
 const StyledUploadedFile = styled.div.attrs(() => ({
@@ -13,7 +13,7 @@ const StyledUploadedFile = styled.div.attrs(() => ({
   display: flex;
   align-items: center;
   margin-bottom: 16px;
-  border: 1px solid ${tertiaryColor};
+  border: 1px solid ${({ error }) => (!error ? tertiaryColor : dangerColor)};
   border-radius: 4px;
 
   .preview {
@@ -84,6 +84,14 @@ const StyledUploadedFile = styled.div.attrs(() => ({
       top: -1px;
       font-size: 16px;
     }
+  }
+
+  .txt-danger {
+    font-size: 12px;
+  }
+
+  .preview {
+    background: ${({ error }) => (!error ? primaryColor : dangerColor)};
   }
 `;
 
