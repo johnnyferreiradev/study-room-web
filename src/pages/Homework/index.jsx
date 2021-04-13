@@ -122,6 +122,7 @@ function Homework({ match }) {
                         <span>Por: </span>
                         {homeworkData.user && homeworkData.user.name}
                       </p>
+                      <p className="txt-primary">{moment(homeworkData.created_at).format('DD/MM/YYYY HH:mm')}</p>
                     </div>
                   </Column>
                 </Row>

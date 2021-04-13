@@ -42,6 +42,7 @@ function ChangeProfileAvatar() {
         dispatch(setProfileImage(response.data.avatar_url));
         dispatch(showSnackbar('Imagem de perfil atualizada com sucesso', 'success'));
         dispatch(hideGlobalModal());
+        window.location.reload();
       })
       .catch(() => {
         dispatch(showSnackbar('Ocorreu um erro ao atualizar a imagem de perfil', 'danger'));
