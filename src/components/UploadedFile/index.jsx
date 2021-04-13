@@ -21,6 +21,7 @@ function UploadedFile({
   type,
   typeLabel,
   onRemove,
+  onCancel,
 }) {
   return (
     <StyledUploadedFile>
@@ -78,7 +79,7 @@ function UploadedFile({
           )}
 
           {!file.done && (
-            <Button theme="link" className="danger">
+            <Button theme="link" className="danger" onClick={() => onCancel(file.id)}>
               <FaTimes />
               Cancelar
             </Button>

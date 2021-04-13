@@ -1,6 +1,7 @@
+import { CancelToken } from 'axios';
 import api from './api';
 
-export const uploadFile = (data, fileId, onUpdateFile = () => {}) => api.put('/user', data, {
+export const uploadFile = (data, fileId, onUpdateFile = () => {}, onCancelList = () => {}) => api.put('/user', data, {
   headers: {
     'Content-Type': 'multipart/form-data',
   },
@@ -10,6 +11,9 @@ export const uploadFile = (data, fileId, onUpdateFile = () => {}) => api.put('/u
       progress,
     });
   },
+  cancelToken: new CancelToken((c) => {
+    onCancelList({ cancel: c, fileId });
+  }),
 });
 
 export default uploadFile;

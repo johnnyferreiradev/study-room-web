@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { FaPlus } from 'react-icons/fa';
+import axios from 'axios';
 
 import { storePrivateComment, deletePrivateComment } from 'api/comments';
 import { uploadFile } from 'api/uploads';
 
 import store from 'store';
-import setFileList from 'store/actions/files/setFileList';
+import setFileList from 'store/actions/upload/setFileList';
+import setCancellationList from 'store/actions/upload/setCancellationList';
 
 import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 import { getAuthData } from 'services/auth';
@@ -83,41 +85,27 @@ function Answer({
 
   // Upload logic
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  // const [fileList, setFileList] = useState([]);
+
+  const addCancellationItem = (cancellationItem) => {
+    const lastCancellationList = store.getState().upload.cancellationList;
+    dispatch(setCancellationList([...lastCancellationList, cancellationItem]));
+  };
 
   const updateFile = (fileId, data) => {
     dispatch(setFileList(
       store
         .getState()
-        .files
+        .upload
         .fileList
         .map((file) => (fileId === file.id ? { ...file, ...data } : file)),
     ));
-  };
-
-  const processUpload = (file) => {
-    const data = new FormData();
-    data.append('avatar', file);
-
-    uploadFile(data, file.id, updateFile)
-      .then(() => {
-        setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
-        updateFile(file.id, {
-          done: true,
-        });
-      })
-      .catch((error) => {
-        console.log('Erro na requisição: ', error);
-      }).finally(() => {
-        console.log('Fim da requisição');
-      });
   };
 
   const removeUploadedFile = (fileId) => {
     dispatch(setFileList(
       store
         .getState()
-        .files
+        .upload
         .fileList
         .filter((file) => fileId !== file.id),
     ));
@@ -126,11 +114,53 @@ function Answer({
       .filter((file) => file.id !== fileId));
   };
 
+  const processUpload = (file) => {
+    const data = new FormData();
+    data.append('avatar', file);
+
+    uploadFile(data, file.id, updateFile, addCancellationItem)
+      .then(() => {
+        setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
+        updateFile(file.id, {
+          done: true,
+        });
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          updateFile(file.id, {
+            error: true,
+            canceled: true,
+          });
+
+          removeUploadedFile(file.id);
+          return;
+        }
+
+        updateFile(file.id, {
+          error: true,
+        });
+      }).finally(() => {
+        console.log('Fim da requisição');
+      });
+  };
+
+  const cancelUpload = (fileId) => {
+    const [cancellationItem] = store
+      .getState()
+      .upload
+      .cancellationList
+      .filter((item) => item.fileId === fileId);
+
+    cancellationItem.cancel();
+    // removeUploadedFile(fileId);
+  };
+
   const newUpload = () => {
     dispatch(showGlobalModal(
       <Upload
         onProcess={processUpload}
         onRemove={removeUploadedFile}
+        onCancel={cancelUpload}
       />,
       true,
     ));
