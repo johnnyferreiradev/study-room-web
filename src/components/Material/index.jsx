@@ -1,5 +1,13 @@
 import React from 'react';
-import { FaFile, FaGlobe, FaTimes } from 'react-icons/fa';
+import {
+  FaFile,
+  FaGlobe,
+  FaTimes,
+  FaFileAlt,
+  FaFileVideo,
+  FaFileImage,
+  FaFileAudio,
+} from 'react-icons/fa';
 
 import { Button } from 'components/Buttons';
 
@@ -8,12 +16,33 @@ import StyledMaterial from './styles';
 function Material({
   id,
   type,
-  title,
+  typeLabel,
+  material,
   onRemove,
 }) {
   return (
     <StyledMaterial>
       <div className="preview">
+        {type === 'application' && (
+          <FaFile />
+        )}
+
+        {type === 'video' && (
+          <FaFileVideo />
+        )}
+
+        {type === 'text' && (
+          <FaFileAlt />
+        )}
+
+        {type === 'image' && (
+          <FaFileImage />
+        )}
+
+        {type === 'audio' && (
+          <FaFileAudio />
+        )}
+
         {type === 'file' && (
           <FaFile />
         )}
@@ -23,8 +52,8 @@ function Material({
         )}
       </div>
       <div className="material-info">
-        <h3>{title}</h3>
-        <p className="txt-secondary">{type}</p>
+        <h3>{material.name}</h3>
+        <p className="txt-secondary">{typeLabel}</p>
       </div>
       <Button theme="link" onClick={() => onRemove(id)}>
         <FaTimes />

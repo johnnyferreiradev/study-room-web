@@ -4,7 +4,8 @@ import { uniqueId } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 
 import store from 'store';
-import setFileList from 'store/actions/files/setFileList';
+import setFileList from 'store/actions/upload/setFileList';
+import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 
 import { Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
@@ -15,9 +16,10 @@ import StyledUpload from './styles';
 function Upload({
   onProcess,
   onRemove,
+  onCancel,
 }) {
   const dispatch = useDispatch();
-  const { fileList } = useSelector((state) => state.files);
+  const { fileList, cancellationList } = useSelector((state) => state.upload);
 
   const handleUploadedFiles = (acceptedFiles) => {
     acceptedFiles.forEach((file) => {
@@ -27,7 +29,7 @@ function Upload({
       file.canceled = false;
       file.error = false;
 
-      const lastFileList = store.getState().files.fileList;
+      const lastFileList = store.getState().upload.fileList;
 
       dispatch(setFileList([file, ...lastFileList]));
       onProcess(file);
@@ -61,11 +63,16 @@ function Upload({
       </Row>
       <Row>
         <Column desktop="12" tablet="12" mobile="12">
-          <UploadedFileList fileList={fileList} onRemove={onRemove} />
+          <UploadedFileList
+            fileList={fileList}
+            cancellationList={cancellationList}
+            onRemove={onRemove}
+            onCancel={onCancel}
+          />
         </Column>
       </Row>
       <Row className="j-c-end">
-        <Button theme="primary">
+        <Button theme="primary" onClick={() => dispatch(hideGlobalModal())}>
           Concluir
         </Button>
       </Row>
