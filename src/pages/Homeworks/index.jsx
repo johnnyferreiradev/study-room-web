@@ -53,6 +53,7 @@ function Homeworks({ match }) {
               owner={homework.user.name}
               deadline={homework.homework.dateLimit}
               classId={match.params.id}
+              createdAt={homework.created_at}
             />
           ))}
         </>

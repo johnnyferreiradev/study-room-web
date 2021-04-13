@@ -31,7 +31,7 @@ function MaterialCard({
               <span>Por: </span>
               {owner}
             </p>
-            <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY')}</p>
+            <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY HH:mm')}</p>
           </div>
         </Column>
       </Row>

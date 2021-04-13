@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getCommunications } from 'api/communicated';
+import { getCommunications, createCommunicated } from 'api/communicated';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
@@ -17,6 +17,33 @@ function StudentClassPage({ match }) {
 
   const [communications, setCommunications] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingNewCommunicated, setLoadingNewCommunicated] = useState(false);
+  const [inFocus, setInFocus] = useState(false);
+
+  const addNewCommunicated = (communicated) => {
+    if (communicated.description === '') {
+      dispatch(showSnackbar('A descrição do comunicado não pode ser vazia', 'danger'));
+      return;
+    }
+
+    setLoadingNewCommunicated(true);
+    createCommunicated(match.params.id, {
+      title: 'Comunicado',
+      description: communicated.description,
+    })
+      .then((response) => {
+        communicated.id = response.data.id;
+
+        setCommunications((lastCommunications) => [communicated, ...lastCommunications]);
+        setInFocus(false);
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao publicar o comunicado', 'danger'));
+      })
+      .finally(() => {
+        setLoadingNewCommunicated(false);
+      });
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -47,8 +74,10 @@ function StudentClassPage({ match }) {
       {!loading && (
         <>
           <NewCommunicated
-            list={communications}
-            onSend={setCommunications}
+            onSend={addNewCommunicated}
+            sendLoading={loadingNewCommunicated}
+            inFocus={inFocus}
+            setInFocus={setInFocus}
           />
 
           {communications.map((communicated) => (

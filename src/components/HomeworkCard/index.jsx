@@ -18,6 +18,7 @@ function HomeworkCard({
   owner,
   deadline,
   classId,
+  createdAt,
 }) {
   const history = useHistory();
 
@@ -39,6 +40,7 @@ function HomeworkCard({
               <span>Por: </span>
               {owner}
             </p>
+            <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY HH:mm')}</p>
           </div>
         </Column>
 
