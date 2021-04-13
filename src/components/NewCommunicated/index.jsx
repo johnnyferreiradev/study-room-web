@@ -165,6 +165,7 @@ function NewCommunicated({
         <TextEditor
           onChange={setNewCommunicated}
           value={newCommunicated}
+          disabled={sendLoading}
         />
       )}
 
@@ -173,20 +174,23 @@ function NewCommunicated({
         onRemove={removeUploadedFile}
       />
 
-      <div className="actions flex j-c-end a-i-center">
-        <Button theme="secondary" className="mr-2" onClick={handleCancel}>
-          Cancelar
-        </Button>
-
-        {!sendLoading ? (
+      {!sendLoading && (
+        <div className="actions flex j-c-end a-i-center">
+          <Button theme="secondary" className="mr-2" onClick={handleCancel}>
+            Cancelar
+          </Button>
           <Button theme="primary" onClick={sendCommunicated}>
             <FaPaperPlane className="mr-1" />
             Publicar
           </Button>
-        ) : (
+        </div>
+      )}
+
+      {sendLoading && (
+        <div className="actions flex j-c-center a-i-center">
           <Loading type="bubbles" height={32} width={32} color="#8CC8F3" />
-        )}
-      </div>
+        </div>
+      )}
     </StyledNewCommunicated>
   );
 }

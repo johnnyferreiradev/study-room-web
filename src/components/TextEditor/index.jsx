@@ -9,7 +9,7 @@ import StyledTextEditor from './styles';
 
 const lang = `${window.location.origin}/public/lang/pt_BR`;
 
-function TextEditor({ onChange, value }) {
+function TextEditor({ onChange, value, disabled }) {
   const [loadingEditor, setLoadingEditor] = useState(true);
 
   const handleEditorChange = (content) => {
@@ -23,6 +23,7 @@ function TextEditor({ onChange, value }) {
         value={value}
         apiKey={TINY_MCE_API_KEY}
         language="pt"
+        disabled={disabled}
         init={{
           width: '100%',
           height: 200,
