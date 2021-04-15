@@ -43,6 +43,29 @@ const StyledCommunicated = styled.div.attrs(() => ({
       padding: 0px;
     }
   }
+
+  .suspended-menu {
+    & > button {
+      position: relative;
+      right: -16px;
+    }
+
+    .suspended-content {
+      button {
+        padding: 0px !important;
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-right: 4px;
+        }
+      }
+
+      .button-loading {
+        top: 10px;
+      }
+    }
+  }
 `;
 
 export default StyledCommunicated;

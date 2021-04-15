@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import { FaTrash } from 'react-icons/fa';
 
 import { storeComment, deleteComment } from 'api/comments';
 
@@ -14,26 +15,32 @@ import { Row, Column } from 'components/Grid';
 import ProfileIcon from 'components/ProfileIcon';
 import Comments from 'components/Comments';
 import MaterialList from 'components/MaterialList';
+import SuspendedMenu from 'components/SuspendedMenu';
+import { Button } from 'components/Buttons';
+import Loading from 'components/Loading';
 
 import StyledCommunicated from './styles';
 
 function Communicated({
   communicatedId,
   owner,
-  content,
   ownerAvatar,
+  ownerId,
+  content,
   communicatedComments,
   classId,
   createdAt,
   // deadline,
   materials,
+  onDelete,
+  deleteLoading,
 }) {
   const dispatch = useDispatch();
   const { userId, userAvatar, userName } = getAuthData();
 
   const [comments, setComments] = useState(communicatedComments || []);
   const [sendLoading, setSendLoading] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteCommentLoading, setDeleteCommentLoading] = useState(false);
 
   const addNewComment = (newComment) => {
     setSendLoading(true);
@@ -60,7 +67,7 @@ function Communicated({
   };
 
   const removeComment = (commentId) => {
-    setDeleteLoading(true);
+    setDeleteCommentLoading(true);
     deleteComment(commentId)
       .then(() => {
         setComments((lastComments) => lastComments
@@ -70,19 +77,35 @@ function Communicated({
         dispatch(showSnackbar('Ocorreu um erro ao remover o comentário. Tente novamente', 'danger'));
       })
       .finally(() => {
-        setDeleteLoading(false);
+        setDeleteCommentLoading(false);
       });
   };
 
   return (
     <StyledCommunicated className="card">
-      <Row>
-        <Column desktop="12" tablet="12" mobile="12" className="flex">
+      <Row className="a-i-center">
+        <Column desktop="10" tablet="10" mobile="10" className="flex">
           <ProfileIcon profileImage={ownerAvatar} />
           <div className="homework-info flex">
             <h3>{owner}</h3>
             <p className="txt-primary">{moment(createdAt).format('DD/MM/YYYY HH:mm')}</p>
           </div>
+        </Column>
+        <Column desktop="2" tablet="2" mobile="2" className="flex j-c-end a-i-center">
+          {userId === `${ownerId}` && (
+            <SuspendedMenu>
+              <Button theme="link" className="remove-comment" onClick={() => onDelete(communicatedId)}>
+                {!deleteLoading ? (
+                  <>
+                    <FaTrash />
+                    Excluir
+                  </>
+                ) : (
+                  <Loading type="bubbles" className="button-loading" height={32} width={32} color="#8CC8F3" />
+                )}
+              </Button>
+            </SuspendedMenu>
+          )}
         </Column>
       </Row>
 
@@ -111,7 +134,7 @@ function Communicated({
             onSend={addNewComment}
             onDelete={removeComment}
             sendLoading={sendLoading}
-            deleteLoading={deleteLoading}
+            deleteLoading={deleteCommentLoading}
           />
         </Column>
       </Row>

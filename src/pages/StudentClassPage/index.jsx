@@ -19,6 +19,7 @@ function StudentClassPage({ match }) {
   const [loading, setLoading] = useState(false);
   const [loadingNewCommunicated, setLoadingNewCommunicated] = useState(false);
   const [inFocus, setInFocus] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const addNewCommunicated = (communicated) => {
     if (communicated.description === '') {
@@ -43,6 +44,27 @@ function StudentClassPage({ match }) {
       .finally(() => {
         setLoadingNewCommunicated(false);
       });
+  };
+
+  const removeCommunicated = (communicationId) => {
+    setDeleteLoading(true);
+    // deleteCommunicated(communicationId)
+    //   .then(() => {
+    //     setComments((lastComments) => lastComments
+    //       .filter((comment) => comment.id !== communicationId));
+    //   })
+    //   .catch(() => {
+    //     dispatch(
+    // showSnackbar('Ocorreu um erro ao remover o comentário. Tente novamente', 'danger'));
+    //   })
+    //   .finally(() => {
+    //     setDeleteLoading(false);
+    //   });
+
+    setCommunications((lastCommunications) => lastCommunications
+      .filter((communication) => communication.id !== communicationId));
+
+    setDeleteLoading(false);
   };
 
   useEffect(() => {
@@ -86,12 +108,15 @@ function StudentClassPage({ match }) {
               communicatedId={communicated.id}
               owner={communicated.user.name}
               ownerAvatar={communicated.user.avatar_url}
+              ownerId={communicated.user.id}
               deadline={communicated.created_at}
               content={communicated.description}
               communicatedComments={communicated.commentsContents}
               classId={match.params.id}
               createdAt={communicated.created_at}
               materials={communicated.materials}
+              onDelete={removeCommunicated}
+              deleteLoading={deleteLoading}
             />
           ))}
         </>
