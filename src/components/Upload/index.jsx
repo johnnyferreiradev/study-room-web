@@ -17,6 +17,7 @@ function Upload({
   onProcess,
   onRemove,
   onCancel,
+  singleUpload,
 }) {
   const dispatch = useDispatch();
   const { fileList, cancellationList } = useSelector((state) => state.upload);
@@ -68,6 +69,7 @@ function Upload({
             cancellationList={cancellationList}
             onRemove={onRemove}
             onCancel={onCancel}
+            singleUpload={singleUpload}
           />
         </Column>
       </Row>

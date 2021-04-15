@@ -91,7 +91,7 @@ function Answer({
     dispatch(setCancellationList([...lastCancellationList, cancellationItem]));
   };
 
-  const updateFile = (fileId, data) => {
+  const updateFile = (data, fileId) => {
     dispatch(setFileList(
       store
         .getState()
@@ -126,24 +126,24 @@ function Answer({
     uploadFile(data, file.id, updateFile, addCancellationItem)
       .then(() => {
         setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
-        updateFile(file.id, {
+        updateFile({
           done: true,
-        });
+        }, file.id);
       })
       .catch((error) => {
         if (axios.isCancel(error)) {
-          updateFile(file.id, {
+          updateFile({
             error: true,
             canceled: true,
-          });
+          }, file.id);
 
           removeUploadedFile(file.id);
           return;
         }
 
-        updateFile(file.id, {
+        updateFile({
           error: true,
-        });
+        }, file.id);
       });
   };
 

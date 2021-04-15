@@ -55,9 +55,11 @@ function Material({
         <h3>{material.name}</h3>
         <p className="txt-secondary">{typeLabel}</p>
       </div>
-      <Button theme="link" onClick={() => onRemove(id)}>
-        <FaTimes />
-      </Button>
+      {onRemove && (
+        <Button theme="link" onClick={() => onRemove(id)}>
+          <FaTimes />
+        </Button>
+      )}
     </StyledMaterial>
   );
 }

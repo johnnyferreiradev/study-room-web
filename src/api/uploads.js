@@ -7,9 +7,9 @@ export const uploadFile = (data, fileId, onUpdateFile = () => {}, onCancelList =
   },
   onUploadProgress: (e) => {
     const progress = parseInt(Math.round((e.loaded * 100) / e.total), 10);
-    onUpdateFile(fileId, {
+    onUpdateFile({
       progress,
-    });
+    }, fileId);
   },
   cancelToken: new CancelToken((c) => {
     onCancelList({ cancel: c, fileId });

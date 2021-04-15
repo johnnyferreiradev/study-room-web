@@ -4,7 +4,12 @@ import UploadedFile from 'components/UploadedFile';
 
 import StyledUploadedFileList from './styles';
 
-function UploadedFileList({ fileList, onRemove, onCancel }) {
+function UploadedFileList({
+  fileList,
+  onRemove,
+  onCancel,
+  singleUpload,
+}) {
   const getFileType = (file) => {
     if (file.type) {
       const type = file.type.split('/')[0];
@@ -31,6 +36,7 @@ function UploadedFileList({ fileList, onRemove, onCancel }) {
           typeLabel={getFileType(file).typeLabel}
           onRemove={onRemove}
           onCancel={onCancel}
+          singleUpload={singleUpload}
         />
       ))}
     </StyledUploadedFileList>

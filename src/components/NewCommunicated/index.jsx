@@ -3,13 +3,14 @@ import { FaPaperPlane } from 'react-icons/fa';
 import { uniqueId } from 'lodash';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import Progress from 'react-progressbar';
 
 import { uploadFile } from 'api/uploads';
 
 import store from 'store';
 import setFileList from 'store/actions/upload/setFileList';
-import setCancellationList from 'store/actions/upload/setCancellationList';
 import showGlobalModal from 'store/actions/modal/showGlobalModal';
+import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { getAuthData } from 'services/auth';
 
@@ -18,8 +19,8 @@ import ProfileIcon from 'components/ProfileIcon';
 import TextEditor from 'components/TextEditor';
 import MaterialList from 'components/MaterialList';
 import Upload from 'components/Upload';
-import NewLink from 'components/NewLink';
 import Loading from 'components/Loading';
+import { Row, Column } from 'components/Grid';
 
 import StyledNewCommunicated from './styles';
 
@@ -34,8 +35,16 @@ function NewCommunicated({
 
   const [newCommunicated, setNewCommunicated] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [upload, setUpload] = useState({
+    fileList: [],
+    progress: 0,
+    done: false,
+    canceled: false,
+    error: false,
+  });
+  const [cancellationItem, setCancellationItem] = useState({});
 
-  const sendCommunicated = () => {
+  const sendCommunicated = (materials) => {
     onSend({
       id: `${uniqueId()}${Date.now()}`,
       user: {
@@ -44,27 +53,16 @@ function NewCommunicated({
       },
       deadline: '30 de fev.',
       description: newCommunicated,
+      materials,
     });
   };
 
-  const addCancellationItem = (cancellationItem) => {
-    const lastCancellationList = store.getState().upload.cancellationList;
-    dispatch(setCancellationList([...lastCancellationList, cancellationItem]));
+  const addCancellationItem = (item) => {
+    setCancellationItem(item);
   };
 
-  const updateFile = (fileId, data) => {
-    dispatch(setFileList(
-      store
-        .getState()
-        .upload
-        .fileList
-        .map((file) => (fileId === file.id ? {
-          ...file,
-          name: file.name,
-          type: file.type,
-          ...data,
-        } : file)),
-    ));
+  const updateUpload = (data) => {
+    setUpload((lastUpload) => ({ ...lastUpload, ...data }));
   };
 
   const removeUploadedFile = (fileId) => {
@@ -80,46 +78,61 @@ function NewCommunicated({
       .filter((file) => file.id !== fileId));
   };
 
+  const handleFiles = (file) => {
+    setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
+  };
+
   const processUpload = (file) => {
+    if (!file) {
+      sendCommunicated(uploadedFiles);
+      return;
+    }
+
+    if (!newCommunicated || newCommunicated === '') {
+      dispatch(showSnackbar('A descrição do comunicado não pode ser vazia', 'danger'));
+      return;
+    }
+
     const data = new FormData();
     data.append('avatar', file);
 
-    uploadFile(data, file.id, updateFile, addCancellationItem)
+    uploadFile(data, file.id, updateUpload, addCancellationItem)
       .then(() => {
-        setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
-        updateFile(file.id, {
+        updateUpload({
           done: true,
+          fileList: uploadedFiles,
         });
+        sendCommunicated(uploadedFiles);
+        setUploadedFiles([]);
       })
       .catch((error) => {
         if (axios.isCancel(error)) {
-          updateFile(file.id, {
+          updateUpload({
             error: true,
             canceled: true,
+            progress: 0,
           });
 
           removeUploadedFile(file.id);
           return;
         }
 
-        updateFile(file.id, {
+        dispatch(showSnackbar('Ocorreu um erro ao publicar o comunicado. Tente novamente', 'danger'));
+
+        updateUpload({
           error: true,
+          progress: 0,
         });
       });
   };
 
   const handleCancel = () => {
+    setUploadedFiles([]);
     setInFocus(false);
     setNewCommunicated('');
   };
 
-  const cancelUpload = (fileId) => {
-    const [cancellationItem] = store
-      .getState()
-      .upload
-      .cancellationList
-      .filter((item) => item.fileId === fileId);
-
+  const cancelUpload = () => {
     cancellationItem.cancel();
   };
 
@@ -127,19 +140,24 @@ function NewCommunicated({
     dispatch(setFileList([]));
     dispatch(showGlobalModal(
       <Upload
-        onProcess={processUpload}
+        onProcess={handleFiles}
         onRemove={removeUploadedFile}
         onCancel={cancelUpload}
+        singleUpload
       />,
       true,
     ));
   };
 
-  const newLink = () => {
-    dispatch(showGlobalModal(
-      <NewLink />,
-      false,
-    ));
+  const openCommunicated = () => {
+    setInFocus(true);
+    setUpload({
+      fileList: [],
+      progress: 0,
+      done: false,
+      canceled: false,
+      error: false,
+    });
   };
 
   return (
@@ -154,7 +172,7 @@ function NewCommunicated({
         {!inFocus && (
           <Button
             theme="link"
-            onClick={() => setInFocus(true)}
+            onClick={() => openCommunicated(true)}
           >
             Adicione um novo comunicado para a turma
           </Button>
@@ -169,21 +187,47 @@ function NewCommunicated({
         />
       )}
 
-      <MaterialList
-        materials={uploadedFiles}
-        onRemove={removeUploadedFile}
-      />
+      {(upload.progress === 0 || upload.canceled) && (
+        <MaterialList
+          materials={uploadedFiles}
+          onRemove={removeUploadedFile}
+        />
+      )}
 
-      {!sendLoading && (
-        <div className="actions flex j-c-end a-i-center">
-          <Button theme="secondary" className="mr-2" onClick={handleCancel}>
-            Cancelar
-          </Button>
-          <Button theme="primary" onClick={sendCommunicated}>
-            <FaPaperPlane className="mr-1" />
-            Publicar
-          </Button>
-        </div>
+      {(upload.progress === 0 || upload.canceled) && !sendLoading && (
+        <Row className="actions-row">
+          <Column desktop="6" tablet="6" mobile="6">
+            <Button theme="secondary" className="mr-2" onClick={newUpload}>
+              Anexar arquivos
+            </Button>
+          </Column>
+          <Column desktop="6" tablet="6" mobile="6">
+            {!sendLoading && (
+              <div className="actions flex j-c-end a-i-center">
+                <Button theme="secondary" className="mr-2" onClick={handleCancel}>
+                  Cancelar
+                </Button>
+                <Button theme="primary" onClick={() => processUpload(uploadedFiles[0])}>
+                  <FaPaperPlane className="mr-1" />
+                  Publicar
+                </Button>
+              </div>
+            )}
+          </Column>
+        </Row>
+      )}
+
+      {upload.progress > 0 && !upload.done && (
+        <Row className="progress-row">
+          <Column desktop="10" tablet="10" mobile="10" className="p-3 progress-column">
+            <Progress completed={upload.progress} className="progressbar" />
+          </Column>
+          <Column desktop="2" tablet="2" mobile="2" className="flex a-i-center j-c-end">
+            <Button theme="secondary" className="mr-2" onClick={() => {}}>
+              Cancelar
+            </Button>
+          </Column>
+        </Row>
       )}
 
       {sendLoading && (

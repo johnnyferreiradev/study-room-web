@@ -5,6 +5,7 @@ import {
   tertiaryColor,
   quaternaryColor,
   secondaryFontColor,
+  primaryColor,
 } from 'variables';
 
 const StyledNewCommunicated = styled.div.attrs(() => ({
@@ -57,6 +58,42 @@ const StyledNewCommunicated = styled.div.attrs(() => ({
 
   .profile-icon {
     margin-right: 16px;
+  }
+
+  .actions-row {
+    button {
+      max-width: 168px;
+      padding: 12px 16px;
+    }
+  }
+
+  .progress-row {
+    align-items: center;
+
+    .grid-column {
+      height: 100%;
+
+      button {
+        padding: 12px 16px;
+        margin: 0px;
+      }
+    }
+
+    .progress-column {
+      padding: 32px 0px;
+
+      .progressbar {
+        height: 8px !important;
+        background-color: ${tertiaryColor};
+        border-radius: 2px;
+
+        div.progressbar-progress {
+          height: 8px !important;
+          background-color: ${primaryColor} !important;
+          border-radius: 2px;
+        }
+      }
+    }
   }
 `;
 

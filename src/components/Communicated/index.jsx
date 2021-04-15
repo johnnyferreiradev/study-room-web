@@ -13,6 +13,8 @@ import { Row, Column } from 'components/Grid';
 // import { Button } from 'components/Buttons';
 import ProfileIcon from 'components/ProfileIcon';
 import Comments from 'components/Comments';
+import MaterialList from 'components/MaterialList';
+
 import StyledCommunicated from './styles';
 
 function Communicated({
@@ -24,6 +26,7 @@ function Communicated({
   classId,
   createdAt,
   // deadline,
+  materials,
 }) {
   const dispatch = useDispatch();
   const { userId, userAvatar, userName } = getAuthData();
@@ -90,6 +93,14 @@ function Communicated({
               dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
+        </Column>
+      </Row>
+
+      <Row>
+        <Column desktop="12" tablet="12" mobile="12">
+          {materials && materials.length > 0 && (
+            <MaterialList materials={materials} />
+          )}
         </Column>
       </Row>
 

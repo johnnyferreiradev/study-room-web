@@ -5,6 +5,10 @@ const StyledHomeworks = styled.div.attrs(() => ({
 }))`
   width: 100%;
 
+  & > div {
+    margin-bottom: 32px;
+  }
+
   .empty-message {
     margin-top: 32px;
   }

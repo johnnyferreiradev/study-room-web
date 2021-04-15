@@ -22,6 +22,7 @@ function UploadedFile({
   typeLabel,
   onRemove,
   onCancel,
+  singleUpload,
 }) {
   return (
     <StyledUploadedFile error={file.error}>
@@ -58,7 +59,7 @@ function UploadedFile({
           </div>
         </Column>
         <Column desktop="5" tablet="5" mobile="5">
-          {!file.done && !file.error && (
+          {!file.done && !file.error && !singleUpload && (
             <div className="progressbar-area p-2">
               <Progress completed={file.progress} className="progressbar" />
             </div>
@@ -78,7 +79,14 @@ function UploadedFile({
             </>
           )}
 
-          {!file.done && !file.error && (
+          {singleUpload && (
+            <Button theme="link" className="danger" onClick={() => onRemove(file.id)}>
+              <FaTrashAlt />
+              Remover
+            </Button>
+          )}
+
+          {!file.done && !file.error && !singleUpload && (
             <Button theme="link" className="danger" onClick={() => onCancel(file.id)}>
               <FaTimes />
               Cancelar
