@@ -24,6 +24,7 @@ function Upload({
 
   const handleUploadedFiles = (acceptedFiles) => {
     acceptedFiles.forEach((file) => {
+      file.extension = file.type.split('/')[1];
       file.id = `${uniqueId()}${Date.now()}`;
       file.progress = 0;
       file.done = false;

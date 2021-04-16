@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { getCommunications, createCommunicated } from 'api/communicated';
+import { getCommunications, deleteCommunicated } from 'api/communicated';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
@@ -17,54 +17,45 @@ function StudentClassPage({ match }) {
 
   const [communications, setCommunications] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingNewCommunicated, setLoadingNewCommunicated] = useState(false);
+  // const [loadingNewCommunicated, setLoadingNewCommunicated] = useState(false);
   const [inFocus, setInFocus] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   const addNewCommunicated = (communicated) => {
-    if (communicated.description === '') {
-      dispatch(showSnackbar('A descrição do comunicado não pode ser vazia', 'danger'));
-      return;
-    }
+    // setLoadingNewCommunicated(true);
 
-    setLoadingNewCommunicated(true);
-    createCommunicated(match.params.id, {
-      title: 'Comunicado',
-      description: communicated.description,
-    })
-      .then((response) => {
-        communicated.id = response.data.id;
+    // createCommunicated(match.params.id, {
+    //   title: 'Comunicado',
+    //   description: communicated.description,
+    // })
+    //   .then((response) => {
+    //     communicated.id = response.data.id;
 
-        setCommunications((lastCommunications) => [communicated, ...lastCommunications]);
-        setInFocus(false);
-      })
-      .catch(() => {
-        dispatch(showSnackbar('Ocorreu um erro ao publicar o comunicado', 'danger'));
-      })
-      .finally(() => {
-        setLoadingNewCommunicated(false);
-      });
+    //   })
+    //   .catch(() => {
+    //     dispatch(showSnackbar('Ocorreu um erro ao publicar o comunicado', 'danger'));
+    //   })
+    //   .finally(() => {
+    //     setLoadingNewCommunicated(false);
+    //   });
+
+    setCommunications((lastCommunications) => [communicated, ...lastCommunications]);
+    setInFocus(false);
   };
 
   const removeCommunicated = (communicationId) => {
     setDeleteLoading(true);
-    // deleteCommunicated(communicationId)
-    //   .then(() => {
-    //     setComments((lastComments) => lastComments
-    //       .filter((comment) => comment.id !== communicationId));
-    //   })
-    //   .catch(() => {
-    //     dispatch(
-    // showSnackbar('Ocorreu um erro ao remover o comentário. Tente novamente', 'danger'));
-    //   })
-    //   .finally(() => {
-    //     setDeleteLoading(false);
-    //   });
-
-    setCommunications((lastCommunications) => lastCommunications
-      .filter((communication) => communication.id !== communicationId));
-
-    setDeleteLoading(false);
+    deleteCommunicated(communicationId)
+      .then(() => {
+        setCommunications((lastCommunications) => lastCommunications
+          .filter((communication) => communication.id !== communicationId));
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao remover o comunicado. Tente novamente', 'danger'));
+      })
+      .finally(() => {
+        setDeleteLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -96,8 +87,9 @@ function StudentClassPage({ match }) {
       {!loading && (
         <>
           <NewCommunicated
+            classId={match.params.id}
             onSend={addNewCommunicated}
-            sendLoading={loadingNewCommunicated}
+            // sendLoading={loadingNewCommunicated}
             inFocus={inFocus}
             setInFocus={setInFocus}
           />
@@ -114,7 +106,7 @@ function StudentClassPage({ match }) {
               communicatedComments={communicated.commentsContents}
               classId={match.params.id}
               createdAt={communicated.created_at}
-              materials={communicated.materials}
+              materials={communicated.contentAttachments}
               onDelete={removeCommunicated}
               deleteLoading={deleteLoading}
             />

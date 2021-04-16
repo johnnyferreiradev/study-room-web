@@ -16,10 +16,13 @@ import StyledMaterial from './styles';
 function Material({
   id,
   type,
+  extension,
   typeLabel,
   material,
   onRemove,
 }) {
+  const fileTokenIdLimit = 36;
+
   return (
     <StyledMaterial>
       <div className="preview">
@@ -52,7 +55,7 @@ function Material({
         )}
       </div>
       <div className="material-info">
-        <h3>{material.name}</h3>
+        <h3>{material.path.replace(material.path.substring(material.path.length - fileTokenIdLimit), '')}</h3>
         <p className="txt-secondary">{typeLabel}</p>
       </div>
       {onRemove && (

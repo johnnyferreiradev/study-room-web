@@ -1,25 +1,48 @@
 import React from 'react';
 
+// import getFileType from 'utils/getFileType';
+
 import Material from 'components/Material';
 
 import StyledMaterialList from './styles';
 
 function MaterialList({ materials, onRemove }) {
   const getMaterialType = (file) => {
-    if (file.type) {
-      const type = file.type.split('/')[0];
+    // getFileType(file.path);
 
-      if (type === 'application') return { type, typeLabel: 'Documento' };
-      if (type === 'video') return { type, typeLabel: 'Vídeo' };
-      if (type === 'text') return { type, typeLabel: 'Documento de texto' };
-      if (type === 'image') return { type, typeLabel: 'Imagem' };
-      if (type === 'audio') return { type, typeLabel: 'Audio' };
-      if (type === 'link') return { type, typeLabel: 'Link' };
+    if (file.extension) {
+      const { extension } = file;
 
-      return { type, typeLabel: 'Arquivo' };
+      if (extension === 'application') return { type: '', typeLabel: 'Documento' };
+      if (extension === 'video') return { type: '', typeLabel: 'Vídeo' };
+      if (extension === 'text') return { type: '', typeLabel: 'Documento de texto' };
+
+      // Image file types
+      if (extension === 'jpg') return { type: 'image', typeLabel: 'Imagem' };
+      if (extension === 'jpeg') return { type: 'image', typeLabel: 'Imagem' };
+      if (extension === 'png') return { type: 'image', typeLabel: 'Imagem' };
+      if (extension === 'gif') return { type: 'image', typeLabel: 'Imagem' };
+      if (extension === 'ico') return { type: 'image', typeLabel: 'Imagem' };
+      if (extension === 'svg') return { type: 'image', typeLabel: 'Imagem' };
+
+      // Audio file types
+      if (extension === 'mp3') return { type: 'audio', typeLabel: 'Audio' };
+      if (extension === 'ogg') return { type: 'audio', typeLabel: 'Audio' };
+      if (extension === 'mid') return { type: 'audio', typeLabel: 'Audio' };
+      if (extension === 'wav') return { type: 'audio', typeLabel: 'Audio' };
+
+      // Compressed files
+      if (extension === 'rar') return { type: 'file', typeLabel: 'Arquivo compactado' };
+      if (extension === 'tar.gz') return { type: 'file', typeLabel: 'Arquivo compactado' };
+      if (extension === 'zip') return { type: 'file', typeLabel: 'Arquivo compactado' };
+      if (extension === '7z') return { type: 'file', typeLabel: 'Arquivo compactado' };
+
+      if (extension === 'link') return { type: 'file', typeLabel: 'Link' };
+
+      return { type: '', typeLabel: 'Arquivo deconhecido' };
     }
 
-    return { type: 'file', typeLabel: 'Arquivo' };
+    return { extension: 'file', typeLabel: 'Arquivo deconhecido' };
   };
 
   return (

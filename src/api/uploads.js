@@ -1,7 +1,7 @@
 import { CancelToken } from 'axios';
 import api from './api';
 
-export const uploadFile = (data, fileId, onUpdateFile = () => {}, onCancelList = () => {}) => api.put('/user', data, {
+export const uploadFile = (data, fileId, onUpdateFile = () => {}, onCancelList = () => {}, classId) => api.post(`/communication/${classId}`, data, {
   headers: {
     'Content-Type': 'multipart/form-data',
   },

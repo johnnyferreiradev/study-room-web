@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaPaperPlane } from 'react-icons/fa';
-import { uniqueId } from 'lodash';
+// import { uniqueId } from 'lodash';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Progress from 'react-progressbar';
@@ -25,13 +25,13 @@ import { Row, Column } from 'components/Grid';
 import StyledNewCommunicated from './styles';
 
 function NewCommunicated({
-  sendLoading,
+  classId,
   onSend,
   inFocus,
   setInFocus,
 }) {
   const dispatch = useDispatch();
-  const { userName, userAvatar } = getAuthData();
+  const { userId, userName, userAvatar } = getAuthData();
 
   const [newCommunicated, setNewCommunicated] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -43,17 +43,19 @@ function NewCommunicated({
     error: false,
   });
   const [cancellationItem, setCancellationItem] = useState({});
+  const [sendLoading, setSendLoading] = useState(false);
 
-  const sendCommunicated = (materials) => {
+  const sendCommunicated = (newId, contentAttachments) => {
     onSend({
-      id: `${uniqueId()}${Date.now()}`,
+      id: newId,
       user: {
+        id: userId,
         name: userName,
         avatar_url: userAvatar,
       },
       deadline: '30 de fev.',
       description: newCommunicated,
-      materials,
+      contentAttachments,
     });
   };
 
@@ -83,26 +85,29 @@ function NewCommunicated({
   };
 
   const processUpload = (file) => {
-    if (!file) {
-      sendCommunicated(uploadedFiles);
-      return;
-    }
-
     if (!newCommunicated || newCommunicated === '') {
       dispatch(showSnackbar('A descrição do comunicado não pode ser vazia', 'danger'));
       return;
     }
 
     const data = new FormData();
-    data.append('avatar', file);
 
-    uploadFile(data, file.id, updateUpload, addCancellationItem)
-      .then(() => {
+    uploadedFiles.forEach((item) => {
+      data.append('files[]', item);
+    });
+
+    data.append('title', 'Comunicado');
+    data.append('description', newCommunicated);
+
+    setSendLoading(true);
+
+    uploadFile(data, null, updateUpload, addCancellationItem, classId)
+      .then((response) => {
         updateUpload({
           done: true,
           fileList: uploadedFiles,
         });
-        sendCommunicated(uploadedFiles);
+        sendCommunicated(response.data.id, uploadedFiles);
         setUploadedFiles([]);
       })
       .catch((error) => {
@@ -123,6 +128,9 @@ function NewCommunicated({
           error: true,
           progress: 0,
         });
+      })
+      .finally(() => {
+        setSendLoading(false);
       });
   };
 
@@ -133,6 +141,7 @@ function NewCommunicated({
   };
 
   const cancelUpload = () => {
+    console.log('chamou');
     cancellationItem.cancel();
   };
 
@@ -207,7 +216,7 @@ function NewCommunicated({
                 <Button theme="secondary" className="mr-2" onClick={handleCancel}>
                   Cancelar
                 </Button>
-                <Button theme="primary" onClick={() => processUpload(uploadedFiles[0])}>
+                <Button theme="primary" onClick={() => processUpload()}>
                   <FaPaperPlane className="mr-1" />
                   Publicar
                 </Button>
@@ -230,7 +239,7 @@ function NewCommunicated({
         </Row>
       )}
 
-      {sendLoading && (
+      {sendLoading && upload.progress === 0 && (
         <div className="actions flex j-c-center a-i-center">
           <Loading type="bubbles" height={32} width={32} color="#8CC8F3" />
         </div>
