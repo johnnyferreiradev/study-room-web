@@ -84,7 +84,7 @@ function NewCommunicated({
     setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
   };
 
-  const processUpload = (file) => {
+  const processUpload = () => {
     if (!newCommunicated || newCommunicated === '') {
       dispatch(showSnackbar('A descrição do comunicado não pode ser vazia', 'danger'));
       return;
@@ -122,8 +122,6 @@ function NewCommunicated({
             canceled: true,
             progress: 0,
           });
-
-          removeUploadedFile(file.id);
           return;
         }
 
@@ -146,7 +144,6 @@ function NewCommunicated({
   };
 
   const cancelUpload = () => {
-    console.log('chamou');
     cancellationItem.cancel();
   };
 
@@ -201,7 +198,7 @@ function NewCommunicated({
         />
       )}
 
-      {(upload.progress === 0 || upload.canceled) && (
+      {!sendLoading && (upload.progress === 0 || upload.canceled) && (
         <MaterialList
           materials={uploadedFiles}
           onRemove={removeUploadedFile}
@@ -237,7 +234,7 @@ function NewCommunicated({
             <Progress completed={upload.progress} className="progressbar" />
           </Column>
           <Column desktop="2" tablet="2" mobile="2" className="flex a-i-center j-c-end">
-            <Button theme="secondary" className="mr-2" onClick={() => {}}>
+            <Button theme="secondary" className="mr-2" onClick={cancelUpload}>
               Cancelar
             </Button>
           </Column>
@@ -246,7 +243,7 @@ function NewCommunicated({
 
       {sendLoading && upload.progress === 0 && (
         <div className="actions flex j-c-center a-i-center">
-          <Loading type="bubbles" height={32} width={32} color="#8CC8F3" />
+          <Loading type="bubbles" height={48} width={48} color="#8CC8F3" />
         </div>
       )}
     </StyledNewCommunicated>
