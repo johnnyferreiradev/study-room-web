@@ -90,6 +90,11 @@ function NewCommunicated({
       return;
     }
 
+    if (uploadedFiles.length >= 10) {
+      dispatch(showSnackbar('Você só pode enviar no máximo 9 arquivos', 'danger'));
+      return;
+    }
+
     const data = new FormData();
 
     uploadedFiles.forEach((item) => {
