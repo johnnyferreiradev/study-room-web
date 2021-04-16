@@ -112,7 +112,7 @@ function NewCommunicated({
           done: true,
           fileList: uploadedFiles,
         });
-        sendCommunicated(response.data.id, uploadedFiles);
+        sendCommunicated(response.data.id, response.data.contentAttachments);
         setUploadedFiles([]);
       })
       .catch((error) => {
