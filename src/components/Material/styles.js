@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {
   tertiaryColor,
   primaryColor,
+  darkColor,
 } from 'variables';
 
 const StyledMaterial = styled.div.attrs(() => ({
@@ -48,6 +49,12 @@ const StyledMaterial = styled.div.attrs(() => ({
   & > button {
     padding: 8px;
     font-size: 20px;
+  }
+
+  a {
+    padding: 0px;
+    color: ${darkColor};
+    text-decoration: none;
   }
 `;
 

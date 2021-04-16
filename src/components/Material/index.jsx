@@ -11,7 +11,7 @@ import {
 
 import removeApiIdFromFileName from 'utils/removeApiIdFromFileName';
 
-import { Button } from 'components/Buttons';
+import { Button, AnchorButton } from 'components/Buttons';
 
 import StyledMaterial from './styles';
 
@@ -25,37 +25,41 @@ function Material({
 }) {
   return (
     <StyledMaterial>
-      <div className="preview">
-        {type === 'application' && (
-          <FaFile />
-        )}
+      <AnchorButton href={material.attachment_url} target="_blank">
+        <div className="preview">
+          {type === 'application' && (
+            <FaFile />
+          )}
 
-        {type === 'video' && (
-          <FaFileVideo />
-        )}
+          {type === 'video' && (
+            <FaFileVideo />
+          )}
 
-        {type === 'text' && (
-          <FaFileAlt />
-        )}
+          {type === 'text' && (
+            <FaFileAlt />
+          )}
 
-        {type === 'image' && (
-          <FaFileImage />
-        )}
+          {type === 'image' && (
+            <FaFileImage />
+          )}
 
-        {type === 'audio' && (
-          <FaFileAudio />
-        )}
+          {type === 'audio' && (
+            <FaFileAudio />
+          )}
 
-        {type === 'file' && (
-          <FaFile />
-        )}
+          {type === 'file' && (
+            <FaFile />
+          )}
 
-        {type === 'link' && (
-          <FaGlobe />
-        )}
-      </div>
+          {type === 'link' && (
+            <FaGlobe />
+          )}
+        </div>
+      </AnchorButton>
       <div className="material-info">
-        <h3>{removeApiIdFromFileName(material.path)}</h3>
+        <AnchorButton href={material.attachment_url} target="_blank">
+          <h3>{removeApiIdFromFileName(material.path)}</h3>
+        </AnchorButton>
         <p className="txt-secondary">{typeLabel}</p>
       </div>
       {onRemove && (
