@@ -1,35 +1,51 @@
 const getFileType = (file) => {
-  // let dotIndex;
+  const fileType = file.extension || file.type.split('/')[0];
 
-  // for (let i = fileName.length; i >= 0; i -= 1) {
-  //   if (fileName[i] === '.') {
-  //     dotIndex
-  //     break;
-  //   }
-  // }
+  if (file.extension) {
+    const { extension } = file;
 
-  // const extensionLimit = 5;
-  // const fileTokenIdLimit = 36;
+    if (extension === 'doc') return { type: 'file', typeLabel: 'Documento de texto', found: true };
+    if (extension === 'docx') return { type: 'file', typeLabel: 'Documento Word', found: true };
+    if (extension === 'odt') return { type: 'file', typeLabel: 'Documento Office', found: true };
+    if (extension === 'pdf') return { type: 'file', typeLabel: 'Documento PDF', found: true };
+    if (extension === 'wpd') return { type: 'file', typeLabel: 'Documento WordPerfect', found: true };
+    if (extension === 'xls') return { type: 'file', typeLabel: 'Planilha', found: true };
+    if (extension === 'pptx') return { type: 'file', typeLabel: 'Apresentação do PowerPoint', found: true };
 
-  // console.log(fileName.substring(fileName.length - extensionLimit).split('.')[1]);
-  // console.log(fileName.substring(fileName.length - fileTokenIdLimit));
+    if (extension === 'mp4') return { type: 'video', typeLabel: 'Vídeo', found: true };
+    if (extension === 'wmv') return { type: 'video', typeLabel: 'Vídeo', found: true };
+    if (extension === 'mov') return { type: 'video', typeLabel: 'Vídeo', found: true };
+    if (extension === 'mkv') return { type: 'video', typeLabel: 'Vídeo', found: true };
+    if (extension === 'avi') return { type: 'video', typeLabel: 'Vídeo', found: true };
+    if (extension === 'mpg') return { type: 'video', typeLabel: 'Vídeo', found: true };
+    if (extension === 'mpeg') return { type: 'video', typeLabel: 'Vídeo', found: true };
 
-  // let currentType;
+    // Image file types
+    if (extension === 'jpg') return { type: 'image', typeLabel: 'Imagem', found: true };
+    if (extension === 'jpeg') return { type: 'image', typeLabel: 'Imagem', found: true };
+    if (extension === 'png') return { type: 'image', typeLabel: 'Imagem', found: true };
+    if (extension === 'gif') return { type: 'image', typeLabel: 'Imagem', found: true };
+    if (extension === 'ico') return { type: 'image', typeLabel: 'Imagem', found: true };
+    if (extension === 'svg') return { type: 'image', typeLabel: 'Imagem', found: true };
 
-  // if (file.type) {
-  //   const type = file.type.split('/')[0];
+    // Audio file types
+    if (extension === 'mp3') return { type: 'audio', typeLabel: 'Audio', found: true };
+    if (extension === 'ogg') return { type: 'audio', typeLabel: 'Audio', found: true };
+    if (extension === 'mid') return { type: 'audio', typeLabel: 'Audio', found: true };
+    if (extension === 'wav') return { type: 'audio', typeLabel: 'Audio', found: true };
 
-  //   if (type === 'application') return { type, typeLabel: 'Documento' };
-  //   if (type === 'video') return { type, typeLabel: 'Vídeo' };
-  //   if (type === 'text') return { type, typeLabel: 'Documento de texto' };
-  //   if (type === 'image') return { type, typeLabel: 'Imagem' };
-  //   if (type === 'audio') return { type, typeLabel: 'Audio' };
-  //   if (type === 'link') return { type, typeLabel: 'Link' };
+    // Compressed files
+    if (extension === 'rar') return { type: 'file', typeLabel: 'Arquivo compactado', found: true };
+    if (extension === 'tar.gz') return { type: 'file', typeLabel: 'Arquivo compactado', found: true };
+    if (extension === 'zip') return { type: 'file', typeLabel: 'Arquivo compactado', found: true };
+    if (extension === '7z') return { type: 'file', typeLabel: 'Arquivo compactado', found: true };
 
-  //   return { type, typeLabel: 'Arquivo' };
-  // }
+    if (extension === 'link') return { type: 'file', typeLabel: 'Link', found: true };
 
-  // return { type: 'file', typeLabel: 'Arquivo' };
+    return { type: fileType, typeLabel: 'Arquivo deconhecido', found: false };
+  }
+
+  return { extension: 'file', typeLabel: 'Arquivo deconhecido', found: false };
 };
 
 export default getFileType;

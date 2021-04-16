@@ -9,6 +9,8 @@ import {
   FaFileAudio,
 } from 'react-icons/fa';
 
+import removeApiIdFromFileName from 'utils/removeApiIdFromFileName';
+
 import { Button } from 'components/Buttons';
 
 import StyledMaterial from './styles';
@@ -16,13 +18,11 @@ import StyledMaterial from './styles';
 function Material({
   id,
   type,
-  extension,
+  // extension,
   typeLabel,
   material,
   onRemove,
 }) {
-  const fileTokenIdLimit = 36;
-
   return (
     <StyledMaterial>
       <div className="preview">
@@ -55,7 +55,7 @@ function Material({
         )}
       </div>
       <div className="material-info">
-        <h3>{material.path.replace(material.path.substring(material.path.length - fileTokenIdLimit), '')}</h3>
+        <h3>{removeApiIdFromFileName(material.path)}</h3>
         <p className="txt-secondary">{typeLabel}</p>
       </div>
       {onRemove && (

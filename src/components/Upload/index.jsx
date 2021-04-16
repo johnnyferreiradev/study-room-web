@@ -24,7 +24,8 @@ function Upload({
 
   const handleUploadedFiles = (acceptedFiles) => {
     acceptedFiles.forEach((file) => {
-      file.extension = file.type.split('/')[1];
+      file.customType = file.type.split('/')[0], // eslint-disable-line
+      file.extension = file.type.split('/')[1]; // eslint-disable-line
       file.id = `${uniqueId()}${Date.now()}`;
       file.progress = 0;
       file.done = false;

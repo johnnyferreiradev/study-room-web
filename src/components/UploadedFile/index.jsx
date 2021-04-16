@@ -54,7 +54,7 @@ function UploadedFile({
             )}
           </div>
           <div className="uploaded-file-info">
-            <h3>{file.url}</h3>
+            <h3>{file.path}</h3>
             <p className="txt-secondary">{typeLabel}</p>
           </div>
         </Column>
