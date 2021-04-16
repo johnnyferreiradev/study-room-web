@@ -4,13 +4,14 @@ const getFileType = (file) => {
   if (file.extension) {
     const { extension } = file;
 
-    if (extension === 'doc') return { type: 'file', typeLabel: 'Documento de texto', found: true };
+    if (extension === 'doc') return { type: 'file', typeLabel: 'Documento Word', found: true };
     if (extension === 'docx') return { type: 'file', typeLabel: 'Documento Word', found: true };
     if (extension === 'odt') return { type: 'file', typeLabel: 'Documento Office', found: true };
     if (extension === 'pdf') return { type: 'file', typeLabel: 'Documento PDF', found: true };
     if (extension === 'wpd') return { type: 'file', typeLabel: 'Documento WordPerfect', found: true };
     if (extension === 'xls') return { type: 'file', typeLabel: 'Planilha', found: true };
     if (extension === 'pptx') return { type: 'file', typeLabel: 'Apresentação do PowerPoint', found: true };
+    if (extension === 'txt') return { type: 'file', typeLabel: 'Documento de texto', found: true };
 
     if (extension === 'mp4') return { type: 'video', typeLabel: 'Vídeo', found: true };
     if (extension === 'wmv') return { type: 'video', typeLabel: 'Vídeo', found: true };

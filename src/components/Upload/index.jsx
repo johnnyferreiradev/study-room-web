@@ -3,9 +3,12 @@ import Dropzone from 'react-dropzone';
 import { uniqueId } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 
+import getFileType from 'utils/getFileType';
+
 import store from 'store';
 import setFileList from 'store/actions/upload/setFileList';
 import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
+import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
@@ -31,6 +34,19 @@ function Upload({
       file.done = false;
       file.canceled = false;
       file.error = false;
+      file.attachment_url = URL.createObjectURL(file);
+
+      const { found } = getFileType(file);
+
+      if (!found) {
+        dispatch(showSnackbar(`O arquivo ${file.name} não é suportado!`, 'danger'));
+        return;
+      }
+
+      if (file.size > 1000000000) {
+        dispatch(showSnackbar(`O arquivo ${file.name} deve conter no máximo 1 GB!`, 'danger'));
+        return;
+      }
 
       const lastFileList = store.getState().upload.fileList;
 

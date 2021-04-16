@@ -8,6 +8,6 @@ export const AUTH_TOKEN_KEY = '@study-room/auth-token';
 
 export const BASE_URL = 'https://api-study-room.herokuapp.com';
 
-// export const BASE_URL = 'http://great-snake-53.loca.lt';
+// export const BASE_URL = 'http://loud-sloth-58.loca.lt';
 
 export const TINY_MCE_API_KEY = 'i94nlz2o6tlbe4wh8xgfscuxhbu3a2pa8afdgyt70x63bubd';
