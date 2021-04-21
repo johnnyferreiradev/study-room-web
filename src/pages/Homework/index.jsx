@@ -156,7 +156,7 @@ function Homework({ match }) {
                 </Row>
                 <Row>
                   <Column desktop="12" tablet="12" mobile="12" className="flex">
-                    <MaterialList materials={[]} />
+                    <MaterialList materials={homeworkData.contentAttachments} />
                   </Column>
                 </Row>
                 <Row>

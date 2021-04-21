@@ -169,14 +169,36 @@ function Answer({
     ));
   };
 
+  // Link logic
+  const [links, setLinks] = useState([]);
+
   const newLink = () => {
     dispatch(showGlobalModal(
-      <NewLink />,
+      <NewLink setLinks={setLinks} />,
       false,
     ));
   };
 
-  // Link logic
+  const removeLink = (linkId) => {
+    setLinks((lastLinks) => lastLinks
+      .map((link) => {
+        if (link.id === linkId) {
+          link.deleteLoading = true;
+        }
+        return link;
+      }));
+
+    setLinks((lastLinks) => lastLinks
+      .filter((link) => link.id !== linkId));
+  };
+
+  const removeMaterial = (materialId, materialType) => {
+    if (materialType === 'link') {
+      removeLink(materialId);
+      return;
+    }
+    removeUploadedFile(materialId);
+  };
 
   return (
     <StyledAnswer>
@@ -194,8 +216,8 @@ function Answer({
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
             <MaterialList
-              materials={uploadedFiles}
-              onRemove={removeUploadedFile}
+              materials={[...links, ...uploadedFiles]}
+              onRemove={removeMaterial}
             />
           </Column>
         </Row>

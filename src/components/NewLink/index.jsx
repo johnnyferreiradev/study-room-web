@@ -1,19 +1,35 @@
 import React, { useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { uniqueId } from 'lodash';
+import { useDispatch } from 'react-redux';
+
+import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 
 import { Button } from 'components/Buttons';
 import Loading from 'components/Loading';
 
 import StyledNewLink from './styles';
 
-function NewLink() {
-  // const dispatch = useDispatch();
+function NewLink({ setLinks }) {
+  const dispatch = useDispatch();
 
   const [newLink, setNewLink] = useState('');
   const [loading] = useState(false);
 
   const handleNewLinkField = ({ target }) => {
     setNewLink(target.value);
+  };
+
+  const addNewLink = () => {
+    setLinks((prevLinks) => [{
+      id: `${Date.now()}${uniqueId()}`,
+      type: 'link',
+      extension: 'link',
+      attachment_url: newLink,
+      path: newLink,
+      deleteLoading: false,
+    }, ...prevLinks]);
+
+    dispatch(hideGlobalModal());
   };
 
   return (
@@ -34,9 +50,15 @@ function NewLink() {
         </div>
 
         <div className="form-group mb-2">
-          <Button theme="primary" fluid onClick={NewLink}>
+          <Button theme="primary" fluid onClick={addNewLink}>
             {!loading ? 'Adicionar' : (
-              <Loading type="bubbles" className="button-loading" height={32} width={32} fluid />
+              <Loading
+                type="bubbles"
+                className="button-loading"
+                height={32}
+                width={32}
+                fluid
+              />
             )}
           </Button>
         </div>

@@ -41,7 +41,7 @@ const getFileType = (file) => {
     if (extension === 'zip') return { type: 'file', typeLabel: 'Arquivo compactado', found: true };
     if (extension === '7z') return { type: 'file', typeLabel: 'Arquivo compactado', found: true };
 
-    if (extension === 'link') return { type: 'file', typeLabel: 'Link', found: true };
+    if (extension === 'link') return { type: 'link', typeLabel: 'Link', found: true };
 
     return { type: fileType, typeLabel: 'Arquivo deconhecido', found: false };
   }

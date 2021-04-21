@@ -17,6 +17,7 @@ const StyledMaterial = styled.div.attrs(() => ({
   margin-bottom: 16px;
   border: 1px solid ${tertiaryColor};
   border-radius: 4px;
+  position: relative;
 
   .preview {
     width: 64px;
@@ -49,6 +50,10 @@ const StyledMaterial = styled.div.attrs(() => ({
   & > button {
     padding: 8px;
     font-size: 20px;
+
+    .loading {
+      top: 16px;
+    }
   }
 
   a {

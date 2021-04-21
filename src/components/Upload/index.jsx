@@ -35,6 +35,7 @@ function Upload({
       file.canceled = false;
       file.error = false;
       file.attachment_url = URL.createObjectURL(file);
+      file.deleteLoading = false;
 
       const { found } = getFileType(file);
 

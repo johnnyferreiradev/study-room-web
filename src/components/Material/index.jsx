@@ -12,13 +12,13 @@ import {
 import removeApiIdFromFileName from 'utils/removeApiIdFromFileName';
 
 import { Button, AnchorButton } from 'components/Buttons';
+import Loading from 'components/Loading';
 
 import StyledMaterial from './styles';
 
 function Material({
   id,
   type,
-  // extension,
   typeLabel,
   material,
   onRemove,
@@ -63,9 +63,15 @@ function Material({
         <p className="txt-secondary">{typeLabel}</p>
       </div>
       {onRemove && (
-        <Button theme="link" onClick={() => onRemove(id)}>
-          <FaTimes />
-        </Button>
+        !material.deleteLoading ? (
+          <Button theme="link" onClick={() => onRemove(id, type)}>
+            <FaTimes />
+          </Button>
+        ) : (
+          <Button theme="link">
+            <Loading type="bubbles" className="button-loading" height={32} width={32} color="#8CC8F3" />
+          </Button>
+        )
       )}
     </StyledMaterial>
   );
