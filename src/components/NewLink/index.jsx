@@ -20,12 +20,18 @@ function NewLink({ setLinks }) {
   };
 
   const addNewLink = () => {
+    let linkContent = newLink;
+
+    if (newLink.indexOf('http://') === -1 && newLink.indexOf('https://') === -1) {
+      linkContent = `https://${newLink.replace('www.', '')}`;
+    }
+
     setLinks((prevLinks) => [{
       id: `${Date.now()}${uniqueId()}`,
       type: 'link',
       extension: 'link',
-      attachment_url: newLink,
-      path: newLink,
+      attachment_url: linkContent,
+      path: linkContent,
       deleteLoading: false,
     }, ...prevLinks]);
 
