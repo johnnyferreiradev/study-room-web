@@ -100,9 +100,23 @@ const StyledNewCommunicated = styled.div.attrs(() => ({
     padding: 16px;
 
     .actions-row {
-      .attachments-button {
+      .suspended-menu {
         width: 100%;
         max-width: 100%;
+
+        a {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .add-button {
+          width: 100%;
+          max-width: 100%;
+        }
+
+        .suspended-content {
+          width: 100%;
+        }
       }
     }
   }

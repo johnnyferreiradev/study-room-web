@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaPaperPlane } from 'react-icons/fa';
+import { FaPaperPlane, FaPlus } from 'react-icons/fa';
 // import { uniqueId } from 'lodash';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
@@ -19,8 +19,10 @@ import ProfileIcon from 'components/ProfileIcon';
 import TextEditor from 'components/TextEditor';
 import MaterialList from 'components/MaterialList';
 import Upload from 'components/Upload';
+import NewLink from 'components/NewLink';
 import Loading from 'components/Loading';
 import { Row, Column } from 'components/Grid';
+import SuspendedMenu from 'components/SuspendedMenu';
 
 import StyledNewCommunicated from './styles';
 
@@ -35,6 +37,7 @@ function NewCommunicated({
 
   const [newCommunicated, setNewCommunicated] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [links, setLinks] = useState([]);
   const [upload, setUpload] = useState({
     fileList: [],
     progress: 0,
@@ -160,6 +163,34 @@ function NewCommunicated({
     ));
   };
 
+  const newLink = () => {
+    dispatch(showGlobalModal(
+      <NewLink setLinks={setLinks} />,
+      false,
+    ));
+  };
+
+  const removeLink = (linkId) => {
+    setLinks((lastLinks) => lastLinks
+      .map((link) => {
+        if (link.id === linkId) {
+          link.deleteLoading = true;
+        }
+        return link;
+      }));
+
+    setLinks((lastLinks) => lastLinks
+      .filter((link) => link.id !== linkId));
+  };
+
+  const removeMaterial = (materialId, materialType) => {
+    if (materialType === 'link') {
+      removeLink(materialId);
+      return;
+    }
+    removeUploadedFile(materialId);
+  };
+
   const openCommunicated = () => {
     setInFocus(true);
     setUpload({
@@ -200,17 +231,25 @@ function NewCommunicated({
 
       {!sendLoading && (upload.progress === 0 || upload.canceled) && (
         <MaterialList
-          materials={uploadedFiles}
-          onRemove={removeUploadedFile}
+          materials={[...links, ...uploadedFiles]}
+          onRemove={removeMaterial}
         />
       )}
 
       {(upload.progress === 0 || upload.canceled) && !sendLoading && (
         <Row className="actions-row">
           <Column desktop="6" tablet="6" mobile="12" className="mb-2">
-            <Button theme="secondary" className="mr-2 attachments-button" onClick={newUpload}>
-              Anexar arquivos
-            </Button>
+            <SuspendedMenu
+              openButton={(
+                <Button theme="secondary" className="add-button" fluid>
+                  <FaPlus />
+                  Adicionar
+                </Button>
+              )}
+            >
+              <Button theme="link" onClick={newUpload}>Arquivo</Button>
+              <Button theme="link" onClick={newLink}>Link</Button>
+            </SuspendedMenu>
           </Column>
           <Column desktop="6" tablet="6" mobile="12">
             {!sendLoading && (

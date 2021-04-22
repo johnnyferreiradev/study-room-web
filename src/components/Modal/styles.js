@@ -14,15 +14,12 @@ const ModalContainer = styled.div`
   top: 0px;
   left: 0px;
   overflow-y: scroll;
+  padding: 16px;
 
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-
-  @media (max-width: 768px) {
-    padding: 16px;
-  }
 `;
 
 const ModalContent = styled.div`

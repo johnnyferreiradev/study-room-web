@@ -16,6 +16,10 @@ const Header = styled.header`
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
   max-height: 72px;
 
+  .app-name {
+    line-height: 1;
+  }
+
   .student-classes-link {
     margin-top: 4px;
     padding-left: 4px;
@@ -51,12 +55,6 @@ const Header = styled.header`
       font-size: 20px;
       width: 42px;
       margin: 0px 8px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .app-name {
-      line-height: 1;
     }
   }
 `;
