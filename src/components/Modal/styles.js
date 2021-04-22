@@ -19,6 +19,10 @@ const ModalContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
 `;
 
 const ModalContent = styled.div`

@@ -7,6 +7,7 @@ const StyledStudentClassPage = styled.div.attrs(() => ({
   max-width: 1000px;
   display: flex;
   justify-content: center;
+  padding: 16px;
 `;
 
 export default StyledStudentClassPage;

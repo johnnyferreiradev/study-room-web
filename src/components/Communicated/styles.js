@@ -66,6 +66,10 @@ const StyledCommunicated = styled.div.attrs(() => ({
       }
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
 `;
 
 export default StyledCommunicated;

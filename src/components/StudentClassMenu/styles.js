@@ -35,6 +35,18 @@ const StyledStudentClassMenu = styled.div.attrs(() => ({
         text-decoration: underline;
       }
     }
+
+    .show-mobile {
+      display: none;
+      color: ${primaryColor} !important;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .show-mobile {
+        display: block;
+      }
+    }
   }
 `;
 

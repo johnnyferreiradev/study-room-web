@@ -35,6 +35,14 @@ const StyledStudentClassHeader = styled.div.attrs(() => ({
       }
     }
   }
+
+  @media (max-width: 768px) {
+    .class-actions {
+      & > button {
+        display: none;
+      }
+    }
+  }
 `;
 
 export default StyledStudentClassHeader;

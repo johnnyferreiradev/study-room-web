@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import showGlobalModal from 'store/actions/modal/showGlobalModal';
 
@@ -12,8 +13,9 @@ import ConfirmUnsubscribe from 'components/ConfirmUnsubscribe';
 
 import StyledStudentClassMenu from './styles';
 
-function StudentClassMenu() {
+function StudentClassMenu({ classId }) {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -21,6 +23,11 @@ function StudentClassMenu() {
   useOutsideEvent(wrapperRef, () => {
     setIsOpen(false);
   });
+
+  const goTo = (destination) => {
+    setIsOpen(false);
+    history.push(destination);
+  };
 
   const unsubscribe = () => {
     setIsOpen(false);
@@ -34,6 +41,10 @@ function StudentClassMenu() {
       </Button>
 
       <Card className="suspended-content">
+        <Button theme="link" className="show-mobile" onClick={() => goTo(`/class/${classId}`)}>Mural</Button>
+        <Button theme="link" className="show-mobile" onClick={() => goTo(`/class/${classId}/homeworks`)}>Atividades</Button>
+        <Button theme="link" className="show-mobile" onClick={() => goTo(`/class/${classId}/materials`)}>Materiais</Button>
+        <Button theme="link" className="show-mobile" onClick={() => goTo(`/class/${classId}/people`)}>Pessoas</Button>
         <Button theme="link" onClick={unsubscribe}>Sair da turma</Button>
       </Card>
     </StyledStudentClassMenu>

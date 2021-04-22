@@ -93,6 +93,29 @@ const StyledUploadedFile = styled.div.attrs(() => ({
   .preview {
     background: ${({ error }) => (!error ? primaryColor : dangerColor)};
   }
+
+  @media (max-width: 768px) {
+    .uploaded-file-info {
+      h3 {
+        font-size: 16px;
+        max-width: 12ch;
+      }
+    }
+
+    .danger, .success {
+      & > * {
+        display: none;
+      }
+
+      & > svg {
+        display: block;
+      }
+    }
+
+    .txt-danger {
+      display: none;
+    }
+  }
 `;
 
 export default StyledUploadedFile;

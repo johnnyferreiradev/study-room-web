@@ -21,6 +21,15 @@ const StyledHomework = styled.div.attrs(() => ({
     border-top: 1px solid ${tertiaryColor};
     margin-bottom: 8px;
   }
+
+  @media (max-width: 768px) {
+    .grid-row {
+      .grid-column:first-child {
+        padding-right: 0px;
+        margin-bottom: 32px;
+      }
+    }
+  }
 `;
 
 export default StyledHomework;

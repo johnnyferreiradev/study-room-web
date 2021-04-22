@@ -24,7 +24,7 @@ function StudentClassHeader({ classId, title }) {
           <Button theme="link" onClick={() => history.push(`/class/${classId}/homeworks`)}>Atividades</Button>
           <Button theme="link" onClick={() => history.push(`/class/${classId}/materials`)}>Materiais</Button>
           <Button theme="link" onClick={() => history.push(`/class/${classId}/people`)}>Pessoas</Button>
-          <StudentClassMenu />
+          <StudentClassMenu classId={classId} />
         </Column>
       </Row>
     </StyledStudentClassHeader>

@@ -207,12 +207,12 @@ function NewCommunicated({
 
       {(upload.progress === 0 || upload.canceled) && !sendLoading && (
         <Row className="actions-row">
-          <Column desktop="6" tablet="6" mobile="6">
-            <Button theme="secondary" className="mr-2" onClick={newUpload}>
+          <Column desktop="6" tablet="6" mobile="12" className="mb-2">
+            <Button theme="secondary" className="mr-2 attachments-button" onClick={newUpload}>
               Anexar arquivos
             </Button>
           </Column>
-          <Column desktop="6" tablet="6" mobile="6">
+          <Column desktop="6" tablet="6" mobile="12">
             {!sendLoading && (
               <div className="actions flex j-c-end a-i-center">
                 <Button theme="secondary" className="mr-2" onClick={handleCancel}>

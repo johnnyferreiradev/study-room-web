@@ -107,7 +107,7 @@ function Homework({ match }) {
 
         {!loading && (
           <>
-            <Column desktop="8" tablet="8" mobile="8" className="pr-2">
+            <Column desktop="8" tablet="8" mobile="12" className="pr-2">
               <Card>
                 <Row>
                   <Column desktop="12" tablet="12" mobile="12" className="flex mb-1">
@@ -172,7 +172,7 @@ function Homework({ match }) {
                 </Row>
               </Card>
             </Column>
-            <Column desktop="4" tablet="4" mobile="4">
+            <Column desktop="4" tablet="4" mobile="12">
               <Answer
                 deadline={homeworkData.homework.dateLimit}
                 classId={match.params.id}

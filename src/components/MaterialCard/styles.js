@@ -43,6 +43,10 @@ const StyledMaterialCard = styled.div.attrs(() => ({
       padding: 0px;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
 `;
 
 export default StyledMaterialCard;

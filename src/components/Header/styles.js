@@ -53,6 +53,12 @@ const Header = styled.header`
       margin: 0px 8px;
     }
   }
+
+  @media (max-width: 768px) {
+    .app-name {
+      line-height: 1;
+    }
+  }
 `;
 
 export default Header;

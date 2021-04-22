@@ -95,6 +95,17 @@ const StyledNewCommunicated = styled.div.attrs(() => ({
       }
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+
+    .actions-row {
+      .attachments-button {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
 `;
 
 export default StyledNewCommunicated;
