@@ -4,11 +4,14 @@ import { useDispatch } from 'react-redux';
 import { getCommunications, deleteCommunicated } from 'api/communicated';
 
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
+import showGlobalModal from 'store/actions/modal/showGlobalModal';
+import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 
 import EmptyMessage from 'components/EmptyMessage';
 import NewCommunicated from 'components/NewCommunicated';
 import Communicated from 'components/Communicated';
 import Loading from 'components/Loading';
+import ConfirmDelete from 'components/ConfirmDelete';
 
 import StyledStudentClassPage from './styles';
 
@@ -43,8 +46,10 @@ function StudentClassPage({ match }) {
     setInFocus(false);
   };
 
-  const removeCommunicated = (communicationId) => {
+  const handleRemoveCommunicated = (communicationId) => {
     setDeleteLoading(true);
+    dispatch(hideGlobalModal());
+
     deleteCommunicated(communicationId)
       .then(() => {
         setCommunications((lastCommunications) => lastCommunications
@@ -56,6 +61,16 @@ function StudentClassPage({ match }) {
       .finally(() => {
         setDeleteLoading(false);
       });
+  };
+
+  const removeCommunicated = (communicationId) => {
+    dispatch(showGlobalModal(
+      <ConfirmDelete
+        title="Remover este comunicado?"
+        subtitle="Ao realizar esta ação os anexos adicionados também serão removidos"
+        onDelete={() => handleRemoveCommunicated(communicationId)}
+      />,
+    ));
   };
 
   useEffect(() => {
