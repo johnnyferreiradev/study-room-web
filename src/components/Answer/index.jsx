@@ -164,6 +164,8 @@ function Answer({
         onProcess={processUpload}
         onRemove={removeUploadedFile}
         onCancel={cancelUpload}
+        uploadLimit={9}
+        totalUploads={uploadedFiles.length}
       />,
       true,
     ));

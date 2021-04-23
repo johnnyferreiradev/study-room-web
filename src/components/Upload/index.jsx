@@ -21,6 +21,8 @@ function Upload({
   onRemove,
   onCancel,
   singleUpload,
+  uploadLimit,
+  totalUploads,
 }) {
   const dispatch = useDispatch();
   const { fileList, cancellationList } = useSelector((state) => state.upload);
@@ -50,6 +52,11 @@ function Upload({
       }
 
       const lastFileList = store.getState().upload.fileList;
+
+      if (uploadLimit && uploadLimit && (totalUploads + lastFileList.length) >= uploadLimit) {
+        dispatch(showSnackbar(`Você só pode enviar no máximo ${uploadLimit} arquivos`, 'danger'));
+        return;
+      }
 
       dispatch(setFileList([file, ...lastFileList]));
       onProcess(file);
