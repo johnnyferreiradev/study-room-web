@@ -107,7 +107,7 @@ function Homework({ match }) {
 
         {!loading && (
           <>
-            <Column desktop="8" tablet="8" mobile="12" className="pr-2">
+            <Column desktop="8" tablet="8" mobile="12" className="pr-2 homework-card">
               <Card>
                 <Row>
                   <Column desktop="12" tablet="12" mobile="12" className="flex mb-1">

@@ -93,18 +93,16 @@ function Communicated({
         </Column>
         <Column desktop="2" tablet="2" mobile="2" className="flex j-c-end a-i-center">
           {userId === `${ownerId}` && (
-            <SuspendedMenu>
-              <Button theme="link" className="remove-comment" onClick={() => onDelete(communicatedId)}>
-                {!deleteLoading ? (
-                  <>
-                    <FaTrash />
-                    Excluir
-                  </>
-                ) : (
-                  <Loading type="bubbles" className="button-loading" height={32} width={32} color="#8CC8F3" />
-                )}
-              </Button>
-            </SuspendedMenu>
+            !deleteLoading ? (
+              <SuspendedMenu>
+                <Button theme="link" className="remove-comment" onClick={() => onDelete(communicatedId)}>
+                  <FaTrash />
+                  Excluir
+                </Button>
+              </SuspendedMenu>
+            ) : (
+              <Loading type="bubbles" height={32} width={32} color="#8CC8F3" />
+            )
           )}
         </Column>
       </Row>

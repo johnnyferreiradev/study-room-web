@@ -37,6 +37,16 @@ const StyledHomeworkCard = styled.div.attrs(() => ({
 
   @media (max-width: 768px) {
     padding: 16px;
+
+    .footer {
+      flex-direction: column;
+
+      p {
+        width: 100%;
+        text-align: start;
+        margin-bottom: 32px;
+      }
+    }
   }
 `;
 

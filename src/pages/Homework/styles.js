@@ -22,11 +22,15 @@ const StyledHomework = styled.div.attrs(() => ({
     margin-bottom: 8px;
   }
 
+  .homework-card {
+    margin-bottom: 32px;
+  }
+
   @media (max-width: 768px) {
     .grid-row {
       .grid-column:first-child {
         padding-right: 0px;
-        margin-bottom: 32px;
+        /* margin-bottom: 32px; */
       }
     }
   }
