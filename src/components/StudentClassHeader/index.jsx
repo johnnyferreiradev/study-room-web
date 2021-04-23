@@ -14,7 +14,7 @@ function StudentClassHeader({ classId, title }) {
 
   return (
     <StyledStudentClassHeader>
-      <Row>
+      <Row className="j-c-center a-i-center">
         <Column desktop="8" tablet="8" mobile="8" className="flex a-i-center class-info">
           <FaColumns />
           <h3>{title || 'Turma'}</h3>

@@ -25,6 +25,7 @@ import Comments from 'components/Comments';
 import SuspendedMenu from 'components/SuspendedMenu';
 import Upload from 'components/Upload';
 import NewLink from 'components/NewLink';
+import AnswerTextField from 'components/AnswerTextField';
 
 import StyledAnswer from './styles';
 
@@ -194,6 +195,9 @@ function Answer({
       .filter((link) => link.id !== linkId));
   };
 
+  // Answer text field logic
+  const [text, setText] = useState('');
+
   const removeMaterial = (materialId, materialType) => {
     if (materialType === 'link') {
       removeLink(materialId);
@@ -213,6 +217,11 @@ function Answer({
             <p className={isArrear ? 'txt-danger' : 'txt-primary'}>
               Pendente
             </p>
+          </Column>
+        </Row>
+        <Row className="answer-text-field-row">
+          <Column desktop="12" tablet="12" mobile="12">
+            <AnswerTextField value={text} onChange={(e) => setText(e.target.value)} />
           </Column>
         </Row>
         <Row>

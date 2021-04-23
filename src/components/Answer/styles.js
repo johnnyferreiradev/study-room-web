@@ -17,6 +17,10 @@ const StyledAnswer = styled.div.attrs(() => ({
     }
   }
 
+  .answer-text-field-row {
+    margin-bottom: 0px;
+  }
+
   .material {
     width: 100%;
     margin-right: 0px;

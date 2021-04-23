@@ -23,8 +23,10 @@ const StyledPeopleSection = styled.div.attrs(() => ({
     }
   }
 
-  .card {
-    padding: 0px 32px;
+  @media (max-width: 720px) {
+    .card {
+      padding: 0px 16px;
+    }
   }
 `;
 
