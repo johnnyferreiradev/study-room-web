@@ -10,6 +10,8 @@ import { storeComment, deleteComment } from 'api/comments';
 import { getAuthData } from 'services/auth';
 import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 
+import getStatusClassColor from 'utils/getStatusClassColor';
+
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Row, Column } from 'components/Grid';
@@ -27,15 +29,32 @@ function Homework({ match }) {
   const history = useHistory();
   const { userId, userAvatar, userName } = getAuthData();
 
-  const currentTime = getCurrentDateAndHourInApiFormat();
-
   const [homeworkData, setHomeworkData] = useState(null);
+  const [dateNow, setDateNow] = useState(getCurrentDateAndHourInApiFormat());
+  const [homeworkResponses, setHomeworkResponses] = useState(null);
   const [commentsPrivate, setCommentsPrivate] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const [comments, setComments] = useState([]);
   const [loadingNewComment, setLoadingNewComment] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+
+  const getStatus = () => {
+    const isArrear = checkArrear(dateNow, moment(homeworkData.homework.dateLimit).format('YYYY-MM-DD HH:mm:ss'));
+    let status = 'Pendente';
+
+    if (homeworkResponses && homeworkResponses.length === 0 && isArrear) {
+      status = 'Atrasada';
+    }
+
+    if (homeworkResponses && homeworkResponses.length > 0 && homeworkResponses[0].status === 'noReply' && isArrear) {
+      status = 'Atrasada';
+    }
+
+    return homeworkResponses.length > 0 && homeworkResponses[0].status !== 'noReply'
+      ? homeworkResponses[0].status
+      : status;
+  };
 
   const addNewCommunicated = (newComment) => {
     setLoadingNewComment(true);
@@ -83,6 +102,8 @@ function Homework({ match }) {
         setHomeworkData(response.data.activity);
         setCommentsPrivate(response.data.commentsPrivate);
         setComments(response.data.activity.commentsContents);
+        setDateNow(response.data.dateNow);
+        setHomeworkResponses(response.data.activity.homeworkResponses);
       })
       .catch(({ response }) => {
         const [error] = response.data;
@@ -129,13 +150,7 @@ function Homework({ match }) {
                 <Row className="info-row">
                   <Column desktop="8" tablet="8" mobile="8" className="flex">
                     <p
-                      className={
-                        checkArrear(
-                          currentTime,
-                          moment(homeworkData.homework.dateLimit)
-                            .format('YYYY-MM-DD HH:mm:ss'),
-                        ) ? 'txt-danger' : 'txt-primary'
-                      }
+                      className={homeworkResponses ? getStatusClassColor(getStatus()) : 'txt-primary'}
                     >
                       <span className="txt-secondary">Data de entrega: </span>
                       {moment(homeworkData.homework.dateLimit).format('DD/MM/YYYY HH:mm')}
@@ -178,6 +193,7 @@ function Homework({ match }) {
                 classId={match.params.id}
                 homeworkId={match.params.homeworkId}
                 privateComments={commentsPrivate}
+                status={homeworkResponses ? getStatus() : ''}
               />
             </Column>
           </>

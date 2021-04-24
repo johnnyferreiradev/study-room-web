@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 
 import { getHomeworks } from 'api/homeworks';
 
+import { getCurrentDateAndHourInApiFormat } from 'services/time';
+
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import HomeworkCard from 'components/HomeworkCard';
@@ -15,13 +17,15 @@ function Homeworks({ match }) {
   const dispatch = useDispatch();
 
   const [homeworkList, setHomeworkList] = useState([]);
+  const [dateNow, setDateNow] = useState(getCurrentDateAndHourInApiFormat());
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     getHomeworks(match.params.id)
       .then((response) => {
-        setHomeworkList(response.data);
+        setHomeworkList(response.data.activities);
+        setDateNow(response.data.dateNow);
       })
       .catch(() => {
         // const [error] = response.data;
@@ -54,6 +58,8 @@ function Homeworks({ match }) {
               deadline={homework.homework.dateLimit}
               classId={match.params.id}
               createdAt={homework.created_at}
+              dateNow={dateNow}
+              homeworkResponses={homework.homeworkResponses}
             />
           ))}
         </>

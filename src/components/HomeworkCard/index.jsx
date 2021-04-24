@@ -4,7 +4,9 @@ import moment from 'moment';
 import { FaClipboardList } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 
-import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
+import { checkArrear } from 'services/time';
+
+import getStatusClassColor from 'utils/getStatusClassColor';
 
 import { Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
@@ -19,11 +21,27 @@ function HomeworkCard({
   deadline,
   classId,
   createdAt,
+  dateNow,
+  homeworkResponses,
 }) {
   const history = useHistory();
 
-  const currentTime = getCurrentDateAndHourInApiFormat();
-  const isArrear = checkArrear(currentTime, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
+  const getStatus = () => {
+    const isArrear = checkArrear(dateNow, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
+    let status = 'Pendente';
+
+    if (homeworkResponses && homeworkResponses.length === 0 && isArrear) {
+      status = 'Atrasada';
+    }
+
+    if (homeworkResponses && homeworkResponses.length > 0 && homeworkResponses[0].status === 'noReply' && isArrear) {
+      status = 'Atrasada';
+    }
+
+    return homeworkResponses.length > 0 && homeworkResponses[0].status !== 'noReply'
+      ? homeworkResponses[0].status
+      : status;
+  };
 
   return (
     <StyledHomeworkCard className="card">
@@ -45,15 +63,15 @@ function HomeworkCard({
         </Column>
 
         <Column desktop="2" tablet="2" mobile="2" className="flex j-c-end">
-          <p className={isArrear ? 'txt-danger' : 'txt-primary'}>
-            {isArrear ? 'Atrasada' : 'Pendente'}
+          <p className={getStatusClassColor(getStatus())}>
+            {getStatus()}
           </p>
         </Column>
       </Row>
 
       <Row>
         <Column desktop="12" tablet="12" mobile="12" className="flex j-c-between a-i-center mt-2 footer">
-          <p className={isArrear ? 'txt-danger' : 'txt-primary'}>
+          <p className={getStatusClassColor(getStatus())}>
             <span className="txt-secondary">Data de entrega: </span>
             {moment(deadline).format('DD/MM/YYYY HH:mm')}
           </p>

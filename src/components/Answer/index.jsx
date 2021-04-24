@@ -14,6 +14,8 @@ import setCancellationList from 'store/actions/upload/setCancellationList';
 import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
 import { getAuthData } from 'services/auth';
 
+import getStatusClassColor from 'utils/getStatusClassColor';
+
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 import showGlobalModal from 'store/actions/modal/showGlobalModal';
 
@@ -34,6 +36,7 @@ function Answer({
   privateComments,
   classId,
   homeworkId,
+  status,
 }) {
   const dispatch = useDispatch();
   const currentTime = getCurrentDateAndHourInApiFormat();
@@ -214,8 +217,8 @@ function Answer({
             <h3>Responder</h3>
           </Column>
           <Column desktop="6" tablet="6" mobile="6" className="flex j-c-end">
-            <p className={isArrear ? 'txt-danger' : 'txt-primary'}>
-              Pendente
+            <p className={getStatusClassColor(status)}>
+              {status}
             </p>
           </Column>
         </Row>
