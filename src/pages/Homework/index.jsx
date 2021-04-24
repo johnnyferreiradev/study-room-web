@@ -192,8 +192,14 @@ function Homework({ match }) {
                 deadline={homeworkData.homework.dateLimit}
                 classId={match.params.id}
                 homeworkId={match.params.homeworkId}
+                hasText={homeworkData.homework.hasText}
                 privateComments={commentsPrivate}
                 status={homeworkResponses ? getStatus() : ''}
+                homeworkResponse={
+                  homeworkResponses && homeworkResponses.length > 0
+                    ? homeworkResponses[0] : null
+                }
+                dateNow={dateNow}
               />
             </Column>
           </>

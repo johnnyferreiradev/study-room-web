@@ -121,7 +121,7 @@ function StudentClassPage({ match }) {
               communicatedComments={communicated.commentsContents}
               classId={match.params.id}
               createdAt={communicated.created_at}
-              materials={communicated.contentAttachments}
+              materials={[...communicated.contentLinks, ...communicated.contentAttachments]}
               onDelete={removeCommunicated}
               deleteLoading={deleteLoading}
             />

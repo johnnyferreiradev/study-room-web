@@ -2,7 +2,7 @@ import React from 'react';
 
 import StyledAnswerTextField from './styles';
 
-function AnswerTextField({ value, onChange }) {
+function AnswerTextField({ value, onChange, disabled }) {
   return (
     <StyledAnswerTextField>
       <textarea
@@ -10,6 +10,7 @@ function AnswerTextField({ value, onChange }) {
         onChange={onChange}
         rows="5"
         placeholder="Digite sua resposta aqui"
+        disabled={disabled}
       />
     </StyledAnswerTextField>
   );

@@ -57,7 +57,7 @@ function Material({
         </div>
       </AnchorButton>
       <div className="material-info">
-        <AnchorButton href={material.attachment_url} target="_blank">
+        <AnchorButton href={type === 'link' ? material.path : material.attachment_url} target="_blank">
           <h3>{removeApiIdFromFileName(material.path)}</h3>
         </AnchorButton>
         <p className="txt-secondary">{typeLabel}</p>

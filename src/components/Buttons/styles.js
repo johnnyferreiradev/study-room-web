@@ -5,7 +5,6 @@ import {
   primaryColor,
   secondaryColor,
   tertiaryColor,
-  // quaternaryColor,
   // darkColor,
   whiteColor,
   dangerColor,
@@ -96,6 +95,13 @@ const StyledButton = styled.button`
   :active {
     box-shadow: none;
     transition: all .2s;
+  }
+  &.disabled {
+    background: ${({ theme }) => ((theme !== 'link' && theme !== 'secondary') ? `${buttonThemes[theme].background}55` : 'none')};
+    color: ${({ theme }) => ((theme === 'link' || theme === 'secondary') ? `${buttonThemes[theme].color}55` : whiteColor)};
+    border-color: ${({ theme }) => (`${buttonThemes[theme].color}55`)};
+    box-shadow: none;
+    cursor: initial;
   }
 `;
 

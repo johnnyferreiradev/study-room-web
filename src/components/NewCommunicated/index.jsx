@@ -48,7 +48,7 @@ function NewCommunicated({
   const [cancellationItem, setCancellationItem] = useState({});
   const [sendLoading, setSendLoading] = useState(false);
 
-  const sendCommunicated = (newId, contentAttachments) => {
+  const sendCommunicated = (newId, contentAttachments, contentLinks) => {
     onSend({
       id: newId,
       user: {
@@ -59,6 +59,7 @@ function NewCommunicated({
       deadline: '30 de fev.',
       description: newCommunicated,
       contentAttachments,
+      contentLinks,
     });
   };
 
@@ -104,6 +105,10 @@ function NewCommunicated({
       data.append('files[]', item);
     });
 
+    links.forEach((item) => {
+      data.append('links[]', item.attachment_url);
+    });
+
     data.append('title', 'Comunicado');
     data.append('description', newCommunicated);
 
@@ -115,8 +120,13 @@ function NewCommunicated({
           done: true,
           fileList: uploadedFiles,
         });
-        sendCommunicated(response.data.id, response.data.contentAttachments);
+        sendCommunicated(
+          response.data.id,
+          response.data.contentAttachments,
+          response.data.contentLinks,
+        );
         setUploadedFiles([]);
+        setLinks([]);
       })
       .catch((error) => {
         if (axios.isCancel(error)) {
@@ -165,7 +175,7 @@ function NewCommunicated({
 
   const newLink = () => {
     dispatch(showGlobalModal(
-      <NewLink setLinks={setLinks} />,
+      <NewLink setLinks={setLinks} totalLinks={links.length} linksLimit={9} />,
       false,
     ));
   };

@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
-import { uniqueId } from 'lodash';
 import { useDispatch } from 'react-redux';
 
+import { createALink } from 'api/answer';
+
 import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
+import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Button } from 'components/Buttons';
 import Loading from 'components/Loading';
 
 import StyledNewLink from './styles';
 
-function NewLink({ setLinks }) {
+function NewLink({
+  setLinks,
+  totalLinks,
+  linksLimit,
+  classId,
+  homeworkId,
+}) {
   const dispatch = useDispatch();
 
   const [newLink, setNewLink] = useState('');
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleNewLinkField = ({ target }) => {
     setNewLink(target.value);
+  };
+
+  const isValidURL = (string) => {
+    const res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g); // eslint-disable-line
+    return (res !== null);
   };
 
   const addNewLink = () => {
@@ -26,16 +39,39 @@ function NewLink({ setLinks }) {
       linkContent = `https://${newLink.replace('www.', '')}`;
     }
 
-    setLinks((prevLinks) => [{
-      id: `${Date.now()}${uniqueId()}`,
-      type: 'link',
-      extension: 'link',
-      attachment_url: linkContent,
-      path: linkContent,
-      deleteLoading: false,
-    }, ...prevLinks]);
+    if (!isValidURL(linkContent)) {
+      dispatch(showSnackbar('URL inválida', 'danger'));
+      return;
+    }
 
-    dispatch(hideGlobalModal());
+    if (totalLinks >= linksLimit) {
+      dispatch(showSnackbar(`Você só pode adicionar até ${linksLimit} links`, 'danger'));
+      return;
+    }
+
+    setLoading(true);
+
+    createALink(classId, homeworkId, {
+      link: linkContent,
+    })
+      .then((response) => {
+        setLinks((prevLinks) => [{
+          id: response.data.id,
+          type: 'link',
+          extension: 'link',
+          attachment_url: linkContent,
+          path: linkContent,
+          deleteLoading: false,
+        }, ...prevLinks]);
+
+        dispatch(hideGlobalModal());
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao adionar o link. Tente novamente', 'danger'));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (

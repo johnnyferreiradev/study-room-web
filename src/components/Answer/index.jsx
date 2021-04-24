@@ -6,12 +6,13 @@ import axios from 'axios';
 
 import { storePrivateComment, deletePrivateComment } from 'api/comments';
 import { uploadFile } from 'api/uploads';
+import { deleteLink } from 'api/answer';
 
 import store from 'store';
 import setFileList from 'store/actions/upload/setFileList';
 import setCancellationList from 'store/actions/upload/setCancellationList';
 
-import { getCurrentDateAndHourInApiFormat, checkArrear } from 'services/time';
+import { checkArrear } from 'services/time';
 import { getAuthData } from 'services/auth';
 
 import getStatusClassColor from 'utils/getStatusClassColor';
@@ -37,10 +38,12 @@ function Answer({
   classId,
   homeworkId,
   status,
+  hasText,
+  homeworkResponse,
+  dateNow,
 }) {
   const dispatch = useDispatch();
-  const currentTime = getCurrentDateAndHourInApiFormat();
-  const isArrear = checkArrear(currentTime, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
+  const isArrear = checkArrear(dateNow, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
   const { userId, userAvatar, userName } = getAuthData();
 
   // Comments logic
@@ -88,7 +91,9 @@ function Answer({
   };
 
   // Upload logic
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState(homeworkResponse
+    ? homeworkResponse.responseAttachments
+    : []);
 
   const addCancellationItem = (cancellationItem) => {
     const lastCancellationList = store.getState().upload.cancellationList;
@@ -176,11 +181,11 @@ function Answer({
   };
 
   // Link logic
-  const [links, setLinks] = useState([]);
+  const [links, setLinks] = useState(homeworkResponse ? homeworkResponse.responseLinks : []);
 
   const newLink = () => {
     dispatch(showGlobalModal(
-      <NewLink setLinks={setLinks} />,
+      <NewLink setLinks={setLinks} classId={classId} homeworkId={homeworkId} />,
       false,
     ));
   };
@@ -194,12 +199,26 @@ function Answer({
         return link;
       }));
 
-    setLinks((lastLinks) => lastLinks
-      .filter((link) => link.id !== linkId));
+    deleteLink(homeworkResponse.id, linkId)
+      .then(() => {
+        setLinks((lastLinks) => lastLinks
+          .filter((link) => link.id !== linkId));
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao remover o link. Tente novamente', 'danger'));
+
+        setLinks((lastLinks) => lastLinks
+          .map((link) => {
+            if (link.id === linkId) {
+              link.deleteLoading = false;
+            }
+            return link;
+          }));
+      });
   };
 
   // Answer text field logic
-  const [text, setText] = useState('');
+  const [text, setText] = useState(homeworkResponse && homeworkResponse.response ? homeworkResponse.response : '');
 
   const removeMaterial = (materialId, materialType) => {
     if (materialType === 'link') {
@@ -208,6 +227,8 @@ function Answer({
     }
     removeUploadedFile(materialId);
   };
+
+  const isDisabled = () => status !== 'Pendente' && status !== 'Atrasada';
 
   return (
     <StyledAnswer>
@@ -222,11 +243,17 @@ function Answer({
             </p>
           </Column>
         </Row>
-        <Row className="answer-text-field-row">
-          <Column desktop="12" tablet="12" mobile="12">
-            <AnswerTextField value={text} onChange={(e) => setText(e.target.value)} />
-          </Column>
-        </Row>
+        {hasText && (
+          <Row className="answer-text-field-row">
+            <Column desktop="12" tablet="12" mobile="12">
+              <AnswerTextField
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                disabled={isDisabled()}
+              />
+            </Column>
+          </Row>
+        )}
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
             <MaterialList
@@ -239,7 +266,12 @@ function Answer({
           <Column desktop="12" tablet="12" mobile="12" className="flex">
             <SuspendedMenu
               openButton={(
-                <Button theme="secondary" className="add-button" fluid>
+                <Button
+                  theme="secondary"
+                  className={`add-button ${isDisabled() ? 'disabled' : ''}`}
+                  fluid
+                  disabled={isDisabled()}
+                >
                   <FaPlus />
                   Adicionar
                 </Button>
@@ -252,8 +284,12 @@ function Answer({
         </Row>
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
-            <Button theme="primary" fluid>
-              {isArrear ? 'Enviar com atraso' : 'Enviar'}
+            <Button theme="primary" fluid disabled={isDisabled()} className={`${isDisabled() ? 'disabled' : ''}`}>
+              {!isDisabled() && (
+                isArrear ? 'Enviar com atraso' : 'Enviar'
+              )}
+
+              {isDisabled() && 'Enviado'}
             </Button>
           </Column>
         </Row>
