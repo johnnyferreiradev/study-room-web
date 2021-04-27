@@ -42,6 +42,10 @@ const StyledMaterialCard = styled.div.attrs(() => ({
     button {
       padding: 0px;
     }
+
+    .empty-list {
+      width: 100%;
+    }
   }
 
   @media (max-width: 768px) {

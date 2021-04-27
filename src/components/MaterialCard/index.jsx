@@ -45,17 +45,18 @@ function MaterialCard({
       </Row>
 
       <Row>
-        <Column desktop="12" tablet="12" mobile="12" className="flex j-c-center a-i-center mt-2 footer">
+        <Column desktop="12" tablet="12" mobile="12" className="flex j-c-start a-i-center mt-2 footer">
           {materialList.map((material) => (
             <Material
               key={material.id}
               title={material.title}
               type={material.type}
+              material={material}
             />
           ))}
 
           {materialList.length === 0 && (
-            <p className="txt-primary text-center">Nenhum material anexado</p>
+            <p className="txt-primary text-center empty-list">Nenhum material anexado</p>
           )}
         </Column>
       </Row>

@@ -22,6 +22,7 @@ function Materials({ match }) {
     getMaterials(match.params.id)
       .then((response) => {
         setMaterialList(response.data);
+        console.log(response.data);
       })
       .catch(() => {
         // const [error] = response.data;

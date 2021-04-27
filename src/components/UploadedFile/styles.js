@@ -94,6 +94,10 @@ const StyledUploadedFile = styled.div.attrs(() => ({
     background: ${({ error }) => (!error ? primaryColor : dangerColor)};
   }
 
+  .loading-button {
+    padding: 0px 8px;
+  }
+
   @media (max-width: 768px) {
     .uploaded-file-info {
       h3 {

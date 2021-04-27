@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { createALink } from 'api/answer';
-
-import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
 
 import { Button } from 'components/Buttons';
@@ -12,11 +9,9 @@ import Loading from 'components/Loading';
 import StyledNewLink from './styles';
 
 function NewLink({
-  setLinks,
   totalLinks,
   linksLimit,
-  classId,
-  homeworkId,
+  onSend,
 }) {
   const dispatch = useDispatch();
 
@@ -51,27 +46,7 @@ function NewLink({
 
     setLoading(true);
 
-    createALink(classId, homeworkId, {
-      link: linkContent,
-    })
-      .then((response) => {
-        setLinks((prevLinks) => [{
-          id: response.data.id,
-          type: 'link',
-          extension: 'link',
-          attachment_url: linkContent,
-          path: linkContent,
-          deleteLoading: false,
-        }, ...prevLinks]);
-
-        dispatch(hideGlobalModal());
-      })
-      .catch(() => {
-        dispatch(showSnackbar('Ocorreu um erro ao adionar o link. Tente novamente', 'danger'));
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    onSend(linkContent);
   };
 
   return (

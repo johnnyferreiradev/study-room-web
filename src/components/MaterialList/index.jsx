@@ -6,7 +6,7 @@ import Material from 'components/Material';
 
 import StyledMaterialList from './styles';
 
-function MaterialList({ materials, onRemove }) {
+function MaterialList({ materials, onRemove, disabledRemove }) {
   return (
     <StyledMaterialList>
       {materials.map((material) => (
@@ -17,6 +17,7 @@ function MaterialList({ materials, onRemove }) {
           typeLabel={getFileType(material).typeLabel}
           material={material}
           onRemove={onRemove}
+          disabledRemove={disabledRemove}
         />
       ))}
     </StyledMaterialList>

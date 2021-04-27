@@ -22,6 +22,7 @@ function Material({
   typeLabel,
   material,
   onRemove,
+  disabledRemove,
 }) {
   return (
     <StyledMaterial>
@@ -64,9 +65,11 @@ function Material({
       </div>
       {onRemove && (
         !material.deleteLoading ? (
-          <Button theme="link" onClick={() => onRemove(id, type)}>
-            <FaTimes />
-          </Button>
+          !disabledRemove && (
+            <Button theme="link" onClick={() => onRemove(id, type)}>
+              <FaTimes />
+            </Button>
+          )
         ) : (
           <Button theme="link">
             <Loading type="bubbles" className="button-loading" height={32} width={32} color="#8CC8F3" />

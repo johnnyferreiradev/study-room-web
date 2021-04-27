@@ -17,6 +17,20 @@ const StyledAnswer = styled.div.attrs(() => ({
     }
   }
 
+  .points {
+    height: 36px;
+    text-align: end;
+    p {
+      font-size: 14px;
+    }
+  }
+
+  .delivery-date {
+    p {
+      font-size: 12px;
+    }
+  }
+
   .answer-text-field-row {
     margin-bottom: 0px;
   }
@@ -45,11 +59,23 @@ const StyledAnswer = styled.div.attrs(() => ({
       height: 42px;
 
       svg {
+        pointer-events: none;
         font-size: 16px;
         margin-right: 4px;
         position: relative;
         top: -2px;
       }
+    }
+  }
+
+  .send-button {
+    padding: 0px;
+    height: 42px;
+    position: relative;
+
+    .loading {
+      position: absolute;
+      top: 5px;
     }
   }
 

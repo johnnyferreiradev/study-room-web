@@ -4,6 +4,7 @@ import { FaPaperPlane, FaPlus } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Progress from 'react-progressbar';
+import { uniqueId } from 'lodash';
 
 import { uploadFile } from 'api/uploads';
 
@@ -11,6 +12,7 @@ import store from 'store';
 import setFileList from 'store/actions/upload/setFileList';
 import showGlobalModal from 'store/actions/modal/showGlobalModal';
 import showSnackbar from 'store/actions/snackbar/showSnackbar';
+import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 
 import { getAuthData } from 'services/auth';
 
@@ -173,9 +175,25 @@ function NewCommunicated({
     ));
   };
 
+  const addANewLink = (link) => {
+    setLinks((prevLinks) => [{
+      id: `${uniqueId()}${Date.now()}`,
+      type: 'link',
+      extension: 'link',
+      attachment_url: link,
+      path: link,
+      deleteLoading: false,
+    }, ...prevLinks]);
+    dispatch(hideGlobalModal());
+  };
+
   const newLink = () => {
     dispatch(showGlobalModal(
-      <NewLink setLinks={setLinks} totalLinks={links.length} linksLimit={9} />,
+      <NewLink
+        totalLinks={links.length}
+        linksLimit={9}
+        onSend={addANewLink}
+      />,
       false,
     ));
   };

@@ -5,12 +5,13 @@ import { FaPlus } from 'react-icons/fa';
 import axios from 'axios';
 
 import { storePrivateComment, deletePrivateComment } from 'api/comments';
-import { uploadFile } from 'api/uploads';
-import { deleteLink } from 'api/answer';
+import { uploadAnswerFile, deleteUploadedFile } from 'api/uploads';
+import { deleteLink, createALink, sendResponse } from 'api/answer';
 
 import store from 'store';
 import setFileList from 'store/actions/upload/setFileList';
 import setCancellationList from 'store/actions/upload/setCancellationList';
+import hideGlobalModal from 'store/actions/modal/hideGlobalModal';
 
 import { checkArrear } from 'services/time';
 import { getAuthData } from 'services/auth';
@@ -29,6 +30,8 @@ import SuspendedMenu from 'components/SuspendedMenu';
 import Upload from 'components/Upload';
 import NewLink from 'components/NewLink';
 import AnswerTextField from 'components/AnswerTextField';
+import Loading from 'components/Loading';
+import ConfirmSendResponse from 'components/ConfirmSendResponse';
 
 import StyledAnswer from './styles';
 
@@ -41,6 +44,7 @@ function Answer({
   hasText,
   homeworkResponse,
   dateNow,
+  fullPoints,
 }) {
   const dispatch = useDispatch();
   const isArrear = checkArrear(dateNow, moment(deadline).format('YYYY-MM-DD HH:mm:ss'));
@@ -50,6 +54,9 @@ function Answer({
   const [comments, setComments] = useState(privateComments || []);
   const [sendLoading, setSendLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [answerStatus, setAnswerStatus] = useState(status);
+  const [deliveryDate, setDeliveryDate] = useState(homeworkResponse
+    ? homeworkResponse.deliveryDate : null);
 
   const addNewComment = (newComment) => {
     setSendLoading(true);
@@ -113,9 +120,16 @@ function Answer({
           ...data,
         } : file)),
     ));
+
+    setUploadedFiles((lastUploadedFiles) => lastUploadedFiles.map((file) => (fileId === file.id ? {
+      ...file,
+      name: file.name,
+      type: file.type,
+      ...data,
+    } : file)));
   };
 
-  const removeUploadedFile = (fileId) => {
+  const removeUploadedFileFromList = (fileId) => {
     dispatch(setFileList(
       store
         .getState()
@@ -128,14 +142,49 @@ function Answer({
       .filter((file) => file.id !== fileId));
   };
 
+  const removeUploadedFile = (fileId) => {
+    dispatch(setFileList(
+      store
+        .getState()
+        .upload
+        .fileList
+        .map((file) => (fileId === file.id ? { ...file, deleteLoading: true } : file)),
+    ));
+
+    setUploadedFiles((lastFiles) => lastFiles
+      .map((file) => {
+        if (file.id === fileId) {
+          file.deleteLoading = true;
+        }
+        return file;
+      }));
+
+    deleteUploadedFile(homeworkResponse.id, fileId)
+      .then(() => {
+        removeUploadedFileFromList(fileId);
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao remover o arquivo. Tente novamente', 'danger'));
+
+        setUploadedFiles((lastFiles) => lastFiles
+          .map((file) => {
+            if (file.id === fileId) {
+              file.deleteLoading = false;
+            }
+            return file;
+          }));
+      });
+  };
+
   const processUpload = (file) => {
     const data = new FormData();
-    data.append('avatar', file);
+    data.append('file', file);
 
-    uploadFile(data, file.id, updateFile, addCancellationItem)
-      .then(() => {
+    uploadAnswerFile(data, file.id, updateFile, addCancellationItem, classId, homeworkId)
+      .then((response) => {
         setUploadedFiles((lastUploadedFiles) => [file, ...lastUploadedFiles]);
         updateFile({
+          id: response.data.id,
           done: true,
         }, file.id);
       })
@@ -146,7 +195,7 @@ function Answer({
             canceled: true,
           }, file.id);
 
-          removeUploadedFile(file.id);
+          removeUploadedFileFromList(file.id);
           return;
         }
 
@@ -183,9 +232,35 @@ function Answer({
   // Link logic
   const [links, setLinks] = useState(homeworkResponse ? homeworkResponse.responseLinks : []);
 
+  const addANewLink = (link) => {
+    createALink(classId, homeworkId, {
+      link,
+    })
+      .then((response) => {
+        setLinks((prevLinks) => [{
+          id: response.data.id,
+          type: 'link',
+          extension: 'link',
+          attachment_url: link,
+          path: link,
+          deleteLoading: false,
+        }, ...prevLinks]);
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao adionar o link. Tente novamente', 'danger'));
+      })
+      .finally(() => {
+        dispatch(hideGlobalModal());
+      });
+  };
+
   const newLink = () => {
     dispatch(showGlobalModal(
-      <NewLink setLinks={setLinks} classId={classId} homeworkId={homeworkId} />,
+      <NewLink
+        classId={classId}
+        homeworkId={homeworkId}
+        onSend={addANewLink}
+      />,
       false,
     ));
   };
@@ -219,6 +294,43 @@ function Answer({
 
   // Answer text field logic
   const [text, setText] = useState(homeworkResponse && homeworkResponse.response ? homeworkResponse.response : '');
+  const [sendResponseLoading, setSendReponseLoading] = useState(false);
+
+  const answer = () => {
+    dispatch(hideGlobalModal());
+    setSendReponseLoading(true);
+
+    sendResponse(classId, homeworkId, text === '' ? null : text)
+      .then((response) => {
+        dispatch(showSnackbar('Resposta enviada com sucesso', 'success'));
+
+        setAnswerStatus(response.data.status);
+        setDeliveryDate(response.data.deliveryDate);
+      })
+      .catch(() => {
+        dispatch(showSnackbar('Ocorreu um erro ao enviar a resposta. Tente novamente', 'danger'));
+      })
+      .finally(() => {
+        setSendReponseLoading(false);
+      });
+  };
+
+  const handleConfirmAnswer = () => {
+    if (!hasText || text !== '') {
+      answer();
+      return;
+    }
+
+    dispatch(showGlobalModal(
+      <ConfirmSendResponse
+        title="Resposta vazia"
+        subtitle="Deseja entregar a atividade sem uma resposta?"
+      >
+        <Button theme="primary" onClick={() => answer()}>Entregar</Button>
+        <Button theme="secondary" onClick={() => dispatch(hideGlobalModal())}>Cancelar</Button>
+      </ConfirmSendResponse>,
+    ));
+  };
 
   const removeMaterial = (materialId, materialType) => {
     if (materialType === 'link') {
@@ -228,21 +340,39 @@ function Answer({
     removeUploadedFile(materialId);
   };
 
-  const isDisabled = () => status !== 'Pendente' && status !== 'Atrasada';
+  const isDisabled = () => answerStatus !== 'Pendente' && answerStatus !== 'Atrasada';
 
   return (
     <StyledAnswer>
       <Card>
         <Row>
           <Column desktop="6" tablet="6" mobile="6" className="flex">
-            <h3>Responder</h3>
+            <h3>Resposta</h3>
           </Column>
           <Column desktop="6" tablet="6" mobile="6" className="flex j-c-end">
-            <p className={getStatusClassColor(status)}>
-              {status}
+            <p className={getStatusClassColor(answerStatus)}>
+              {answerStatus}
             </p>
           </Column>
         </Row>
+        {isDisabled() && (
+          <Row>
+            <Column desktop="6" tablet="6" mobile="6" className="flex f-column j-c-start a-i-start delivery-date">
+              <p className="txt-secondary">Entregue em:</p>
+              <p className="txt-primary">{moment(deliveryDate).format('DD/MM/YYYY HH:mm')}</p>
+            </Column>
+
+            {answerStatus === 'Corrigida' && (
+              <Column desktop="6" tablet="6" mobile="6" className="flex j-c-end a-i-end points">
+                <p>
+                  {homeworkResponse.note}
+                  /
+                  {fullPoints}
+                </p>
+              </Column>
+            )}
+          </Row>
+        )}
         {hasText && (
           <Row className="answer-text-field-row">
             <Column desktop="12" tablet="12" mobile="12">
@@ -259,6 +389,7 @@ function Answer({
             <MaterialList
               materials={[...links, ...uploadedFiles]}
               onRemove={removeMaterial}
+              disabledRemove={isDisabled()}
             />
           </Column>
         </Row>
@@ -284,12 +415,24 @@ function Answer({
         </Row>
         <Row>
           <Column desktop="12" tablet="12" mobile="12" className="flex">
-            <Button theme="primary" fluid disabled={isDisabled()} className={`${isDisabled() ? 'disabled' : ''}`}>
-              {!isDisabled() && (
+            <Button
+              theme="primary"
+              fluid
+              disabled={isDisabled()}
+              className={`${isDisabled() ? 'disabled' : ''} send-button`}
+              onClick={() => handleConfirmAnswer()}
+            >
+              {!isDisabled() && !sendResponseLoading && (
                 isArrear ? 'Enviar com atraso' : 'Enviar'
               )}
 
-              {isDisabled() && 'Enviado'}
+              {isDisabled() && !sendResponseLoading && (
+                checkArrear(moment(deliveryDate).format('DD/MM/YYYY HH:mm'), moment(deadline).format('YYYY-MM-DD HH:mm:ss')) ? 'Enviado' : 'Enviado'
+              )}
+
+              {sendResponseLoading && (
+                <Loading type="bubbles" height={32} width={32} fluid />
+              )}
             </Button>
           </Column>
         </Row>

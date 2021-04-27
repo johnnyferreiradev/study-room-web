@@ -4,4 +4,8 @@ export const createALink = (classId, homeworkId, data) => api.post(`storeLinkRes
 
 export const deleteLink = (responseId, linkId) => api.delete(`destroyLinkResponse/${responseId}/${linkId}`);
 
+export const sendResponse = (classId, homeworkId, response) => api.post(`storeResponse/${classId}/${homeworkId}`, {
+  response,
+});
+
 export default createALink;

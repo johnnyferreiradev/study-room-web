@@ -10,6 +10,7 @@ import {
   FaFileAudio,
 } from 'react-icons/fa';
 import Progress from 'react-progressbar';
+import Loading from 'components/Loading';
 
 import { Row, Column } from 'components/Grid';
 import { Button } from 'components/Buttons';
@@ -72,10 +73,12 @@ function UploadedFile({
                 <FaCheck />
                 <span>Pronto</span>
               </p>
-              <Button theme="link" className="danger" onClick={() => onRemove(file.id)}>
-                <FaTrashAlt />
-                <span>Remover</span>
-              </Button>
+              {!file.deleteLoading && (
+                <Button theme="link" className="danger" onClick={() => onRemove(file.id)}>
+                  <FaTrashAlt />
+                  <span>Remover</span>
+                </Button>
+              )}
             </>
           )}
 
@@ -83,6 +86,12 @@ function UploadedFile({
             <Button theme="link" className="danger" onClick={() => onRemove(file.id)}>
               <FaTrashAlt />
               <span>Remover</span>
+            </Button>
+          )}
+
+          {file.deleteLoading && (
+            <Button theme="link" className="loading-button">
+              <Loading type="bubbles" height={32} width={32} color="#8CC8F3" />
             </Button>
           )}
 
