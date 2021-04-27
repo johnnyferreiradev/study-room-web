@@ -46,7 +46,7 @@ function HomeworkCard({
   return (
     <StyledHomeworkCard className="card">
       <Row className="a-i-start">
-        <Column desktop="10" tablet="10" mobile="10" className="flex">
+        <Column desktop="10" tablet="10" mobile="9" className="flex">
           <ProfileIcon
             icon={(
               <FaClipboardList />
@@ -62,7 +62,7 @@ function HomeworkCard({
           </div>
         </Column>
 
-        <Column desktop="2" tablet="2" mobile="2" className="flex j-c-end">
+        <Column desktop="2" tablet="2" mobile="3" className="flex j-c-end status">
           <p className={getStatusClassColor(getStatus())}>
             {getStatus()}
           </p>

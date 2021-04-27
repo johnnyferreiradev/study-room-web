@@ -12,6 +12,14 @@ const StyledHomeworkCard = styled.div.attrs(() => ({
     margin-right: 16px;
   }
 
+  .status {
+    p {
+      font-size: 14px;
+      text-align: end;
+      line-height: 1;
+    }
+  }
+
   .homework-info {
     h3 {
       font-size: 16px;
