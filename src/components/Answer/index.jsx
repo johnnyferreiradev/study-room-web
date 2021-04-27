@@ -349,7 +349,7 @@ function Answer({
           <Column desktop="6" tablet="6" mobile="6" className="flex">
             <h3>Resposta</h3>
           </Column>
-          <Column desktop="6" tablet="6" mobile="6" className="flex j-c-end">
+          <Column desktop="6" tablet="6" mobile="6" className="flex j-c-end status">
             <p className={getStatusClassColor(answerStatus)}>
               {answerStatus}
             </p>
@@ -427,7 +427,7 @@ function Answer({
               )}
 
               {isDisabled() && !sendResponseLoading && (
-                checkArrear(moment(deliveryDate).format('DD/MM/YYYY HH:mm'), moment(deadline).format('YYYY-MM-DD HH:mm:ss')) ? 'Enviado' : 'Enviado'
+                deliveryDate > deadline ? 'Enviado com atraso' : 'Enviado'
               )}
 
               {sendResponseLoading && (

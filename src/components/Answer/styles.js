@@ -17,6 +17,16 @@ const StyledAnswer = styled.div.attrs(() => ({
     }
   }
 
+  .status {
+    min-height: 24px;
+    align-items: center;
+    p {
+      text-align: end;
+      line-height: 1;
+      font-size: 14px;
+    }
+  }
+
   .points {
     height: 36px;
     text-align: end;
@@ -27,7 +37,7 @@ const StyledAnswer = styled.div.attrs(() => ({
 
   .delivery-date {
     p {
-      font-size: 12px;
+      font-size: 14px;
     }
   }
 

@@ -188,7 +188,6 @@ function Homework({ match }) {
               </Card>
             </Column>
             <Column desktop="4" tablet="4" mobile="12">
-              {console.log(homeworkData)}
               <Answer
                 deadline={homeworkData.homework.dateLimit}
                 classId={match.params.id}
